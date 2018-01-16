@@ -9,6 +9,7 @@ from .base_model import BaseModel
 from . import networks
 
 
+# noinspection PyAttributeOutsideInit,PyPep8Naming
 class Pix2PixModel(BaseModel):
     def name(self):
         return 'Pix2PixModel'
@@ -30,10 +31,18 @@ class Pix2PixModel(BaseModel):
             self.netD = networks.define_D(opt.input_nc + opt.output_nc, opt.ndf,
                                           opt.which_model_netD,
                                           opt.n_layers_D, opt.norm, use_sigmoid, opt.init_type, self.gpu_ids)
+            # Define a global discriminator in addition to the PatchGAN discriminator.
+            if opt.enable_global_disc:
+                self.netD_global = networks.define_D(opt.input_nc + opt.output_nc, opt.ndf,
+                                                     'n_layers',
+                                                     opt.n_layers_D, opt.norm, use_sigmoid, opt.init_type, self.gpu_ids)
+
         if not self.isTrain or opt.continue_train:
             self.load_network(self.netG, 'G', opt.which_epoch)
             if self.isTrain:
                 self.load_network(self.netD, 'D', opt.which_epoch)
+                if opt.enable_global_disc:
+                    self.load_network(self.netD_global, 'D_global', opt.which_epoch)
 
         if self.isTrain:
             self.fake_AB_pool = ImagePool(opt.pool_size)
@@ -49,8 +58,13 @@ class Pix2PixModel(BaseModel):
                                                 lr=opt.lr, betas=(opt.beta1, 0.999))
             self.optimizer_D = torch.optim.Adam(self.netD.parameters(),
                                                 lr=opt.lr, betas=(opt.beta1, 0.999))
+            if opt.enable_global_disc:
+                self.optimizer_D_global = torch.optim.Adam(self.netD_global.parameters(),
+                                                           lr=opt.lr, betas=(opt.beta1, 0.999))
             self.optimizers.append(self.optimizer_G)
             self.optimizers.append(self.optimizer_D)
+            if opt.enable_global_disc:
+                self.optimizers.append(self.optimizer_D_global)
             for optimizer in self.optimizers:
                 self.schedulers.append(networks.get_scheduler(optimizer, opt))
 
@@ -58,6 +72,8 @@ class Pix2PixModel(BaseModel):
         networks.print_network(self.netG)
         if self.isTrain:
             networks.print_network(self.netD)
+            if opt.enable_global_disc:
+                networks.print_network(self.netD_global)
         print('-----------------------------------------------')
 
     def set_input(self, input):
@@ -83,6 +99,19 @@ class Pix2PixModel(BaseModel):
     def get_image_paths(self):
         return self.image_paths
 
+    def backward_D_global(self):
+        fake_AB = self.fake_AB_pool.query(torch.cat((self.real_A, self.fake_B), 1).data)
+        pred_fake_global = self.netD_global(fake_AB.detach())
+        self.loss_D_fake_global = self.criterionGAN(pred_fake_global, False)
+
+        real_AB = torch.cat((self.real_A, self.real_B), 1)
+        pred_real = self.netD_global(real_AB)
+        self.loss_D_real_global = self.criterionGAN(pred_real, True)
+
+        # Combined loss
+        self.loss_D_global = (self.loss_D_fake_global + self.loss_D_real_global) * 0.5
+        self.loss_D_global.backward()
+
     def backward_D(self):
         # Fake
         # stop backprop to the generator by detaching fake_B
@@ -101,14 +130,19 @@ class Pix2PixModel(BaseModel):
         self.loss_D.backward()
 
     def backward_G(self):
+        """If global discriminators are used, the GAN loss is the combination of half of the local GAN loss and half
+        of the global GAN loss. """
         # First, G(A) should fake the discriminator
         fake_AB = torch.cat((self.real_A, self.fake_B), 1)
         pred_fake = self.netD(fake_AB)
         self.loss_G_GAN = self.criterionGAN(pred_fake, True)
+        if self.opt.enable_global_disc:
+            pred_fake_global = self.netD_global(fake_AB)
+            self.loss_G_GAN_global = self.criterionGAN(pred_fake_global, True)
+            self.loss_G_GAN = self.loss_G_GAN * .5 + self.loss_G_GAN_global * .5
 
         # Second, G(A) = B
         self.loss_G_L1 = self.criterionL1(self.fake_B, self.real_B) * self.opt.lambda_A
-
         self.loss_G = self.loss_G_GAN + self.loss_G_L1
 
         self.loss_G.backward()
@@ -120,11 +154,23 @@ class Pix2PixModel(BaseModel):
         self.backward_D()
         self.optimizer_D.step()
 
+        if self.opt.enable_global_disc:
+            self.optimizer_D_global.zero_grad()
+            self.backward_D_global()
+            self.optimizer_D_global.step()
+
         self.optimizer_G.zero_grad()
         self.backward_G()
         self.optimizer_G.step()
 
     def get_current_errors(self):
+        if self.opt.enable_global_disc:
+            return OrderedDict([('G_GAN', self.loss_G_GAN.data[0]),
+                                ('G_GAN_Global', self.loss_G_GAN_global.data[0]),
+                                ('G_L1', self.loss_G_L1.data[0]),
+                                ('D_real', self.loss_D_real.data[0]),
+                                ('D_fake', self.loss_D_fake.data[0])
+                                ])
         return OrderedDict([('G_GAN', self.loss_G_GAN.data[0]),
                             ('G_L1', self.loss_G_L1.data[0]),
                             ('D_real', self.loss_D_real.data[0]),
@@ -140,3 +186,5 @@ class Pix2PixModel(BaseModel):
     def save(self, label):
         self.save_network(self.netG, 'G', label, self.gpu_ids)
         self.save_network(self.netD, 'D', label, self.gpu_ids)
+        if self.opt.enable_global_disc:
+            self.save_network(self.netD_global, 'D_global', label, self.gpu_ids)
