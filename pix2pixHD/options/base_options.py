@@ -55,7 +55,11 @@ class BaseOptions():
         self.parser.add_argument('--n_downsample_E', type=int, default=4, help='# of downsampling layers in encoder') 
         self.parser.add_argument('--nef', type=int, default=16, help='# of encoder filters in the first conv layer')        
         self.parser.add_argument('--n_clusters', type=int, default=10, help='number of clusters for features')
-        
+        self.parser.add_argument('--model', type=str, default='inpainting', help='the generator model.')
+        self.parser.add_argument('--overlapPred', type=int, default=32, help='The overlapping region of inpainting.')
+        self.parser.add_argument('--keep_hole_only', action='store_true',
+                                 help='if specified, only keep the hole')
+
         self.initialized = True
 
     def parse(self, save=True):

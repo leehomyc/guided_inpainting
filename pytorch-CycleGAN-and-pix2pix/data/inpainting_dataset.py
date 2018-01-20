@@ -64,4 +64,4 @@ class InpaintingDataset(BaseDataset):
         return len(self.paths)
 
     def name(self):
-        return 'AlignedDataset'
+        return 'InpaintingDataset'

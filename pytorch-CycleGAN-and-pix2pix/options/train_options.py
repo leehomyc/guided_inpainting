@@ -30,5 +30,6 @@ class TrainOptions(BaseOptions):
                                  help='D takes a pair of images as input')
         self.parser.add_argument('--enable_global_disc', action='store_true',
                                  help='whether to enable the global discriminator.')
-
+        self.parser.add_argument('--dilation', type=int, default=1,
+                                 help='the dilation parameter to use.')
         self.isTrain = True

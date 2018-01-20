@@ -2,9 +2,10 @@
 ### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 import torch
 
+
 def create_model(opt):
     from .pix2pixHD_model import Pix2PixHDModel
-    model = Pix2PixHDModel()    
+    model = Pix2PixHDModel()
     model.initialize(opt)
     print("model [%s] was created" % (model.name()))
 

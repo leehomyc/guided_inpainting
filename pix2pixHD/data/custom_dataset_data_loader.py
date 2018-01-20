@@ -5,11 +5,19 @@ from data.base_data_loader import BaseDataLoader
 def CreateDataset(opt):
     dataset = None
     from data.aligned_dataset import AlignedDataset
-    dataset = AlignedDataset()
+    from data.inpainting_dataset import InpaintingDataset
+    from data.inpainting_grid_dataset import InpaintingGridDataset
+    if opt.model == 'inpainting':
+        dataset = InpaintingDataset()
+    elif opt.model == 'inpainting_grid':
+        dataset = InpaintingGridDataset()
+    else:
+        dataset = AlignedDataset()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
     return dataset
+
 
 class CustomDatasetDataLoader(BaseDataLoader):
     def name(self):
