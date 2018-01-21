@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c71d2a79-fa2a-4475-939b-06efa9081d5a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/harry.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/harry.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/models/base_model.py" afterPath="$PROJECT_DIR$/pix2pixHD/models/base_model.py" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" afterPath="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/options/base_options.py" afterPath="$PROJECT_DIR$/pix2pixHD/options/base_options.py" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/options/train_options.py" afterPath="$PROJECT_DIR$/pix2pixHD/options/train_options.py" />
       <change beforePath="$PROJECT_DIR$/pix2pixHD/run.sh" afterPath="$PROJECT_DIR$/pix2pixHD/run.sh" />
       <change beforePath="$PROJECT_DIR$/pix2pixHD/train.py" afterPath="$PROJECT_DIR$/pix2pixHD/train.py" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/util/visualizer.py" afterPath="$PROJECT_DIR$/pix2pixHD/util/visualizer.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,7 +26,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5216584">
+    <splitter split-orientation="horizontal" split-proportion="0.46596536">
       <split-first>
         <leaf>
           <file leaf-file-name="custom_dataset_data_loader.py" pinned="false" current-in-tab="false">
@@ -69,11 +61,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="base_model.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="base_model.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/pix2pixHD/models/base_model.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="546">
-                  <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+                <state relative-caret-position="735">
+                  <caret line="33" column="12" lean-forward="true" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
                   <folding>
                     <element signature="e#175#204#0" expanded="true" />
                   </folding>
@@ -105,11 +97,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="run.sh" pinned="false" current-in-tab="false">
+          <file leaf-file-name="run.sh" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="756">
-                  <caret line="27" column="187" lean-forward="false" selection-start-line="27" selection-start-column="187" selection-end-line="27" selection-end-column="187" />
+                <state relative-caret-position="562">
+                  <caret line="30" column="183" lean-forward="true" selection-start-line="30" selection-start-column="183" selection-end-line="30" selection-end-column="183" />
                   <folding />
                 </state>
               </provider>
@@ -161,11 +153,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="train.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="train.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/pix2pixHD/train.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="573">
-                  <caret line="64" column="129" lean-forward="false" selection-start-line="64" selection-start-column="129" selection-end-line="64" selection-end-column="129" />
+                <state relative-caret-position="336">
+                  <caret line="15" column="57" lean-forward="false" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
                   <folding>
                     <element signature="e#175#186#0" expanded="true" />
                   </folding>
@@ -173,10 +165,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="base_options.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="base_options.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/pix2pixHD/options/base_options.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
+                <state relative-caret-position="-1378">
                   <caret line="29" column="41" lean-forward="false" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="41" />
                   <folding>
                     <element signature="e#175#190#0" expanded="true" />
@@ -208,8 +200,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>discriminate</find>
-      <find>createdataloader</find>
       <find>dataroot</find>
       <find>output</find>
       <find>loss_G</find>
@@ -238,6 +228,8 @@
       <find>save_dir</find>
       <find>log</find>
       <find>checkpoints_dir</find>
+      <find>iter_path</find>
+      <find>iter.txt</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/pytorch-CycleGAN-and-pix2pix</dir>
@@ -275,13 +267,13 @@
         <option value="$PROJECT_DIR$/pix2pixHD/models/models.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_grid_dataset.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/train.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/options/train_options.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/options/base_options.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/models/base_model.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/run.sh" />
         <option value="$PROJECT_DIR$/pix2pixHD/util/visualizer.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/run.sh" />
+        <option value="$PROJECT_DIR$/pix2pixHD/train.py" />
       </list>
     </option>
   </component>
@@ -292,9 +284,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1920" />
     <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="981" />
+    <option name="height" value="979" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -456,15 +449,22 @@
       <option name="project" value="LOCAL" />
       <updated>1516498549328</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add local discriminator. also fix the savings.">
+      <created>1516505766831</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1516505766831</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="981" extended-state="6" />
+    <frame x="1920" y="23" width="1920" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Tasks" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Tasks" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12785862" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24166666" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="430" height="777" />
       <window_info id="LuaCheck" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -509,7 +509,8 @@
     </ignored-roots>
     <MESSAGE value="add inpainting grid dataset and other functions." />
     <MESSAGE value="generating the whole image but only keep the hole and use the original boundary." />
-    <option name="LAST_COMMIT_MESSAGE" value="generating the whole image but only keep the hole and use the original boundary." />
+    <MESSAGE value="add local discriminator. also fix the savings." />
+    <option name="LAST_COMMIT_MESSAGE" value="add local discriminator. also fix the savings." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -906,16 +907,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="64" column="129" lean-forward="false" selection-start-line="64" selection-start-column="129" selection-end-line="64" selection-end-column="129" />
-          <folding>
-            <element signature="e#175#186#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/precompute_feature_maps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
@@ -934,9 +925,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/models/base_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="33" column="12" lean-forward="true" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+          <folding>
+            <element signature="e#175#204#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/options/base_options.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="-1378">
           <caret line="29" column="41" lean-forward="false" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="41" />
           <folding>
             <element signature="e#175#190#0" expanded="true" />
@@ -944,21 +945,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="27" column="187" lean-forward="false" selection-start-line="27" selection-start-column="187" selection-end-line="27" selection-end-column="187" />
-          <folding />
+        <state relative-caret-position="336">
+          <caret line="15" column="57" lean-forward="false" selection-start-line="15" selection-start-column="57" selection-end-line="15" selection-end-column="57" />
+          <folding>
+            <element signature="e#175#186#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/models/base_model.py">
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="e#175#204#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="562">
+          <caret line="30" column="183" lean-forward="true" selection-start-line="30" selection-start-column="183" selection-end-line="30" selection-end-column="183" />
+          <folding />
         </state>
       </provider>
     </entry>

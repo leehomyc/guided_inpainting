@@ -61,7 +61,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
 
         # calculate final loss scalar
         if opt.use_local_discriminator:
-            loss_D = (loss_dict['D_fake'] + loss_dict['D_fake_local'] + loss_dict['D_real'] + loss_dict['D_real_local']) * 0.5  # noqa
+            loss_D = (loss_dict['D_fake'] + loss_dict['D_fake_local'] + loss_dict['D_real'] + loss_dict['D_real_local']) * 0.25  # noqa
             loss_G = (loss_dict['G_GAN'] + loss_dict['G_GAN_local']) * 0.5 + loss_dict['G_GAN_Feat'] + loss_dict['G_VGG']  # noqa
         else:
             loss_D = (loss_dict['D_fake'] + loss_dict['D_real']) * 0.5
