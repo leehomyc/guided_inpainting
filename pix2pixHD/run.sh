@@ -26,3 +26,6 @@ python train.py --name coco_inpainting_256_inpainting_grid --gpu_ids 3 --checkpo
 
 # inpainting and keep hole only. The experiment runs on Weiyue's computer
 python train.py --name coco_inpainting_256_inpainting_keep_hole_only --gpu_ids 3 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only
+
+# inpainting and keep hole only. However, we add a local discriminator. The experiment runs on Weiyue's computer
+python train.py --name coco_inpainting_256_inpainting_keep_hole_only_local_discriminator --gpu_ids 2 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --use_local_discriminator

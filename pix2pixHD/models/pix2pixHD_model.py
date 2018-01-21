@@ -9,6 +9,7 @@ from .base_model import BaseModel
 from . import networks
 
 
+# noinspection PyAttributeOutsideInit,PyPep8Naming
 class Pix2PixHDModel(BaseModel):
     def name(self):
         return 'Pix2PixHDModel'
@@ -26,7 +27,7 @@ class Pix2PixHDModel(BaseModel):
             input_nc = 24
         else:
             input_nc = 3
-        #input_nc = opt.label_nc if opt.label_nc != 0 else 3
+        # input_nc = opt.label_nc if opt.label_nc != 0 else 3
 
         ##### define networks        
         # Generator network
@@ -37,7 +38,8 @@ class Pix2PixHDModel(BaseModel):
             netG_input_nc += opt.feat_num
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf, opt.netG,
                                       opt.n_downsample_global, opt.n_blocks_global, opt.n_local_enhancers,
-                                      opt.n_blocks_local, opt.norm, gpu_ids=self.gpu_ids, dilation=opt.dilation, interpolated_conv=opt.interpolated_conv)
+                                      opt.n_blocks_local, opt.norm, gpu_ids=self.gpu_ids, dilation=opt.dilation,
+                                      interpolated_conv=opt.interpolated_conv)
 
         # Discriminator network
         if self.isTrain:
@@ -78,7 +80,10 @@ class Pix2PixHDModel(BaseModel):
                 self.criterionVGG = networks.VGGLoss(self.gpu_ids)
 
             # Names so we can breakout loss
-            self.loss_names = ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_fake']
+            if self.opt.use_local_discriminator:
+                self.loss_names = ['G_GAN', 'G_GAN_local', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_real_local', 'D_fake', 'D_fake_local']  #noqa
+            else:
+                self.loss_names = ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_fake']
 
             # initialize optimizers
             # optimizer G
@@ -154,30 +159,54 @@ class Pix2PixHDModel(BaseModel):
         fake_image = self.netG.forward(input_concat)
 
         # If we want to crop the hole and paste it back to the original image.
+        hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
+        hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
+        hole_x_begin = hole_y_begin
+        hole_x_end = hole_y_end
+        hole_height = hole_y_end - hole_y_begin
+        hole_width = hole_x_end - hole_x_begin
+
+        # Local discriminator takes in a patch that is slightly larger than the hole
+        local_discriminator_y_begin = int(hole_y_begin - hole_height / 4)
+        local_discriminator_x_begin = int(hole_x_begin - hole_width / 4)
+        local_discriminator_y_end = int(hole_y_end + hole_height / 4)
+        local_discriminator_x_end = int(hole_x_end + hole_width / 4)
         if self.opt.keep_hole_only is True:
             # Create a mask with zeros in the hole region and ones in the boundary
             mask = np.ones((self.opt.batchSize, 3, self.opt.fineSize, self.opt.fineSize))
-            hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
-            hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
-            hole_x_begin = hole_y_begin
-            hole_x_end = hole_y_end
             mask[:, :, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
             mask = torch.from_numpy(mask).float().cuda()
             mask = Variable(mask)
             # add the image and mask together.
             fake_image = input_label * mask + fake_image * (1 - mask)
 
-        # Fake Detection and Loss
-        pred_fake_pool = self.discriminate(input_label, fake_image, use_pool=True)
+        if self.opt.use_local_discriminator:
+            real_hole = input_label[:, :, local_discriminator_y_begin: local_discriminator_y_end, local_discriminator_x_begin: local_discriminator_x_end]  # noqa
+            fake_hole = fake_image[:, :, local_discriminator_y_begin: local_discriminator_y_end, local_discriminator_x_begin: local_discriminator_x_end]  # noqa
+
+        # Fake Detection and Loss. This loss is to update the discriminator.
+        pred_fake_pool = self.discriminate(input_label, real_image, use_pool=True)
         loss_D_fake = self.criterionGAN(pred_fake_pool, False)
 
-        # Real Detection and Loss        
+        if self.opt.use_local_discriminator:
+            pred_fake_local = self.discriminate(real_hole, fake_hole)
+            loss_D_fake_local = self.criterionGAN(pred_fake_local, False)
+
+        # Real Detection and Loss. This loss is to update the discriminator.
         pred_real = self.discriminate(input_label, real_image)
         loss_D_real = self.criterionGAN(pred_real, True)
 
-        # GAN loss (Fake Passability Loss)        
+        if self.opt.use_local_discriminator:
+            pred_real_local = self.discriminate(real_hole, fake_hole)
+            loss_D_real_local = self.criterionGAN(pred_real_local, True)
+
+        # GAN loss (Fake Passability Loss). This loss is to update the generator.
         pred_fake = self.netD.forward(torch.cat((input_label, fake_image), dim=1))
         loss_G_GAN = self.criterionGAN(pred_fake, True)
+
+        if self.opt.use_local_discriminator:
+            pred_fake_local = self.netD.forward(torch.cat((real_hole, fake_hole), dim=1))
+            loss_G_GAN_local = self.criterionGAN(pred_fake_local, True)
 
         # GAN feature matching loss
         loss_G_GAN_Feat = 0
@@ -196,7 +225,11 @@ class Pix2PixHDModel(BaseModel):
             loss_G_VGG = self.criterionVGG(fake_image, real_image) * self.opt.lambda_feat
 
         # Only return the fake_B image if necessary to save BW
-        return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake], None if not infer else fake_image]
+        # The names of the losses are ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_fake']
+        if self.opt.use_local_discriminator:
+            return [[loss_G_GAN, loss_G_GAN_local, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_real_local, loss_D_fake, loss_D_fake_local], None if not infer else fake_image]  # noqa
+        else:
+            return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake], None if not infer else fake_image]
 
     def inference(self, label, inst):
         # Encode Inputs        

@@ -36,5 +36,7 @@ class TrainOptions(BaseOptions):
                                  help='the dilation parameter to use.')
         self.parser.add_argument('--interpolated_conv', action='store_true',
                                  help='if specified, use interpolated convolution instead of deconvolution.')
+        self.parser.add_argument('--use_local_discriminator', action='store_true',
+                                 help='if specified, use local discriminator in addition to the global discriminator.')
 
         self.isTrain = True
