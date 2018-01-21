@@ -23,3 +23,6 @@ python train.py --name coco_inpainting_256_batch_32_num_D_3_lambda_feat_100_dila
 
 # inpainting grid model
 python train.py --name coco_inpainting_256_inpainting_grid --gpu_ids 3 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 215 --fineSize 192 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_grid --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8
+
+# inpainting and keep hole only. The experiment runs on Weiyue's computer
+python train.py --name coco_inpainting_256_inpainting_keep_hole_only --gpu_ids 3 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only
