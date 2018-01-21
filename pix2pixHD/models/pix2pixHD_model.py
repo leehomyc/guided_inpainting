@@ -224,8 +224,8 @@ class Pix2PixHDModel(BaseModel):
         if not self.opt.no_vgg_loss:
             loss_G_VGG = self.criterionVGG(fake_image, real_image) * self.opt.lambda_feat
 
-        # Only return the fake_B image if necessary to save BW
-        # The names of the losses are ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_fake']
+        # Only return the fake_B image if necessary to save BW The names of the losses are ['G_GAN', 'G_GAN_local',
+        # 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_real_local', 'D_fake', 'D_fake_local']
         if self.opt.use_local_discriminator:
             return [[loss_G_GAN, loss_G_GAN_local, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_real_local, loss_D_fake, loss_D_fake_local], None if not infer else fake_image]  # noqa
         else:
