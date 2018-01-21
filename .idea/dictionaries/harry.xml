@@ -2,6 +2,7 @@
   <dictionary name="harry">
     <words>
       <w>inpainting</w>
+      <w>noqa</w>
       <w>trainloader</w>
       <w>trainset</w>
     </words>

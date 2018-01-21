@@ -1,5 +1,6 @@
 ### Copyright (C) 2017 NVIDIA Corporation. All rights reserved.
 ### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
+from datetime import datetime
 import numpy as np
 import os
 import ntpath
@@ -19,18 +20,19 @@ class Visualizer():
         self.use_html = opt.isTrain and not opt.no_html
         self.win_size = opt.display_winsize
         self.name = opt.name
+        current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
         if self.tf_log:
             import tensorflow as tf
             self.tf = tf
-            self.log_dir = os.path.join(opt.checkpoints_dir, opt.name, 'logs')
+            self.log_dir = os.path.join(opt.checkpoints_dir, opt.name, 'logs_{}'.format(current_time))
             self.writer = tf.summary.FileWriter(self.log_dir)
 
         if self.use_html:
-            self.web_dir = os.path.join(opt.checkpoints_dir, opt.name, 'web')
+            self.web_dir = os.path.join(opt.checkpoints_dir, opt.name, 'web_{}'.format(current_time))
             self.img_dir = os.path.join(self.web_dir, 'images')
             print('create web directory %s...' % self.web_dir)
             util.mkdirs([self.web_dir, self.img_dir])
-        self.log_name = os.path.join(opt.checkpoints_dir, opt.name, 'loss_log.txt')
+        self.log_name = os.path.join(opt.checkpoints_dir, opt.name, 'loss_log_{}.txt'.format(current_time))
         with open(self.log_name, "a") as log_file:
             now = time.strftime("%c")
             log_file.write('================ Training Loss (%s) ================\n' % now)

@@ -1,5 +1,6 @@
 ### Copyright (C) 2017 NVIDIA Corporation. All rights reserved. 
 ### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
+from datetime import datetime
 import os
 import torch
 
@@ -14,6 +15,10 @@ class BaseModel(torch.nn.Module):
         self.isTrain = opt.isTrain
         self.Tensor = torch.cuda.FloatTensor if self.gpu_ids else torch.Tensor
         self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
+        current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
+        self.save_dir = os.path.join(self.save_dir, current_time)
+        os.makedirs(self.save_dir, exist_ok=True)
+
 
     def set_input(self, input):
         self.input = input

@@ -1,6 +1,7 @@
 ### Copyright (C) 2017 NVIDIA Corporation. All rights reserved. 
 ### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 import argparse
+from datetime import datetime
 import os
 from util import util
 import torch
@@ -90,7 +91,8 @@ class BaseOptions():
         expr_dir = os.path.join(self.opt.checkpoints_dir, self.opt.name)
         util.mkdirs(expr_dir)
         if save and not self.opt.continue_train:
-            file_name = os.path.join(expr_dir, 'opt.txt')
+            current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
+            file_name = os.path.join(expr_dir, 'opt_{}.txt'.format(current_time))
             with open(file_name, 'wt') as opt_file:
                 opt_file.write('------------ Options -------------\n')
                 for k, v in sorted(args.items()):
