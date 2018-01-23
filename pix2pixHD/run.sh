@@ -44,3 +44,6 @@ python train.py --name coco_inpainting_256_inpainting_keep_hole_only_larger_hole
 # inpainting and keep hole only. We increase the hole size such that it becomes larger (128x128). We also increase the number of ResNet blocks from 9 to 18. The experiment runs on OBen's computer. We also need to reduce the batch size given larger model size.
 # remember to change the experiment name.
 python train.py --name coco_inpainting_256_inpainting_keep_hole_only_larger_hole_more_resnet_blocks --gpu_ids 3 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 4 --keep_hole_only --overlapPred 0 --n_blocks_global 18
+
+# test script. The results are saved in ./results folder.
+python test.py --name coco_inpainting_256_inpainting_keep_hole_only_larger_hole_more_resnet_blocks/20180121-190059 --gpu_ids 2 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/ssd/harry/guided_inpainting/original_input --model inpainting --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --overlapPred 0 --n_blocks_global 18
