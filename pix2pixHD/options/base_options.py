@@ -60,7 +60,10 @@ class BaseOptions():
         self.parser.add_argument('--overlapPred', type=int, default=32, help='The overlapping region of inpainting.')
         self.parser.add_argument('--keep_hole_only', action='store_true',
                                  help='if specified, only keep the hole')
-
+        self.parser.add_argument('--dilation', type=int, default=1,
+                                 help='the dilation parameter to use.')
+        self.parser.add_argument('--interpolated_conv', action='store_true',
+                                 help='if specified, use interpolated convolution instead of deconvolution.')
         self.initialized = True
 
     def parse(self, save=True):

@@ -243,6 +243,20 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_concat = input_label
         fake_image = self.netG.forward(input_concat)
+
+        hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
+        hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
+        hole_x_begin = hole_y_begin
+        hole_x_end = hole_y_end
+
+        if self.opt.keep_hole_only is True:
+            # Create a mask with zeros in the hole region and ones in the boundary
+            mask = np.ones((self.opt.batchSize, 3, self.opt.fineSize, self.opt.fineSize))
+            mask[:, :, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
+            mask = torch.from_numpy(mask).float().cuda()
+            mask = Variable(mask)
+            # add the image and mask together.
+            fake_image = input_label * mask + fake_image * (1 - mask)
         return fake_image
 
     def sample_features(self, inst):

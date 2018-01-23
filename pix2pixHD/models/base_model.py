@@ -16,7 +16,8 @@ class BaseModel(torch.nn.Module):
         self.Tensor = torch.cuda.FloatTensor if self.gpu_ids else torch.Tensor
         self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
         current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
-        self.save_dir = os.path.join(self.save_dir, current_time)
+        if self.opt.isTrain is True:
+            self.save_dir = os.path.join(self.save_dir, current_time)
         os.makedirs(self.save_dir, exist_ok=True)
 
 
