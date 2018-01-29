@@ -64,6 +64,7 @@ class BaseOptions():
                                  help='the dilation parameter to use.')
         self.parser.add_argument('--interpolated_conv', action='store_true',
                                  help='if specified, use interpolated convolution instead of deconvolution.')
+        self.parser.add_argument('--content_weight', type=float, default=0.25, help='momentum term of adam')
         self.initialized = True
 
     def parse(self, save=True):

@@ -7,10 +7,13 @@ def CreateDataset(opt):
     from data.aligned_dataset import AlignedDataset
     from data.inpainting_dataset import InpaintingDataset
     from data.inpainting_grid_dataset import InpaintingGridDataset
+    from data.inpainting_dataset_guided import InpaintingDatasetGuided
     if opt.model == 'inpainting':
         dataset = InpaintingDataset()
     elif opt.model == 'inpainting_grid':
         dataset = InpaintingGridDataset()
+    elif opt.model == 'inpainting_guided':
+        dataset = InpaintingDatasetGuided()
     else:
         dataset = AlignedDataset()
 
