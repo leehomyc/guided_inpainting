@@ -60,7 +60,7 @@ class InpaintingDatasetObject(BaseDataset):
         image_pytorch = torch.from_numpy(image2).float()
         mask_pytorch = torch.from_numpy(mask_image2).float()
 
-        inst_tensor = feat_tensor = 0
+        feat_tensor = 0
 
         input_dict = {'label': image_with_hole, 'inst': mask_pytorch, 'image': image_pytorch,
                       'feat': feat_tensor, 'path': image_path}
