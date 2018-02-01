@@ -52,8 +52,13 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         save_fake = total_steps % opt.display_freq == 0
 
         ############## Forward Pass ######################
-        losses, generated = model(Variable(data['label']), Variable(data['inst']),
-                                  Variable(data['image']), Variable(data['feat']), infer=save_fake)
+        if opt.use_mask is True:
+            losses, generated = model(Variable(data['label']), Variable(data['inst']),
+                                      Variable(data['image']), Variable(data['feat']), Variable(data['mask']),
+                                      infer=save_fake)
+        else:
+            losses, generated = model(Variable(data['label']), Variable(data['inst']),
+                                      Variable(data['image']), Variable(data['feat']), infer=save_fake)
 
         # sum per device losses
         losses = [torch.mean(x) if not isinstance(x, int) else x for x in losses]
@@ -61,8 +66,10 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
 
         # calculate final loss scalar
         if opt.use_local_discriminator:
-            loss_D = (loss_dict['D_fake'] + loss_dict['D_fake_local'] + loss_dict['D_real'] + loss_dict['D_real_local']) * 0.25  # noqa
-            loss_G = (loss_dict['G_GAN'] + loss_dict['G_GAN_local']) * 0.5 + loss_dict['G_GAN_Feat'] + loss_dict['G_VGG']  # noqa
+            loss_D = (loss_dict['D_fake'] + loss_dict['D_fake_local'] + loss_dict['D_real'] + loss_dict[
+                'D_real_local']) * 0.25  # noqa
+            loss_G = (loss_dict['G_GAN'] + loss_dict['G_GAN_local']) * 0.5 + loss_dict['G_GAN_Feat'] + loss_dict[
+                'G_VGG']  # noqa
         else:
             loss_D = (loss_dict['D_fake'] + loss_dict['D_real']) * 0.5
             loss_G = loss_dict['G_GAN'] + loss_dict['G_GAN_Feat'] + loss_dict['G_VGG']

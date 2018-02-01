@@ -72,7 +72,7 @@ class InpaintingDatasetGuided(BaseDataset):
         params = get_params(self.opt, image.size)
 
         transform_image = get_transform(self.opt, params)
-        image = transform_image(image.convert('RGB'))  # The image's range is 0-1, and the shape is 3xHxW. The type
+        image = transform_image(image.convert('RGB'))  # The image's range is -1-1, and the shape is 3xHxW. The type
         # is Torch Float Tensor.
         style_image = transform_image(style_image.convert('RGB'))
 

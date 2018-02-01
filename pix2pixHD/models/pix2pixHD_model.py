@@ -21,6 +21,7 @@ class Pix2PixHDModel(BaseModel):
         self.isTrain = opt.isTrain
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
+        self.use_mask = opt.use_mask
         if opt.label_nc != 0:
             input_nc = opt.label_nc
         elif opt.model == 'inpainting_grid':
@@ -36,6 +37,8 @@ class Pix2PixHDModel(BaseModel):
             netG_input_nc += 1
         if self.use_features:
             netG_input_nc += opt.feat_num
+        if self.use_mask:
+            netG_input_nc += 1
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf, opt.netG,
                                       opt.n_downsample_global, opt.n_blocks_global, opt.n_local_enhancers,
                                       opt.n_blocks_local, opt.norm, gpu_ids=self.gpu_ids, dilation=opt.dilation,
@@ -81,7 +84,8 @@ class Pix2PixHDModel(BaseModel):
 
             # Names so we can breakout loss
             if self.opt.use_local_discriminator:
-                self.loss_names = ['G_GAN', 'G_GAN_local', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_real_local', 'D_fake', 'D_fake_local']  #noqa
+                self.loss_names = ['G_GAN', 'G_GAN_local', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_real_local', 'D_fake',
+                                   'D_fake_local']  # noqa
             else:
                 self.loss_names = ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_fake']
 
@@ -107,7 +111,7 @@ class Pix2PixHDModel(BaseModel):
             params = list(self.netD.parameters())
             self.optimizer_D = torch.optim.Adam(params, lr=opt.lr, betas=(opt.beta1, 0.999))
 
-    def encode_input(self, label_map, inst_map=None, real_image=None, feat_map=None, infer=False):
+    def encode_input(self, label_map, inst_map=None, real_image=None, feat_map=None, mask=None, infer=False):
         if self.opt.label_nc == 0:
             input_label = label_map.data.cuda()
         else:
@@ -122,6 +126,13 @@ class Pix2PixHDModel(BaseModel):
             inst_map = inst_map.data.cuda()
             edge_map = self.get_edges(inst_map)
             input_label = torch.cat((input_label, edge_map), dim=1)
+        if not self.opt.isTrain:
+            inst_map = Variable(inst_map.data.cuda())
+
+        # mask for inpainting
+        if mask is not None:
+            mask = Variable(mask.data.cuda())
+
         input_label = Variable(input_label, volatile=infer)
 
         # real images for training
@@ -134,7 +145,7 @@ class Pix2PixHDModel(BaseModel):
             if self.opt.load_features:
                 feat_map = Variable(feat_map.data.cuda())
 
-        return input_label, inst_map, real_image, feat_map
+        return input_label, inst_map, real_image, feat_map, mask
 
     def discriminate(self, input_label, test_image, use_pool=False):
         input_concat = torch.cat((input_label, test_image.detach()), dim=1)
@@ -144,9 +155,9 @@ class Pix2PixHDModel(BaseModel):
         else:
             return self.netD.forward(input_concat)
 
-    def forward(self, label, inst, image, feat, infer=False):
+    def forward(self, label, inst, image, feat, mask=None, infer=False):
         # Encode Inputs
-        input_label, inst_map, real_image, feat_map = self.encode_input(label, inst, image, feat)
+        input_label, inst_map, real_image, feat_map, mask_map = self.encode_input(label, inst, image, feat, mask=mask)
 
         # Fake Generation
         if self.use_features:
@@ -156,33 +167,43 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_concat = input_label
 
+        if self.use_mask:
+            input_concat = torch.cat((input_concat, mask_map), dim=1)
+        else:
+            input_concat = input_concat
+
         fake_image = self.netG.forward(input_concat)
 
-        # If we want to crop the hole and paste it back to the original image.
-        hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
-        hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
-        hole_x_begin = hole_y_begin
-        hole_x_end = hole_y_end
-        hole_height = hole_y_end - hole_y_begin
-        hole_width = hole_x_end - hole_x_begin
+        if self.opt.model == 'inpainting_object':
+            fake_image = real_image * (1 - inst_map) + fake_image * inst_map
+        else:
+            # If we want to crop the hole and paste it back to the original image.
+            hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
+            hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
+            hole_x_begin = hole_y_begin
+            hole_x_end = hole_y_end
+            hole_height = hole_y_end - hole_y_begin
+            hole_width = hole_x_end - hole_x_begin
 
-        # Local discriminator takes in a patch that is slightly larger than the hole
-        local_discriminator_y_begin = int(hole_y_begin - hole_height / 4)
-        local_discriminator_x_begin = int(hole_x_begin - hole_width / 4)
-        local_discriminator_y_end = int(hole_y_end + hole_height / 4)
-        local_discriminator_x_end = int(hole_x_end + hole_width / 4)
-        if self.opt.keep_hole_only is True:
-            # Create a mask with zeros in the hole region and ones in the boundary
-            mask = np.ones((self.opt.batchSize, 3, self.opt.fineSize, self.opt.fineSize))
-            mask[:, :, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
-            mask = torch.from_numpy(mask).float().cuda()
-            mask = Variable(mask)
-            # add the image and mask together.
-            fake_image = input_label * mask + fake_image * (1 - mask)
+            # Local discriminator takes in a patch that is slightly larger than the hole
+            local_discriminator_y_begin = int(hole_y_begin - hole_height / 4)
+            local_discriminator_x_begin = int(hole_x_begin - hole_width / 4)
+            local_discriminator_y_end = int(hole_y_end + hole_height / 4)
+            local_discriminator_x_end = int(hole_x_end + hole_width / 4)
+            if self.opt.keep_hole_only is True:
+                # Create a mask with zeros in the hole region and ones in the boundary
+                mask = np.ones((self.opt.batchSize, 3, self.opt.fineSize, self.opt.fineSize))
+                mask[:, :, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
+                mask = torch.from_numpy(mask).float().cuda()
+                mask = Variable(mask)
+                # add the image and mask together.
+                fake_image = input_label * mask + fake_image * (1 - mask)
 
         if self.opt.use_local_discriminator:
-            real_hole = input_label[:, :, local_discriminator_y_begin: local_discriminator_y_end, local_discriminator_x_begin: local_discriminator_x_end]  # noqa
-            fake_hole = fake_image[:, :, local_discriminator_y_begin: local_discriminator_y_end, local_discriminator_x_begin: local_discriminator_x_end]  # noqa
+            real_hole = input_label[:, :, local_discriminator_y_begin: local_discriminator_y_end,
+                        local_discriminator_x_begin: local_discriminator_x_end]  # noqa
+            fake_hole = fake_image[:, :, local_discriminator_y_begin: local_discriminator_y_end,
+                        local_discriminator_x_begin: local_discriminator_x_end]  # noqa
 
         # Fake Detection and Loss. This loss is to update the discriminator.
         pred_fake_pool = self.discriminate(input_label, real_image, use_pool=True)
@@ -227,13 +248,16 @@ class Pix2PixHDModel(BaseModel):
         # Only return the fake_B image if necessary to save BW The names of the losses are ['G_GAN', 'G_GAN_local',
         # 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_real_local', 'D_fake', 'D_fake_local']
         if self.opt.use_local_discriminator:
-            return [[loss_G_GAN, loss_G_GAN_local, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_real_local, loss_D_fake, loss_D_fake_local], None if not infer else fake_image]  # noqa
+            return [
+                [loss_G_GAN, loss_G_GAN_local, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_real_local, loss_D_fake,
+                 loss_D_fake_local], None if not infer else fake_image]  # noqa
         else:
-            return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake], None if not infer else fake_image]
+            return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real, loss_D_fake],
+                    None if not infer else fake_image]
 
     def inference(self, label, inst):
-        # Encode Inputs        
-        input_label, inst_map, _, _ = self.encode_input(Variable(label), Variable(inst), infer=True)
+        # Encode Inputs
+        input_label, inst_map, _, _, _ = self.encode_input(Variable(label), Variable(inst), infer=True)
 
         # Fake Generation
         if self.use_features:
@@ -243,20 +267,22 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_concat = input_label
         fake_image = self.netG.forward(input_concat)
+        if self.opt.model == 'inpainting_object':
+            fake_image = input_label * (1 - inst_map) + fake_image * inst_map
+        else:
+            hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
+            hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
+            hole_x_begin = hole_y_begin
+            hole_x_end = hole_y_end
 
-        hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
-        hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
-        hole_x_begin = hole_y_begin
-        hole_x_end = hole_y_end
-
-        if self.opt.keep_hole_only is True:
-            # Create a mask with zeros in the hole region and ones in the boundary
-            mask = np.ones((self.opt.batchSize, 3, self.opt.fineSize, self.opt.fineSize))
-            mask[:, :, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
-            mask = torch.from_numpy(mask).float().cuda()
-            mask = Variable(mask)
-            # add the image and mask together.
-            fake_image = input_label * mask + fake_image * (1 - mask)
+            if self.opt.keep_hole_only is True:
+                # Create a mask with zeros in the hole region and ones in the boundary
+                mask = np.ones((self.opt.batchSize, 3, self.opt.fineSize, self.opt.fineSize))
+                mask[:, :, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
+                mask = torch.from_numpy(mask).float().cuda()
+                mask = Variable(mask)
+                # add the image and mask together.
+                fake_image = input_label * mask + fake_image * (1 - mask)
         return fake_image
 
     def sample_features(self, inst):

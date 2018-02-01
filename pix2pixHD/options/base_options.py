@@ -64,7 +64,11 @@ class BaseOptions():
                                  help='the dilation parameter to use.')
         self.parser.add_argument('--interpolated_conv', action='store_true',
                                  help='if specified, use interpolated convolution instead of deconvolution.')
-        self.parser.add_argument('--content_weight', type=float, default=0.25, help='momentum term of adam')
+        self.parser.add_argument('--content_weight', type=float, default=0.25, help='the weight of content when using '
+                                                                                    'style transfer.')
+        self.parser.add_argument('--ann_path', type=str, default='', help='path to coco annotation file')
+        self.parser.add_argument('--use_mask', action='store_true', help='whether to use mask.')
+        self.parser.add_argument('--use_color', action='store_true', help='whether to use gray guidance.')
         self.initialized = True
 
     def parse(self, save=True):

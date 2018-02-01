@@ -12,7 +12,6 @@ class InpaintingGridDataset(BaseDataset):
         self.opt = opt
         self.root = opt.dataroot
         self.paths = sorted(make_dataset(self.root))
-
         self.dataset_size = len(self.paths)
 
     def __getitem__(self, index):

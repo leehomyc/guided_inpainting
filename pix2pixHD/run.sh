@@ -48,16 +48,44 @@ python train.py --name coco_inpainting_256_inpainting_keep_hole_only_larger_hole
 # test script. The results are saved in ./results folder.
 python test.py --name coco_inpainting_256_inpainting_keep_hole_only_larger_hole_more_resnet_blocks/20180121-190059 --gpu_ids 2 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/ssd/harry/guided_inpainting/original_input --model inpainting --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --overlapPred 32 --n_blocks_global 18
 
-python test.py --name coco_inpainting_256_inpainting_keep_hole_only --gpu_ids 2 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/ssd/harry/guided_inpainting/original_input --model inpainting --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --overlapPred 32
+python test.py --name coco_inpainting_256_inpainting_keep_hole_only --gpu_ids 1 --checkpoints_dir /media/ssd/harry/guided_inpainting/log/coco_inpainting_256_inpainting_keep_hole_only --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/ssd/harry/guided_inpainting/original_input_gt --model inpainting --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --overlapPred 32
 
 # guided inpainting with content weight set to default 0.25
 python train.py --name coco_inpainting_256_guided --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only
 
 # guided inpainting with content weight set to 1
-python train.py --name coco_inpainting_256_guided_content_weight_1 --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --content_weight 1
+python train.py --name coco_inpainting_256_guided_content_weight_1 --gpu_ids 0 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --content_weight 1
 
 # guided inpainting with content weight set to 0.75
-python train.py --name coco_inpainting_256_guided_content_weight_1 --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --content_weight 0.75
+python train.py --name coco_inpainting_256_guided_content_weight_0.75 --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --content_weight 0.75
 
 # guided inpainting with content weight set to 0.5
-python train.py --name coco_inpainting_256_guided_content_weight_1 --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --content_weight 0.5
+python train.py --name coco_inpainting_256_guided_content_weight_1 --gpu_ids 0 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --content_weight 0.5
+
+# object inpainting
+python train.py --name coco_inpainting_256_object --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_object --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_train2017.json'
+
+# test script
+python test.py --name coco_inpainting_256_object --gpu_ids 2 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd/coco_inpainting_256_object/20180130-010239 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/val2017 --model inpainting_object --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_val2017.json' --how_many 200
+
+python test.py --name coco_inpainting_256_object --gpu_ids 2 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd/coco_inpainting_256_object/20180130-010239 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_object --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_train2017.json'
+
+# inpainting with gray scale guidance
+python train.py --name coco_inpainting_256_color --gpu_ids 0 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_color --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only
+
+# inpainting use mask
+python train.py --name coco_inpainting_256_color_mask --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_color --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --use_mask
+
+# inpainting use mask
+python train.py --name coco_inpainting_256_object_color --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_object --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_train2017.json' --use_color
+
+python test.py --name coco_inpainting_256_object --gpu_ids 2 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd/coco_inpainting_256_object/20180130-010239 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_object --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_train2017.json'
+
+# test object color
+python test.py --name coco_inpainting_256_object_color --gpu_ids 2 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd/coco_inpainting_256_object_color/20180130-181109 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/val2017 --model inpainting_object --no_instance --resize_or_crop resize --tf_log --batchSize 4 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_val2017.json' --use_color --how_many 100
+
+# inpainting and keep hole only. The experiment runs on Weiyue's computer. The image is 128 and the hole is 64
+python train.py --name coco_inpainting_128_inpainting_keep_hole_only --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 143 --fineSize 128 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 16 --keep_hole_only --overlapPred 0
+
+# object inpainting 128
+python train.py --name coco_inpainting_128_object --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 143 --fineSize 128 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_object --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_train2017.json'

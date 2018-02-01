@@ -8,12 +8,19 @@ def CreateDataset(opt):
     from data.inpainting_dataset import InpaintingDataset
     from data.inpainting_grid_dataset import InpaintingGridDataset
     from data.inpainting_dataset_guided import InpaintingDatasetGuided
+
     if opt.model == 'inpainting':
         dataset = InpaintingDataset()
     elif opt.model == 'inpainting_grid':
         dataset = InpaintingGridDataset()
     elif opt.model == 'inpainting_guided':
         dataset = InpaintingDatasetGuided()
+    elif opt.model == 'inpainting_object':
+        from data.inpainting_dataset_object import InpaintingDatasetObject
+        dataset = InpaintingDatasetObject()
+    elif opt.model == 'inpainting_color':
+        from data.inpainting_dataset_guided_color import InpaintingDatasetColor
+        dataset = InpaintingDatasetColor()
     else:
         dataset = AlignedDataset()
 

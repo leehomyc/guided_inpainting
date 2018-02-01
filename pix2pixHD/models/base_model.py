@@ -14,10 +14,12 @@ class BaseModel(torch.nn.Module):
         self.gpu_ids = opt.gpu_ids
         self.isTrain = opt.isTrain
         self.Tensor = torch.cuda.FloatTensor if self.gpu_ids else torch.Tensor
-        self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
-        current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
         if self.opt.isTrain is True:
+            self.save_dir = os.path.join(opt.checkpoints_dir, opt.name)
+            current_time = datetime.now().strftime("%Y%m%d-%H%M%S")
             self.save_dir = os.path.join(self.save_dir, current_time)
+        else:
+            self.save_dir = opt.checkpoints_dir
         os.makedirs(self.save_dir, exist_ok=True)
 
 
@@ -60,6 +62,7 @@ class BaseModel(torch.nn.Module):
         if not save_dir:
             save_dir = self.save_dir
         save_path = os.path.join(save_dir, save_filename)
+        print(save_path)
         if not os.path.isfile(save_path):
             print('%s not exists yet!' % save_path)
             if network_label == 'G':
