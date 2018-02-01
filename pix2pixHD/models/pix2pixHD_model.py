@@ -174,7 +174,7 @@ class Pix2PixHDModel(BaseModel):
 
         fake_image = self.netG.forward(input_concat)
 
-        if self.opt.model == 'inpainting_object':
+        if self.opt.model == 'inpainting_object' or 'inpainting_guided':
             fake_image = real_image * (1 - inst_map) + fake_image * inst_map
         else:
             # If we want to crop the hole and paste it back to the original image.
@@ -267,7 +267,7 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_concat = input_label
         fake_image = self.netG.forward(input_concat)
-        if self.opt.model == 'inpainting_object':
+        if self.opt.model == 'inpainting_object' or 'inpainting_guided':
             fake_image = input_label * (1 - inst_map) + fake_image * inst_map
         else:
             hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)

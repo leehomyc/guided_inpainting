@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c71d2a79-fa2a-4475-939b-06efa9081d5a" name="Default" comment="add style transfer to the code.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+    <list default="true" id="c71d2a79-fa2a-4475-939b-06efa9081d5a" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/pix2pixHD/__init__.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" afterPath="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" />
       <change beforePath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py" afterPath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py" afterPath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/pycocotools/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/pycocotools/_mask.pyx" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/pycocotools/coco.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/pycocotools/cocoeval.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/pycocotools/mask.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" afterPath="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/run.sh" afterPath="$PROJECT_DIR$/pix2pixHD/run.sh" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,31 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="train_options.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pix2pixHD/options/train_options.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="30" column="135" lean-forward="false" selection-start-line="30" selection-start-column="133" selection-end-line="30" selection-end-column="135" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inpainting_grid_dataset.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_grid_dataset.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="13" column="52" lean-forward="false" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="pix2pixHD_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="176" column="21" lean-forward="false" selection-start-line="176" selection-start-column="21" selection-end-line="176" selection-end-column="21" />
+            <state relative-caret-position="-233">
+              <caret line="171" column="13" lean-forward="false" selection-start-line="171" selection-start-column="13" selection-end-line="171" selection-end-column="13" />
               <folding>
                 <element signature="e#175#193#0" expanded="true" />
               </folding>
@@ -68,8 +53,8 @@
       <file leaf-file-name="run.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="626">
-              <caret line="90" column="180" lean-forward="false" selection-start-line="90" selection-start-column="180" selection-end-line="90" selection-end-column="180" />
+            <state relative-caret-position="603">
+              <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="429" />
               <folding />
             </state>
           </provider>
@@ -78,19 +63,11 @@
       <file leaf-file-name="inpainting_dataset_object.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="45" column="8" lean-forward="false" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="99" column="12" lean-forward="true" selection-start-line="99" selection-start-column="12" selection-end-line="99" selection-end-column="12" />
-              <folding />
+            <state relative-caret-position="544">
+              <caret line="60" column="60" lean-forward="false" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="60" />
+              <folding>
+                <element signature="e#167#185#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -108,18 +85,18 @@
       <file leaf-file-name="custom_dataset_data_loader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="25" column="43" lean-forward="false" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+            <state relative-caret-position="420">
+              <caret line="21" column="62" lean-forward="false" selection-start-line="21" selection-start-column="62" selection-end-line="21" selection-end-column="62" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inpainting_dataset_guided.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="inpainting_dataset_guided.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="539">
-              <caret line="111" column="0" lean-forward="true" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+            <state relative-caret-position="567">
+              <caret line="78" column="21" lean-forward="false" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
               <folding>
                 <element signature="e#203#221#0" expanded="true" />
               </folding>
@@ -127,11 +104,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inpainting_dataset_guided_style_transfer.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mask.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/pycocotools/mask.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/models/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inpainting_dataset_guided_color.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_color.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-186">
+              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inpainting_dataset_guided_style_transfer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_style_transfer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="84" column="50" lean-forward="true" selection-start-line="84" selection-start-column="50" selection-end-line="84" selection-end-column="50" />
+            <state relative-caret-position="1409">
+              <caret line="84" column="50" lean-forward="false" selection-start-line="84" selection-start-column="50" selection-end-line="84" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -148,8 +155,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>G_GAN_Feat</find>
-      <find>showAnns</find>
       <find>category</find>
       <find>loadanns</find>
       <find>getCatIds</find>
@@ -178,6 +183,8 @@
       <find>normalize</find>
       <find>encode_input</find>
       <find>256</find>
+      <find>inpainting_object</find>
+      <find>adain</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/pytorch-CycleGAN-and-pix2pix</dir>
@@ -221,15 +228,15 @@
         <option value="$PROJECT_DIR$/pix2pixHD/train.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_color.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/options/base_options.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/options/test_options.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/test.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/util/html.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/run.sh" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/run.sh" />
       </list>
     </option>
   </component>
@@ -240,9 +247,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
+    <option name="x" value="280" />
+    <option name="y" value="246" />
     <option name="width" value="1920" />
-    <option name="height" value="981" />
+    <option name="height" value="979" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -320,6 +328,9 @@
     <property name="SearchEverywhereHistoryKey" value="opt.&#9;ACTION&#9;WebDeployment.Options" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pix2pixHD" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pix2pixHD/data" />
     </key>
@@ -475,11 +486,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517457352839</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add guided inpainting">
+      <created>1517464013875</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1517464013875</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="979" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="983" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -499,7 +517,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09954751" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0990991" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39909297" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -532,7 +550,8 @@
     <MESSAGE value="add local discriminator. also fix the savings." />
     <MESSAGE value="fix the weight of discriminator." />
     <MESSAGE value="add style transfer to the code." />
-    <option name="LAST_COMMIT_MESSAGE" value="add style transfer to the code." />
+    <MESSAGE value="add guided inpainting" />
+    <option name="LAST_COMMIT_MESSAGE" value="add guided inpainting" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -555,13 +574,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/scripts/train_1024p_12G.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pytorch-CycleGAN-and-pix2pix/run.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -714,7 +726,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/pycocotools/coco.py">
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/pycocotools/coco.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -734,14 +746,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/models/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -838,16 +842,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_color.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="36" column="45" lean-forward="false" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
-          <folding>
-            <element signature="e#167#185#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cocoapi/README.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
@@ -896,28 +890,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="176" column="21" lean-forward="false" selection-start-line="176" selection-start-column="21" selection-end-line="176" selection-end-column="21" />
-          <folding>
-            <element signature="e#175#193#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="626">
-          <caret line="90" column="180" lean-forward="false" selection-start-line="90" selection-start-column="180" selection-end-line="90" selection-end-column="180" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="227">
-          <caret line="99" column="12" lean-forward="true" selection-start-line="99" selection-start-column="12" selection-end-line="99" selection-end-column="12" />
+          <caret line="99" column="12" lean-forward="false" selection-start-line="99" selection-start-column="12" selection-end-line="99" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -930,37 +906,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py">
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="45" column="8" lean-forward="false" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="42" />
+        <state relative-caret-position="420">
+          <caret line="21" column="62" lean-forward="false" selection-start-line="21" selection-start-column="62" selection-end-line="21" selection-end-column="62" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py">
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_style_transfer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="25" column="43" lean-forward="false" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+        <state relative-caret-position="1409">
+          <caret line="84" column="50" lean-forward="false" selection-start-line="84" selection-start-column="50" selection-end-line="84" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/pycocotools/mask.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_color.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-186">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="60" column="60" lean-forward="false" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="60" />
+          <folding>
+            <element signature="e#167#185#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-233">
+          <caret line="171" column="13" lean-forward="false" selection-start-line="171" selection-start-column="13" selection-end-line="171" selection-end-column="13" />
+          <folding>
+            <element signature="e#175#193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="603">
+          <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="429" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="111" column="0" lean-forward="true" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+        <state relative-caret-position="567">
+          <caret line="78" column="21" lean-forward="false" selection-start-line="78" selection-start-column="21" selection-end-line="78" selection-end-column="21" />
           <folding>
             <element signature="e#203#221#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_style_transfer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="84" column="50" lean-forward="true" selection-start-line="84" selection-start-column="50" selection-end-line="84" selection-end-column="50" />
-          <folding />
         </state>
       </provider>
     </entry>
