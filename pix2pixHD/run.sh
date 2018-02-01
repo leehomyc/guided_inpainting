@@ -95,3 +95,6 @@ python train.py --name coco_inpainting_256_real_guided --gpu_ids 0 --checkpoints
 
 # guided inpainting testing
 python test.py --name coco_inpainting_256_real_guided --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log/coco_inpainting_256_real_guided/20180131-225045 --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/val2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --ann_path '/media/hdc/public/annotations/instances_val2017.json'
+
+# guided inpainting testing for all classes
+python train.py --name coco_inpainting_256_real_guided_all --gpu_ids 0 --checkpoints_dir /media/ssd/harry/guided_inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/hdc/public/train2017 --model inpainting_guided --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --ann_path '/media/hdc/public/annotations/instances_train2017.json'

@@ -44,7 +44,6 @@ class HTML:
     def save(self):
         html_file = '%s/index.html' % self.web_dir
         f = open(html_file, 'wt')
-        print('render')
         f.write(self.doc.render())
         f.close()
 

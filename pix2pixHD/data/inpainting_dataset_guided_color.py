@@ -1,5 +1,5 @@
-"""Inpainting dataset for pix2pix HD. This is for guided inpainting. The first experiment is that we crop a center
-part, do style transfer and then paste it back. """
+"""Inpainting dataset for pix2pix HD. This is for image harmonization. We only do image harmonization in the center
+of the image. """
 import numpy as np
 from PIL import Image
 import torch
