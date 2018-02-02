@@ -22,48 +22,55 @@ class InpaintingDatasetObject(BaseDataset):
         self.root = opt.dataroot
         self.annFile = opt.ann_path
         self.coco = COCO(self.annFile)
-        self.catIds = self.coco.getCatIds(catNms=['bus'])
-        self.imgIds = self.coco.getImgIds(catIds=self.catIds)
+        self.imgIds = self.coco.getImgIds(catIds=[], imgIds=[])
         self.dataset_size = len(self.imgIds)
 
     def __getitem__(self, index):
-        """We use image with hole as the input label."""
-        image_info = self.coco.loadImgs(self.imgIds[index])[0]
-        image_url = image_info['coco_url']
-        image_url_split = image_url.split('/')
-        image_path = '{}/{}'.format(self.root, image_url_split[-1])
+        # Select an image with object.
+        current_id = index
+        while True:
+            image_info = self.coco.loadImgs(self.imgIds[current_id % self.dataset_size])[0]
+            image_url = image_info['coco_url']
+            image_url_split = image_url.split('/')
+            image_path = '{}/{}'.format(self.root, image_url_split[-1])
 
-        image = scipy.misc.imread(image_path, mode='RGB')
-        annIds = self.coco.getAnnIds(imgIds=image_info['id'], catIds=self.catIds, iscrowd=None)
-        anns = self.coco.loadAnns(annIds)
-        mask = self.coco.annToMask(anns[0])
+            image = scipy.misc.imread(image_path, mode='RGB')
+            annIds = self.coco.getAnnIds(imgIds=image_info['id'], areaRng=[100, float('inf')], iscrowd=None)
+            if len(annIds) == 0:
+                # This image has no annotations. We have to switch to the next image.
+                current_id = current_id + 1
+                continue
+            anns = self.coco.loadAnns(annIds)
+            mask = self.coco.annToMask(anns[np.random.randint(0, len(anns))])
+            break
 
-        image2 = scipy.misc.imresize(image, [self.opt.fineSize, self.opt.fineSize])
-        if self.opt.use_color is True:
-            gray_image = np.tile(color.rgb2gray(image2), (3, 1, 1))
-        else:
-            gray_image = 110/255.0
-        image2 = np.rollaxis(image2, 2, 0)
+        # Resize the image to 256x256x3
+        image_resized = scipy.misc.imresize(image, [self.opt.fineSize, self.opt.fineSize])
+        # Get a gray scale image. Note that the range of gray image is [0,1]
+        gray_image = np.tile(color.rgb2gray(image_resized), (3, 1, 1))
+        # change the shape to 3x256x256
+        image_resized = np.rollaxis(image_resized, 2, 0)
 
-        mask_image2 = scipy.misc.imresize(mask, [self.opt.fineSize, self.opt.fineSize])
-        mask_image2[mask_image2 > 0] = 1
-        mask_image2 = np.tile(mask_image2, (3, 1, 1))
-        mask_image3 = 1 - mask_image2
+        # Resize the object mask
+        mask_resized = scipy.misc.imresize(mask, [self.opt.fineSize, self.opt.fineSize])
+        mask_resized[mask_resized > 0] = 1
+        # Change the mask size to 3x256x256
+        mask_resized = np.tile(mask_resized, (3, 1, 1))
 
-        # gray image
-        image3 = image2 * mask_image3 + gray_image * mask_image2 * 255
+        # Composite the gray image and the color background
+        image_composite = image_resized * (1 - mask_resized) + gray_image * mask_resized * 255
 
-        image3 = image3/122.5-1
-        image2 = image2/122.5-1
+        # Normalize
+        image_composite = image_composite / 122.5 - 1
+        image_resized = image_resized / 122.5 - 1
 
-        image_with_hole = torch.from_numpy(image3).float()
-        image_pytorch = torch.from_numpy(image2).float()
-        mask_pytorch = torch.from_numpy(mask_image2).float()
+        # Change to PyTorch CUDA Tensor.
+        image_composite = torch.from_numpy(image_composite).float()
+        image_resized = torch.from_numpy(image_resized).float()
+        mask_resized = torch.from_numpy(mask_resized).float()
 
-        feat_tensor = 0
-
-        input_dict = {'label': image_with_hole, 'inst': mask_pytorch, 'image': image_pytorch,
-                      'feat': feat_tensor, 'path': image_path}
+        input_dict = {'label': image_composite, 'inst': mask_resized, 'image': image_resized,
+                      'feat': 0, 'path': image_path}
 
         return input_dict
 

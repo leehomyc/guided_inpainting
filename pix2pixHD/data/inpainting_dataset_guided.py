@@ -31,9 +31,6 @@ class InpaintingDatasetGuided(BaseDataset):
             image = scipy.misc.imread(image_path, mode='RGB')
             annIds = self.coco.getAnnIds(imgIds=image_info['id'], areaRng=[100, float('inf')], iscrowd=None)
             if len(annIds) == 0:
-                # No annotation has area larger than 100, we have to resort to smaller objects
-                annIds = self.coco.getAnnIds(imgIds=image_info['id'], iscrowd=None)
-            if len(annIds) == 0:
                 # This image has no annotations. We have to switch to the next image.
                 current_id = current_id + 1
                 continue
