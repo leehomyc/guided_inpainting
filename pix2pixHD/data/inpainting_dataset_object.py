@@ -1,18 +1,11 @@
 """Inpainting dataset for pix2pix HD. This is for image harmonization. We only do image harmonization on the object
 of the image. """
 import numpy as np
-from PIL import Image
 import scipy
 import torch
-from torch.autograd import Variable
-import torch.nn as nn
 
-import data.AdaptiveInstanceNormalization as Adain
 from data.base_dataset import BaseDataset, get_params, get_transform, normalize
-from data.image_folder import make_dataset
-from data.models import decoder, vgg_normalised
 from pycocotools.coco import COCO
-import skimage.io as io
 from skimage import color
 
 
