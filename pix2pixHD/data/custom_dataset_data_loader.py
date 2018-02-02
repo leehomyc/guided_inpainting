@@ -7,13 +7,13 @@ def CreateDataset(opt):
     from data.aligned_dataset import AlignedDataset
     from data.inpainting_dataset import InpaintingDataset
     from data.inpainting_grid_dataset import InpaintingGridDataset
-    from data.inpainting_dataset_guided_style_transfer import InpaintingDatasetGuidedStyleTransfer
 
     if opt.model == 'inpainting':
         dataset = InpaintingDataset()
     elif opt.model == 'inpainting_grid':
         dataset = InpaintingGridDataset()
     elif opt.model == 'inpainting_guided_style_transfer':
+        from data.inpainting_dataset_guided_style_transfer import InpaintingDatasetGuidedStyleTransfer
         dataset = InpaintingDatasetGuidedStyleTransfer()
     elif opt.model == 'inpainting_object':
         from data.inpainting_dataset_object import InpaintingDatasetObject
