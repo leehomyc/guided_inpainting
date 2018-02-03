@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c71d2a79-fa2a-4475-939b-06efa9081d5a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/pix2pixHD/run.sh" afterPath="$PROJECT_DIR$/pix2pixHD/run.sh" />
     </list>
@@ -34,8 +33,8 @@
       <file leaf-file-name="run.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="643">
-              <caret line="105" column="372" lean-forward="true" selection-start-line="105" selection-start-column="372" selection-end-line="105" selection-end-column="372" />
+            <state relative-caret-position="559">
+              <caret line="107" column="3" lean-forward="false" selection-start-line="107" selection-start-column="3" selection-end-line="107" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -548,7 +547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1517534158226</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="add test script">
+      <created>1517694996623</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1517694996623</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -607,7 +613,8 @@
     <MESSAGE value="add style transfer to the code." />
     <MESSAGE value="add guided inpainting" />
     <MESSAGE value="fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix" />
+    <MESSAGE value="add test script" />
+    <option name="LAST_COMMIT_MESSAGE" value="add test script" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1034,8 +1041,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="105" column="372" lean-forward="true" selection-start-line="105" selection-start-column="372" selection-end-line="105" selection-end-column="372" />
+        <state relative-caret-position="559">
+          <caret line="107" column="3" lean-forward="false" selection-start-line="107" selection-start-column="3" selection-end-line="107" selection-end-column="3" />
           <folding />
         </state>
       </provider>
