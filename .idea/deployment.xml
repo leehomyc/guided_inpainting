@@ -2,14 +2,14 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="Always" serverName="weiyue">
     <serverData>
-      <paths name="25.96.48.186">
+      <paths name="108">
         <serverdata>
           <mappings>
             <mapping deploy="/Documents/guided_inpainting" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="weiyue">
+      <paths name="25.96.48.186">
         <serverdata>
           <mappings>
             <mapping deploy="/Documents/guided_inpainting" local="$PROJECT_DIR$" web="/" />
