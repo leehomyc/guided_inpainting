@@ -107,3 +107,7 @@ python test.py --name coco_inpainting_256_real_guided --gpu_ids 0 --checkpoints_
 
 # harmonization testing
 python test.py --name coco_inpainting_256_object_color --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /data/public/MSCOCO/train2017 --model inpainting_object --no_instance --resize_or_crop resize --tf_log --batchSize 8 --keep_hole_only --ann_path '/data/public/MSCOCO/annotations/instances_train2017.json' --how_many 200 --use_color
+
+python test.py --name coco_inpainting_256_real_guided_test_pair --gpu_ids 0 --checkpoints_dir /home/eeb433/Documents/Yuhang/guided_inpainting/log/coco_inpainting_256_real_guided_all/20180201-171136 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/val2017 --model inpainting_test --no_instance --resize_or_crop resize --tf_log --batchSize 1 --keep_hole_only --ann_path '/media/eeb433/Storage/Dataset/MSCOCO/annotations/instances_val2017.json' --how_many 1
+
+python test.py --name coco_inpainting_256_real_harmonization_test_pair --gpu_ids 0 --checkpoints_dir /home/eeb433/Documents/Yuhang/guided_inpainting/log_pix2pix_hd/coco_inpainting_256_object_color/20180201-171747 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/val2017 --model harmonization_test --no_instance --resize_or_crop resize --tf_log --batchSize 1 --keep_hole_only --ann_path '/media/eeb433/Storage/Dataset/MSCOCO/annotations/instances_val2017.json' --how_many 1

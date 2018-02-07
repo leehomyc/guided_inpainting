@@ -24,6 +24,9 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_guided':
         from data.inpainting_dataset_guided import InpaintingDatasetGuided
         dataset = InpaintingDatasetGuided()
+    elif opt.model == 'inpainting_test' or 'harmonization_test':
+        from data.inpainting_dataset_test import InpaintingDatasetTest
+        dataset = InpaintingDatasetTest()
     else:
         dataset = AlignedDataset()
 

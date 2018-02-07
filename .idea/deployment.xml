@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="weiyue">
+  <component name="PublishConfigData" autoUpload="Always" serverName="108">
     <serverData>
       <paths name="108">
         <serverdata>
@@ -13,6 +13,13 @@
         <serverdata>
           <mappings>
             <mapping deploy="/Documents/guided_inpainting" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Yuhang">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/Documents/Yuhang/guided_inpainting" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
