@@ -16,7 +16,25 @@ IMG_PAIRS = [{
     'object_composite_y': 127,
     'object_composite_width': 115,
     'object_composite_height': 122,
-}
+    },
+    {
+        'object_img_id': 429109,
+        'background_img_id': 334371,
+        'object_id': 9,
+        'object_composite_x': 70,
+        'object_composite_y': 180,
+        'object_composite_width': 107,
+        'object_composite_height': 60,
+    },
+    {
+        'object_img_id': 177893,
+        'background_img_id': 334371,
+        'object_id': 2,
+        'object_composite_x': 30,
+        'object_composite_y': 150,
+        'object_composite_width': 185,
+        'object_composite_height': 84,
+    }
 ]
 
 
@@ -91,6 +109,7 @@ class InpaintingDatasetTest(BaseDataset):
             # get the sub-image that contains the object
             object_image = image_resized[:, object_y:object_y + object_height, object_x:object_x + object_width]
             object_mask = mask_resized[:, object_y:object_y + object_height, object_x:object_x + object_width]
+            object_image_with_background = np.copy(object_image)
             object_image[object_mask == 0] = 0
 
             # resize and normalize the background image
@@ -102,11 +121,20 @@ class InpaintingDatasetTest(BaseDataset):
             new_object_x = IMG_PAIRS[index]['object_composite_x']
             new_object_y = IMG_PAIRS[index]['object_composite_y']
             image_composite = np.copy(image_background_resized)
-            image_composite[:, new_object_y: new_object_y+object_height, new_object_x: new_object_x+object_width] = object_image
+            image_composite[:, new_object_y: new_object_y + object_height,
+            new_object_x: new_object_x + object_width] = object_image
+
+            image_composite_with_background = np.copy(image_background_resized)
+            image_composite_with_background[:, new_object_y: new_object_y + object_height,
+            new_object_x: new_object_x + object_width] = object_image_with_background
 
             mask_composite = np.zeros(image_composite.shape)
             mask_composite[:, new_object_y:new_object_y + object_height,
             new_object_x:new_object_x + object_width] = 1 - object_mask
+
+            mask_composite_object = np.zeros(image_composite.shape)
+            mask_composite_object[:, new_object_y:new_object_y + object_height,
+            new_object_x:new_object_x + object_width] = object_mask
         elif self.opt.model == 'harmonization_test':
             # resize object image
             image_resized = scipy.misc.imresize(image, [object_image_resize_height,
@@ -146,8 +174,9 @@ class InpaintingDatasetTest(BaseDataset):
             image_composite = np.copy(image_background_resized)
 
             image_background_resized_crop = image_background_resized[:, new_object_y: new_object_y + object_height,
-            new_object_x: new_object_x + object_width]
-            image_background_resized_crop_composite = image_background_resized_crop * (1-object_mask) + object_image * object_mask
+                                            new_object_x: new_object_x + object_width]
+            image_background_resized_crop_composite = image_background_resized_crop * (
+                    1 - object_mask) + object_image * object_mask
             image_composite[:, new_object_y: new_object_y + object_height,
             new_object_x: new_object_x + object_width] = image_background_resized_crop_composite
 
@@ -156,6 +185,9 @@ class InpaintingDatasetTest(BaseDataset):
             new_object_x:new_object_x + object_width] = object_mask
             mask_to_save = np.rollaxis(mask_composite, 0, 3)
             scipy.misc.imsave('mask_composite.png', mask_to_save)
+
+            image_composite_with_background = 0
+            mask_composite_object = 0
         else:
             return
         # change from numpy to pytorch tensor
@@ -167,7 +199,9 @@ class InpaintingDatasetTest(BaseDataset):
         feat_tensor = 0
 
         input_dict = {'label': image_composite, 'inst': mask_composite, 'image': image_background_resized,
-                      'feat': feat_tensor, 'path': image_path}
+                      'feat': feat_tensor, 'path': image_path,
+                      'image_composite_with_background': image_composite_with_background,
+                      'mask_composite_object': mask_composite_object}
         return input_dict
 
     def __len__(self):

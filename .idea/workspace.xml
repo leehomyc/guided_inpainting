@@ -2,81 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c71d2a79-fa2a-4475-939b-06efa9081d5a" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/README.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/before_after.gif" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0019.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0020.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0022.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0050.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0052.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0127.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0293.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/0327.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0660.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0662.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0665.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0667.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0671.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0675.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0676.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0679.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/IMG_0682.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/my_test.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test05.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test06.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test07.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test09.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test10.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test11.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test12.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test14.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test15.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test16.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test17.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test18.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test19.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/image/test20.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/list.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0019.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0020.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0022.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0050.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0052.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0127.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0293.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/0327.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0660.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0662.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0665.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0667.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0671.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0675.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0676.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0679.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/IMG_0682.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/my_test.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test05.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test06.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test07.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test09.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test10.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test11.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test12.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test14.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test15.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test16.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test17.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test18.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test19.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/data/mask/test20.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/demo.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/DeepHarmonization/model/deploy_512.prototxt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/pix2pixHD/test_ip_hm.py" />
       <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" afterPath="$PROJECT_DIR$/.idea/webServers.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" afterPath="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py" afterPath="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py" />
       <change beforePath="$PROJECT_DIR$/pix2pixHD/run.sh" afterPath="$PROJECT_DIR$/pix2pixHD/run.sh" />
+      <change beforePath="$PROJECT_DIR$/pix2pixHD/test.py" afterPath="$PROJECT_DIR$/pix2pixHD/test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -104,6 +35,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="run.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="594">
+              <caret line="114" column="512" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="512" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="inpainting_dataset_object.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -111,18 +52,6 @@
               <caret line="47" column="13" lean-forward="false" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
               <folding>
                 <element signature="e#134#152#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="demo.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DeepHarmonization/demo.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="72" column="22" lean-forward="true" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -138,24 +67,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inpainting_dataset_test.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="inpainting_dataset_test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="162" column="51" lean-forward="false" selection-start-line="162" selection-start-column="51" selection-end-line="162" selection-end-column="51" />
+            <state relative-caret-position="168">
+              <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
               <folding>
                 <element signature="e#46#64#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inpainting_dataset_guided.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
-              <caret line="73" column="64" lean-forward="false" selection-start-line="73" selection-start-column="52" selection-end-line="73" selection-end-column="64" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -170,42 +89,60 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom_dataset_data_loader.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="26" column="62" lean-forward="false" selection-start-line="26" selection-start-column="62" selection-end-line="26" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pix2pixHD/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="58">
-              <caret line="3" column="35" lean-forward="false" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
-              <folding />
+            <state relative-caret-position="328">
+              <caret line="26" column="25" lean-forward="false" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
+              <folding>
+                <element signature="e#175#184#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pix2pixHD/models/models.py">
+      <file leaf-file-name="test_ip_hm.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/test_ip_hm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="212">
+              <caret line="45" column="98" lean-forward="false" selection-start-line="45" selection-start-column="98" selection-end-line="45" selection-end-column="98" />
+              <folding>
+                <element signature="e#408#443#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="visualizer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pytorch-CycleGAN-and-pix2pix/util/visualizer.py">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/util/visualizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2520">
-              <caret line="125" column="8" lean-forward="false" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="8" />
+            <state relative-caret-position="370">
+              <caret line="126" column="8" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="50" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pix2pixHD/util/util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="33">
+              <caret line="7" column="38" lean-forward="false" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="demo.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DeepHarmonization/demo.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1512">
+              <caret line="72" column="26" lean-forward="true" selection-start-line="72" selection-start-column="26" selection-end-line="72" selection-end-column="26" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -221,9 +158,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>encoder</find>
-      <find>define_G</find>
-      <find>netG_input_nc</find>
       <find>device</find>
       <find>input_nc</find>
       <find>normalize</find>
@@ -251,6 +185,9 @@
       <find>continue</find>
       <find>continue_train</find>
       <find>which_model_net</find>
+      <find>colorize</find>
+      <find>tensor2im</find>
+      <find>object_id</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/pytorch-CycleGAN-and-pix2pix</dir>
@@ -261,7 +198,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="test_images" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
   </component>
@@ -294,7 +231,6 @@
         <option value="$PROJECT_DIR$/pix2pixHD/train.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/options/base_options.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/options/test_options.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/test.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/pix2pixHD/models/pix2pixHD_model.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_guided_all_classes.py" />
@@ -304,11 +240,13 @@
         <option value="$PROJECT_DIR$/pix2pixHD/test_image_pair.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/custom_dataset_data_loader.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_object.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/run.sh" />
         <option value="$PROJECT_DIR$/cocoapi/test_combine.py" />
         <option value="$PROJECT_DIR$/pix2pixHD/test_combine.py" />
-        <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/test.py" />
         <option value="$PROJECT_DIR$/DeepHarmonization/demo.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/run.sh" />
+        <option value="$PROJECT_DIR$/pix2pixHD/test_ip_hm.py" />
+        <option value="$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py" />
       </list>
     </option>
   </component>
@@ -318,10 +256,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="960" />
     <option name="y" value="23" />
-    <option name="width" value="1920" />
-    <option name="height" value="977" />
+    <option name="width" value="960" />
+    <option name="height" value="979" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -370,6 +309,17 @@
               <item name="guided_inpainting" type="462c0819:PsiDirectoryNode" />
               <item name="DeepHarmonization" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="guided_inpainting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="guided_inpainting" type="462c0819:PsiDirectoryNode" />
+              <item name="pix2pixHD" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="guided_inpainting" type="b2602c69:ProjectViewProjectNode" />
+              <item name="guided_inpainting" type="462c0819:PsiDirectoryNode" />
+              <item name="pix2pixHD" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -382,7 +332,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="add_unversioned_files" value="true&#10;/Users/harry/Documents/guided_inpainting/faster-rcnn.pytorch/lib/model/faster_rcnn/faster_rcnn.py" />
     <property name="SearchEverywhereHistoryKey" value="opt.&#9;ACTION&#9;WebDeployment.Options" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -637,11 +587,18 @@
       <option name="project" value="LOCAL" />
       <updated>1517695128759</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="add harmonization code.">
+      <created>1518042542797</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1518042542797</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="977" extended-state="0" />
+    <frame x="0" y="23" width="1920" height="977" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -655,7 +612,7 @@
       <window_info id="Code Review" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="21" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Code comment" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="19" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15989584" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08020833" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -698,7 +655,8 @@
     <MESSAGE value="fix" />
     <MESSAGE value="add test script" />
     <MESSAGE value="add test script for harmonization" />
-    <option name="LAST_COMMIT_MESSAGE" value="add test script for harmonization" />
+    <MESSAGE value="add harmonization code." />
+    <option name="LAST_COMMIT_MESSAGE" value="add harmonization code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -721,13 +679,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/cocoapi/PythonAPI/pycocotools/cocoeval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10529">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/coco_loading/train.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -808,14 +759,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/util/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="22" column="35" lean-forward="false" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cocoapi/README.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
@@ -887,6 +830,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
           <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -991,14 +935,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/test_combine.py" />
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/util/visualizer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10080">
-          <caret line="126" column="50" lean-forward="false" selection-start-line="126" selection-start-column="50" selection-end-line="126" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/options/test_options.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -1023,22 +959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="110" column="197" lean-forward="false" selection-start-line="110" selection-start-column="94" selection-end-line="110" selection-end-column="197" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="3" column="35" lean-forward="false" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pix2pixHD/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -1052,16 +972,6 @@
         <state relative-caret-position="21">
           <caret line="38" column="41" lean-forward="false" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="162" column="51" lean-forward="false" selection-start-line="162" selection-start-column="51" selection-end-line="162" selection-end-column="51" />
-          <folding>
-            <element signature="e#46#64#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1083,12 +993,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/util/visualizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="126" column="8" lean-forward="false" selection-start-line="126" selection-start-column="8" selection-end-line="126" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/util/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="7" column="38" lean-forward="false" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/run.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="114" column="512" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="512" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="26" column="25" lean-forward="false" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
+          <folding>
+            <element signature="e#175#184#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/test_ip_hm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="45" column="98" lean-forward="false" selection-start-line="45" selection-start-column="98" selection-end-line="45" selection-end-column="98" />
+          <folding>
+            <element signature="e#408#443#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DeepHarmonization/demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="72" column="22" lean-forward="true" selection-start-line="72" selection-start-column="22" selection-end-line="72" selection-end-column="22" />
+        <state relative-caret-position="1512">
+          <caret line="72" column="26" lean-forward="true" selection-start-line="72" selection-start-column="26" selection-end-line="72" selection-end-column="26" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pixHD/data/inpainting_dataset_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+          <folding>
+            <element signature="e#46#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
