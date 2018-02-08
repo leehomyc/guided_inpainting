@@ -2,12 +2,12 @@
 ### Licensed under the CC BY-NC-SA 4.0 license (https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode).
 import os
 from collections import OrderedDict
-from options.test_options import TestOptions
-from data.data_loader import CreateDataLoader
-from models.models import create_model
-import util.util as util
-from util.visualizer import Visualizer
-from util import html
+from pix2pixHD.options.test_options import TestOptions
+from pix2pixHD.data.data_loader import CreateDataLoader
+from pix2pixHD.models.models import create_model
+import pix2pixHD.util.util as util
+from pix2pixHD.util.visualizer import Visualizer
+from pix2pixHD.util import html
 
 opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1
