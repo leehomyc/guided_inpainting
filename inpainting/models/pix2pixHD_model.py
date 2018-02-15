@@ -97,8 +97,14 @@ class Pix2PixHDModel(BaseModel):
             if not opt.no_vgg_loss:
                 self.criterionVGG = networks.VGGLoss()
 
+            #############################
+            # Image Reconstruction loss.#
+            #############################
+            if opt.recon_loss:
+                self.criterionRecon = torch.nn.L1Loss()
+
             self.loss_names = \
-                ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'D_real', 'D_fake']
+                ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'G_recon', 'D_real', 'D_fake']
 
             ######### set optimizers ###########
             ##############
@@ -157,7 +163,7 @@ class Pix2PixHDModel(BaseModel):
         ###############################
         # PatchGAN Discriminator loss.#
         ###############################
-        pred_fake_pool = self.discriminate(input_image_e, original_image_e,
+        pred_fake_pool = self.discriminate(input_image_e, fake_image,
                                            use_pool=True)
         loss_D_fake = self.criterionGAN(pred_fake_pool, False)
 
@@ -196,8 +202,17 @@ class Pix2PixHDModel(BaseModel):
                 self.criterionVGG(fake_image, original_image_e) * \
                 self.opt.lambda_feat
 
-        return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_D_real,
-                 loss_D_fake], None if not infer else fake_image]
+        #############################
+        # Image Reconstruction loss.#
+        #############################
+        loss_G_recon = 0
+        if self.opt.recon_loss:
+            loss_G_recon += \
+                self.criterionRecon(fake_image, original_image_e) * \
+                self.opt.lambda_recon
+
+        return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_G_recon,
+                 loss_D_real, loss_D_fake], None if not infer else fake_image]
 
     def inference(self, input_image, input_mask):
         # Encode Inputs

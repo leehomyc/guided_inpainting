@@ -68,7 +68,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         # calculate final loss scalar
         loss_D = (loss_dict['D_fake'] + loss_dict['D_real']) * 0.5
         loss_G = loss_dict['G_GAN'] + loss_dict['G_GAN_Feat'] + loss_dict[
-            'G_VGG']
+            'G_VGG'] + loss_dict['G_recon']
 
         ############### Backward Pass ####################
         # update generator weights
