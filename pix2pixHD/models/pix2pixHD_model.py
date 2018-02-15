@@ -206,7 +206,7 @@ class Pix2PixHDModel(BaseModel):
                         local_discriminator_x_begin: local_discriminator_x_end]  # noqa
 
         # Fake Detecion and Loss. This loss is to update the discriminator.
-        pred_fake_pol = self.discriminate(input_label, real_image, use_pool=True)
+        pred_fake_pool = self.discriminate(input_label, real_image, use_pool=True)
         loss_D_fake = self.criterionGAN(pred_fake_pool, False)
 
         if self.opt.use_local_discriminator:
