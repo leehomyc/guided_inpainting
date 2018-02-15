@@ -35,7 +35,7 @@ class InpaintingDatasetGuided(BaseDataset):
 
             image = scipy.misc.imread(image_path, mode='RGB')
             annIds = self.coco.getAnnIds(imgIds=image_info['id'],
-                                         areaRng=[100, float('inf')],  # The area of the object must be greater than 100  # noqa 501
+                                         areaRng=[1000, float('inf')],  # The area of the object must be greater than 100  # noqa 501
                                          iscrowd=None)
             if len(annIds) == 0:
                 # This image has no annotations. We have to switch to the
