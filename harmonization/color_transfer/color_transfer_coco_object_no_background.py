@@ -22,9 +22,9 @@ def image_stats(image, mask=None):
     (l, a, b) = cv2.split(image)
     if mask is not None:
         mask = mask.astype(bool)
-        l = np.ma.array(l, mask=mask)
-        a = np.ma.array(a, mask=mask)
-        b = np.ma.array(b, mask=mask)
+    l = np.ma.array(l, mask=mask)
+    a = np.ma.array(a, mask=mask)
+    b = np.ma.array(b, mask=mask)
 
     (lMean, lStd) = (l.mean(), l.std())
     (aMean, aStd) = (a.mean(), a.std())
