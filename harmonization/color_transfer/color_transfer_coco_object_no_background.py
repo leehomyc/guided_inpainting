@@ -49,6 +49,8 @@ def color_transfer(source, target, source_mask):
         source, source_mask)
     (lMeanTar, lStdTar, aMeanTar, aStdTar, bMeanTar, bStdTar) = image_stats(
         target)
+    if lStdTar == 0 or aStdTar == 0 or bStdTar == 0:
+        return source
 
     # subtract the means from the target image
     (l, a, b) = cv2.split(source)
@@ -148,7 +150,7 @@ if __name__ == '__main__':
     coco, imgIds, dataset_size = initialize()
 
     np.random.seed(0)
-    for i in range(10):
+    for i in range(100):
         source_image, target_image, transfer_image = \
             transfer(dataset_size, coco, imgIds, root)
         scipy.misc.imsave(

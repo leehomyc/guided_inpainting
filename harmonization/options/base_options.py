@@ -112,6 +112,8 @@ class BaseOptions:
                                  help='whether to use mask.')
         self.parser.add_argument('--use_color', action='store_true',
                                  help='whether to use gray guidance.')
+        self.parser.add_argument('--range_threshold', type=int, default=2000,
+                                 help='the threshold for object area range.')
         self.initialized = True
 
     def parse(self, save=True):
