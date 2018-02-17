@@ -4,12 +4,11 @@ import torch.utils.data
 def CreateDataset(opt):
     dataset = None
 
-    if opt.model == 'inpainting_guided':
-        from data.inpainting_dataset_guided import InpaintingDatasetGuided
-        dataset = InpaintingDatasetGuided()
-    elif opt.model == 'inpainting_test' or 'harmonization_test':
-        from data.inpainting_dataset_test import InpaintingDatasetTest
-        dataset = InpaintingDatasetTest()
+    if opt.model == 'inpainting_harm':
+        from data.inpainting_dataset_harm import InpaintingDatasetHarm
+        dataset = InpaintingDatasetHarm()
+    else:
+        pass
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

@@ -22,9 +22,9 @@ def image_stats(image, mask=None):
     (l, a, b) = cv2.split(image)
     if mask is not None:
         mask = mask.astype(bool)
-    l = np.ma.array(l, mask=mask)
-    a = np.ma.array(a, mask=mask)
-    b = np.ma.array(b, mask=mask)
+        l = np.ma.array(l, mask=mask)
+        a = np.ma.array(a, mask=mask)
+        b = np.ma.array(b, mask=mask)
 
     (lMean, lStd) = (l.mean(), l.std())
     (aMean, aStd) = (a.mean(), a.std())
@@ -49,6 +49,9 @@ def color_transfer(source, target, source_mask):
         source, source_mask)
     (lMeanTar, lStdTar, aMeanTar, aStdTar, bMeanTar, bStdTar) = image_stats(
         target)
+    if lStdTar == 0 or aStdTar == 0 or bStdTar == 0:
+        return source
+    print(image_stats(target))
 
     # subtract the means from the target image
     (l, a, b) = cv2.split(source)
@@ -148,7 +151,7 @@ if __name__ == '__main__':
     coco, imgIds, dataset_size = initialize()
 
     np.random.seed(0)
-    for i in range(10):
+    for i in range(100):
         source_image, target_image, transfer_image = \
             transfer(dataset_size, coco, imgIds, root)
         scipy.misc.imsave(
