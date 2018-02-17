@@ -51,7 +51,6 @@ def color_transfer(source, target, source_mask):
         target)
     if lStdTar == 0 or aStdTar == 0 or bStdTar == 0:
         return source
-    print(image_stats(target))
 
     # subtract the means from the target image
     (l, a, b) = cv2.split(source)
