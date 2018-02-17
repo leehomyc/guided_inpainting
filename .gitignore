@@ -114,3 +114,4 @@ venv.bak/
 /DeepHarmonization/data/.DS_Store
 .DS_Store
 /.idea/
+/guided_inpainting_output/
