@@ -108,3 +108,10 @@ venv.bak/
 /output/
 /reference/
 /inpainting/pycocotools/
+/test_pairs/
+/faster-rcnn.pytorch/
+/DeepHarmonization/.DS_Store
+/DeepHarmonization/data/.DS_Store
+.DS_Store
+/.idea/
+/guided_inpainting_output/
