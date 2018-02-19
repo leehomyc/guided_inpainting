@@ -1,12 +1,15 @@
 from collections import OrderedDict
 import os
+import numpy as np
 
-from pix2pixHD.data.data_loader import CreateDataLoader
-from pix2pixHD.options.test_options import TestOptions
-from pix2pixHD.models.models import create_model
-from pix2pixHD.util import html
-import pix2pixHD.util.util as util
-from pix2pixHD.util.visualizer import Visualizer
+from data.data_loader import CreateDataLoader
+from options.test_options import TestOptions
+from models.models import create_model
+from util import html
+import util.util as util
+from util.visualizer import Visualizer
+
+np.random.seed(0)
 
 opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1
