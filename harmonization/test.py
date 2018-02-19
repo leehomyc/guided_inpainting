@@ -1,12 +1,12 @@
 from collections import OrderedDict
 import os
 
-from data.data_loader import CreateDataLoader
-from options.test_options import TestOptions
-from models.models import create_model
-from util import html
-import util.util as util
-from util.visualizer import Visualizer
+from harmonization.data.data_loader import CreateDataLoader
+from harmonization.options.test_options import TestOptions
+from harmonization.models.models import create_model
+from harmonization.util import html
+import harmonization.util.util as util
+from harmonization.util.visualizer import Visualizer
 
 opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1

@@ -81,8 +81,7 @@ class BaseModel(torch.nn.Module):
                 except:
                     print(
                         'Pretrained network %s has fewer layers; The following are not initialized:' % network_label)  # noqa 501
-                    from sets import Set
-                    not_initialized = Set()
+                    not_initialized = set()
                     for k, v in pretrained_dict.items():
                         if v.size() == model_dict[k].size():
                             model_dict[k] = v

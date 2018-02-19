@@ -3,7 +3,7 @@ from torch.autograd import Variable
 
 from . import networks
 from .base_model import BaseModel
-from util.image_pool import ImagePool
+from inpainting.util.image_pool import ImagePool
 
 
 # noinspection PyAttributeOutsideInit,PyPep8Naming

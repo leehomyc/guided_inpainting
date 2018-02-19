@@ -4,8 +4,8 @@ import torch.utils.data
 def CreateDataset(opt):
     dataset = None
 
-    if opt.model == 'inpainting_test':
-        from data.inpainting_dataset_test import InpaintingDatasetTest
+    if opt.model == 'inpainting_guided' or 'inpainting_harm':
+        from inpainting_harmonization_test.data.inpainting_dataset_test import InpaintingDatasetTest  # noqa 501
         dataset = InpaintingDatasetTest()
 
     print("dataset [%s] was created" % (dataset.name()))
