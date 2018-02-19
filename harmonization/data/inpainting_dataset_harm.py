@@ -5,7 +5,7 @@ import scipy
 import scipy.misc
 import torch
 
-from data.base_dataset import BaseDataset
+from harmonization.data.base_dataset import BaseDataset
 from pycocotools.coco import COCO
 
 

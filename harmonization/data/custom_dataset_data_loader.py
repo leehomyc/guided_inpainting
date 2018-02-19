@@ -5,7 +5,7 @@ def CreateDataset(opt):
     dataset = None
 
     if opt.model == 'inpainting_harm':
-        from data.inpainting_dataset_harm import InpaintingDatasetHarm
+        from harmonization.data.inpainting_dataset_harm import InpaintingDatasetHarm
         dataset = InpaintingDatasetHarm()
     else:
         pass

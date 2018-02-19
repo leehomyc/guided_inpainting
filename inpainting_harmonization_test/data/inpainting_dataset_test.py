@@ -4,7 +4,7 @@ import numpy as np
 import scipy
 import torch
 
-from data.base_dataset import BaseDataset, get_params, get_transform, normalize
+from inpainting_harmonization_test.data.base_dataset import BaseDataset, get_params, get_transform, normalize
 from pycocotools.coco import COCO
 
 IMG_PAIRS = [
@@ -90,9 +90,7 @@ class InpaintingDatasetTest(BaseDataset):
         # find bounding box
         _, _, object_ori_height, object_ori_width = \
             self.compute_bounding_box(object_mask)
-        print('idnex: {}'.format(index))
-        print('height: {}'.format(object_ori_height))
-        print('width: {}'.format(object_ori_width))
+
         # Compute the new size of the image based on the size of inpainted
         # object.
         object_image_resize_height = int(
@@ -101,10 +99,6 @@ class InpaintingDatasetTest(BaseDataset):
         object_image_resize_width = int(
             object_image_width * IMG_PAIRS[index][
                 'object_composite_width'] / object_ori_width)
-
-        print('idnex: {}'.format(index))
-        print('height: {}'.format(object_image_resize_height))
-        print('width: {}'.format(object_image_resize_width))
 
         # Inpainting
         object_image_resized = scipy.misc.imresize(object_image,
@@ -122,9 +116,6 @@ class InpaintingDatasetTest(BaseDataset):
         object_x, object_y, object_height, object_width = \
             self.compute_bounding_box(mask_resized)
         mask_resized = np.tile(mask_resized, (3, 1, 1))
-
-        print('object_height: {}'.format(object_height))
-        print('object_width: {}'.format(object_width))
 
         # normalize object image
         object_image_resized_chw = object_image_resized_chw / 122.5 - 1
@@ -167,13 +158,16 @@ class InpaintingDatasetTest(BaseDataset):
 
         mask_composite = torch.from_numpy(mask_composite).float()
         image_composite_no_bg = torch.from_numpy(image_composite_no_bg).float()
-        background_image_resized = torch.from_numpy(
-            background_image_resized).float()
+        background_image_resized_chw = torch.from_numpy(
+            background_image_resized_chw).float()
+        mask_composite_object = torch.from_numpy(mask_composite_object).float()
+        image_composite_with_bg = torch.from_numpy(
+            image_composite_with_bg).float()
 
         feat_tensor = 0
 
         input_dict = {'input': image_composite_no_bg, 'mask': mask_composite,
-                      'image': background_image_resized,
+                      'image': background_image_resized_chw,
                       'feat': feat_tensor, 'path': image_path,
                       'image_composite_with_bg': image_composite_with_bg,
                       'mask_composite_object': mask_composite_object}
