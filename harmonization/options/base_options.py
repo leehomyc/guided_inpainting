@@ -55,7 +55,7 @@ class BaseOptions:
                                  help='Maximum number of samples allowed per dataset. If the dataset directory contains more than max_dataset_size, only a subset is loaded.')  # noqa 501
 
         # for displays
-        self.parser.add_argument('--display_winsize', type=int, default=512,
+        self.parser.add_argument('--display_winsize', type=int, default=256,
                                  help='display window size')
         self.parser.add_argument('--tf_log', action='store_true',
                                  help='if specified, use tensorboard logging. Requires tensorflow installed')  # noqa 501

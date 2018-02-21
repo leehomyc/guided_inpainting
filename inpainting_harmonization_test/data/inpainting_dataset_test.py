@@ -4,38 +4,9 @@ import numpy as np
 import scipy
 import torch
 
-from inpainting_harmonization_test.data.base_dataset import BaseDataset, get_params, get_transform, normalize
+from inpainting_harmonization_test.data.base_dataset import BaseDataset
+from inpainting_harmonization_test.data.img_pairs import IMG_PAIRS
 from pycocotools.coco import COCO
-
-IMG_PAIRS = [
-    {
-        'object_img_id': 5037,
-        'background_img_id': 447342,
-        'object_id': 0,
-        'object_composite_x': 5,
-        'object_composite_y': 127,
-        'object_composite_width': 115,
-        'object_composite_height': 122,
-    },
-    {
-        'object_img_id': 429109,
-        'background_img_id': 334371,
-        'object_id': 9,
-        'object_composite_x': 70,
-        'object_composite_y': 180,
-        'object_composite_width': 107,
-        'object_composite_height': 60,
-    },
-    {
-        'object_img_id': 177893,
-        'background_img_id': 334371,
-        'object_id': 2,
-        'object_composite_x': 30,
-        'object_composite_y': 150,
-        'object_composite_width': 185,
-        'object_composite_height': 84,
-    }
-]
 
 
 # noinspection PyMethodMayBeStatic
@@ -122,10 +93,10 @@ class InpaintingDatasetTest(BaseDataset):
 
         # get the image patch that contains the object.
         object_image_patch_with_bg = object_image_resized_chw[:,
-                             object_y:object_y + object_height,
-                             object_x:object_x + object_width]  # noqa 501
+                                     object_y:object_y + object_height,
+                                     object_x:object_x + object_width]  # noqa 501
         object_mask_patch = mask_resized[:, object_y:object_y + object_height,
-                                         object_x:object_x + object_width]
+                            object_x:object_x + object_width]
         object_image_patch_no_bg = np.copy(object_image_patch_with_bg)
         object_image_patch_no_bg[object_mask_patch == 0] = 0
 
@@ -142,18 +113,20 @@ class InpaintingDatasetTest(BaseDataset):
         new_object_y = IMG_PAIRS[index]['object_composite_y']
         image_composite_no_bg = np.copy(background_image_resized_chw)
         image_composite_no_bg[:, new_object_y: new_object_y + object_height,
-                        new_object_x: new_object_x + object_width] = object_image_patch_no_bg  # noqa 501
+        new_object_x: new_object_x + object_width] = object_image_patch_no_bg  # noqa 501
 
         # Image composition. We keep the background of the image patch.
         image_composite_with_bg = np.copy(background_image_resized_chw)
-        image_composite_with_bg[:, new_object_y: new_object_y + object_height, new_object_x: new_object_x + object_width] = object_image_patch_with_bg  # noqa 501
+        image_composite_with_bg[:, new_object_y: new_object_y + object_height,
+        new_object_x: new_object_x + object_width] = object_image_patch_with_bg  # noqa 501
 
         mask_composite = np.zeros(image_composite_no_bg.shape)
-        mask_composite[:, new_object_y:new_object_y + object_height, new_object_x:new_object_x + object_width] = 1 - object_mask_patch  # noqa 501
+        mask_composite[:, new_object_y:new_object_y + object_height,
+        new_object_x:new_object_x + object_width] = 1 - object_mask_patch  # noqa 501
 
         mask_composite_object = np.zeros(image_composite_no_bg.shape)
         mask_composite_object[:, new_object_y:new_object_y + object_height,
-                              new_object_x:new_object_x + object_width] = \
+        new_object_x:new_object_x + object_width] = \
             object_mask_patch
 
         mask_composite = torch.from_numpy(mask_composite).float()

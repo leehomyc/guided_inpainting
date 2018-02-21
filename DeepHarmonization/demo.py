@@ -27,7 +27,7 @@ for idx, path_ in enumerate(path_src):
     # load image, switch to BGR, subtract mean, and make dims C x H x W for Caffe
     im_ori = Image.open('data/image/' + path_)
     im = im_ori.resize(size, Image.BICUBIC)
-    im = np.array(im, dtype=np.float32)
+    im = np.array(im, dtype=np.float32)  # height x width x channel. Range is [0, 255]
     if im.shape[2] == 4:
         im = im[:, :, 0:3]
 
@@ -67,7 +67,7 @@ for idx, path_ in enumerate(path_src):
     result = out.astype(np.uint8)
     result = Image.fromarray(result)
 
-    im = im_ori.resize(size, Image.BICUBIC);
+    im = im_ori.resize(size, Image.BICUBIC)
     im = np.array(im, dtype=np.uint8)
     if im.shape[2] == 4:
         im = im[:, :, 0:3]
