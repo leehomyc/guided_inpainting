@@ -48,10 +48,10 @@ for i, data in enumerate(dataset):
     print('processing image {}'.format(i))
     generated = model_inpainting.inference(data['input'], data['mask'])
     visuals = OrderedDict(
-        [('input', util.tensor2label(data['input'][0], opt.label_nc)),
+        [('input', util.tensor2label(data['image_composite_with_bg'][0], opt.label_nc)),
          # noqa 501
-         ('mask_object', util.tensor2im(data['mask_composite_object'][0], normalize=False)),  # noqa 501
-         ('synthesized_image', util.tensor2im(generated.data[0]))])  # noqa 501
+         ('mask', util.tensor2im(data['mask_composite_object'][0], normalize=False)),  # noqa 501
+         ('inpainting', util.tensor2im(generated.data[0]))])  # noqa 501
     img_path = data['path']
 
     inpainted_image = generated.data[0]
@@ -59,7 +59,7 @@ for i, data in enumerate(dataset):
 
     generated = model_harmonization.inference(inpainted_image, data['mask_composite_object'])  # noqa 501
 
-    visuals['synthesized_image_final'] = util.tensor2im(generated.data[0])
+    visuals['inpainting_harmonization'] = util.tensor2im(generated.data[0])
     visualizer.save_images(webpage, visuals, img_path)
 
 print('saving')

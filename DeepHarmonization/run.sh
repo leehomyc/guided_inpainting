@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+python -m DeepHarmonization.test_coco --name deep_harmonization_test --gpu_ids 1 --loadSize 256 --fineSize 256 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/val2017 --model inpainting_harm --no_instance --resize_or_crop resize --tf_log --keep_hole_only --ann_path '/media/eeb433/Storage/Dataset/MSCOCO/annotations/instances_val2017.json' --how_many 200 --results_dir guided_inpainting_output/deep_harmonization_test
+
+python -m DeepHarmonization.test_coco --name deep_harmonization_test --gpu_ids 1 --loadSize 512 --fineSize 512 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/val2017 --model inpainting_harm --no_instance --resize_or_crop resize --tf_log --keep_hole_only --ann_path '/media/eeb433/Storage/Dataset/MSCOCO/annotations/instances_val2017.json' --how_many 200 --results_dir guided_inpainting_output/deep_harmonization_test --display_winsize 512
