@@ -84,6 +84,7 @@ class ParallelModel(KM.Model):
                     # Save the outputs for merging back together later
                     for l, o in enumerate(outputs):
                         outputs_all[l].append(o)
+                        
         # Merge outputs on CPU
         with tf.device('/cpu:0'):
             merged = []

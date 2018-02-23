@@ -115,3 +115,4 @@ venv.bak/
 .DS_Store
 /.idea/
 /guided_inpainting_output/
+/papers/
