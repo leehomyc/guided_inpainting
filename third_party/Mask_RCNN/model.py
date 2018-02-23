@@ -28,7 +28,7 @@ import keras.initializers as KI
 import keras.engine as KE
 import keras.models as KM
 
-import utils
+import third_party.Mask_RCNN.utils as utils
 
 # Requires TensorFlow 1.3+ and Keras 2.0.8+.
 from distutils.version import LooseVersion
@@ -1970,7 +1970,7 @@ class MaskRCNN():
 
         # Add multi-GPU support.
         if config.GPU_COUNT > 1:
-            from parallel_model import ParallelModel
+            from third_party.Mask_RCNN.parallel_model import ParallelModel
             model = ParallelModel(model, config.GPU_COUNT)
 
         return model

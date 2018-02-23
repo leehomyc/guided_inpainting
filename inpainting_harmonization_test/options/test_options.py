@@ -12,4 +12,9 @@ class TestOptions(BaseOptions):
         self.parser.add_argument('--which_epoch', type=str, default='latest', help='which epoch to load? set to latest to use latest cached model')
         self.parser.add_argument('--how_many', type=int, default=50, help='how many test images to run')       
         self.parser.add_argument('--cluster_path', type=str, default='features_clustered_010.npy', help='the path for clustered results of encoded features')
+        self.parser.add_argument('--use_segmentation', action='store_true',
+                                 help='if specified, use segmentation.')
+        self.parser.add_argument('--seg_model_path', type=str,
+                                 default='',
+                                 help='the path for the trained segmentation model.')
         self.isTrain = False
