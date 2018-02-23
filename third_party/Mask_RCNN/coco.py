@@ -45,9 +45,9 @@ import zipfile
 import urllib.request
 import shutil
 
-from config import Config
-import utils
-import model as modellib
+from third_party.Mask_RCNN.config import Config
+import third_party.Mask_RCNN.utils as utils
+import third_party.Mask_RCNN.model as modellib
 
 # Root directory of the project
 ROOT_DIR = os.getcwd()
