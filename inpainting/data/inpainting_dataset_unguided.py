@@ -8,7 +8,7 @@ import scipy
 import scipy.misc
 import torch
 
-from data.base_dataset import BaseDataset
+from inpainting.data.base_dataset import BaseDataset
 from pycocotools.coco import COCO
 
 
@@ -18,8 +18,7 @@ class InpaintingDatasetUnguided(BaseDataset):
         self.root = opt.dataroot
         self.annFile = opt.ann_path
         self.coco = COCO(self.annFile)
-        self.catIds = self.coco.getCatIds(catNms=['bus'])
-        self.imgIds = self.coco.getImgIds(catIds=self.catIds, imgIds=[])
+        self.imgIds = self.coco.getImgIds(catIds=[], imgIds=[])
         self.dataset_size = len(self.imgIds)
 
     def __getitem__(self, index):
@@ -35,17 +34,17 @@ class InpaintingDatasetUnguided(BaseDataset):
             image_path = '{}/{}'.format(self.root, image_url_split[-1])
 
             image = scipy.misc.imread(image_path, mode='RGB')
-            annIds = self.coco.getAnnIds(imgIds=image_info['id'],
-                                         areaRng=[1000, float('inf')],  # The area of the object must be greater than 100  # noqa 501
-                                         iscrowd=None)
-            if len(annIds) == 0:
-                # This image has no annotations. We have to switch to the
-                # next image.
-                current_id = current_id + 1
-                continue
-            anns = self.coco.loadAnns(annIds)
-            mask = self.coco.annToMask(anns[np.random.randint(0, len(anns))])  # find a random object  # noqa 501
-            break
+            image_height, image_width, _ = image.shape
+            if image_height > 128 and image_width > 128:
+                break
+            current_id = current_id + 1
+
+        mask = np.zeros((image_height, image_width))
+        hole_y = np.random.randint(image_height - 32)
+        hole_x = np.random.randint(image_width - 32)
+        hole_height = np.random.randint(low=32, high=min(int(image_height/2), image_height-hole_y+1))   # [low, high)
+        hole_width = np.random.randint(low=32, high=min(int(image_width/2), image_width-hole_x+1))
+        mask[hole_y: hole_y+hole_height, hole_x:hole_x+hole_width] = 1
 
         # resize image
         image_resized = scipy.misc.imresize(image, [self.opt.fineSize, self.opt.fineSize])  # fineSize x fineSize x 3  # noqa 501

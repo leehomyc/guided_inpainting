@@ -48,7 +48,7 @@ class BaseOptions:
                                  help='if true, takes images in order to make batches, otherwise takes them randomly')  # noqa 501
         self.parser.add_argument('--no_flip', action='store_true',
                                  help='if specified, do not flip the images for data argumentation')  # noqa 501
-        self.parser.add_argument('--nThreads', default=2, type=int,
+        self.parser.add_argument('--nThreads', default=0, type=int,
                                  help='# threads for loading data')
         self.parser.add_argument('--max_dataset_size', type=int,
                                  default=float("inf"),
