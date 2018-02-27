@@ -7,11 +7,11 @@ import time
 import torch
 from torch.autograd import Variable
 
-from data.data_loader import CreateDataLoader
-from models.models import create_model
-from options.train_options import TrainOptions
-import util.util as util
-from util.visualizer import Visualizer
+from inpainting.data.data_loader import CreateDataLoader
+from inpainting.models.models import create_model
+from inpainting.options.train_options import TrainOptions
+import inpainting.util.util as util
+from inpainting.util.visualizer import Visualizer
 
 opt = TrainOptions().parse()
 iter_path = os.path.join(opt.checkpoints_dir, opt.name, 'iter.txt')

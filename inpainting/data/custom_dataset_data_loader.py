@@ -5,11 +5,14 @@ def CreateDataset(opt):
     dataset = None
 
     if opt.model == 'inpainting_guided':
-        from data.inpainting_dataset_guided import InpaintingDatasetGuided
+        from inpainting.data.inpainting_dataset_guided import InpaintingDatasetGuided
         dataset = InpaintingDatasetGuided()
     elif opt.model == 'inpainting_test' or 'harmonization_test':
-        from data.inpainting_dataset_test import InpaintingDatasetTest
+        from inpainting.data.inpainting_dataset_test import InpaintingDatasetTest
         dataset = InpaintingDatasetTest()
+    elif opt.model == 'inpainting_unguided':
+        from inpainting.data.inpainting_dataset_unguiged import InpaintingDatasetUnguided
+        dataset = InpaintingDatasetUnguided()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

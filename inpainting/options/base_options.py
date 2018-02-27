@@ -1,7 +1,7 @@
 import argparse
 from datetime import datetime
 import os
-from util import util
+from inpainting.util import util
 import torch
 
 
