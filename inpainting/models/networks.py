@@ -222,12 +222,21 @@ class ResnetBlock(nn.Module):
                          use_dropout, dilation):
         conv_block = []
         p = 0
+        # if padding_type == 'reflect':
+        #     conv_block += [nn.ReflectionPad2d(1 + int(dilation / 2))]
+        # elif padding_type == 'replicate':
+        #     conv_block += [nn.ReplicationPad2d(1 + int(dilation / 2))]
+        # elif padding_type == 'zero':
+        #     p = 1 + int(dilation / 2)
+        # else:
+
+
         if padding_type == 'reflect':
-            conv_block += [nn.ReflectionPad2d(1 + int(dilation / 2))]
+            conv_block += [nn.ReflectionPad2d(dilation)]
         elif padding_type == 'replicate':
-            conv_block += [nn.ReplicationPad2d(1 + int(dilation / 2))]
+            conv_block += [nn.ReplicationPad2d(dilation)]
         elif padding_type == 'zero':
-            p = 1 + int(dilation / 2)
+            p = dilation
         else:
             raise NotImplementedError(
                 'padding [%s] is not implemented' % padding_type)

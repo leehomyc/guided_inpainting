@@ -101,6 +101,9 @@ python -m inpainting.test --name coco_inpainting_256_dilation_2_old_3 --gpu_ids 
 # inpainting and keep hole only. coco_no_guided_inpainting_256_interpolated_conv 			exp 1
 python -m inpainting.train --name coco_no_guided_inpainting_256_exp1 --gpu_ids 1 --checkpoints_dir /home/eeb433/Documents/Yuhang/guided_inpainting/inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --overlapPred 0 --interpolated_conv --dilation 2
 
+# inpainting and keep hole only. coco_no_guided_inpainting_256_interpolated_conv_dilation_4 			exp 1_2
+python -m inpainting.train --name coco_no_guided_inpainting_256_dilation_4_exp1_2 --gpu_ids 0 --checkpoints_dir /home/eeb433/Documents/Yuhang/guided_inpainting/inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --overlapPred 0 --interpolated_conv --dilation 4
+
 
 # guided inpainting training for all classes coco_inpainting_256_real_guided_all_interpolated_conv  globalGAN_loss	recon_loss lambda_recon 2500			exp 3_2
 python -m inpainting.train --name coco_no_guided_inpainting_256_exp3_2 --gpu_ids 0 --checkpoints_dir /home/eeb433/Documents/Yuhang/guided_inpainting/inpainting/log --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /media/eeb433/Storage/Dataset/MSCOCO/train2017 --model inpainting --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --overlapPred 0 --interpolated_conv --dilation 2 --globalGAN_loss --recon_loss --lambda_recon 2500
