@@ -3,7 +3,7 @@ import numpy as np
 import scipy
 import torch
 
-from data.base_dataset import BaseDataset, get_params, get_transform, normalize
+from inpainting.data.base_dataset import BaseDataset, get_params, get_transform, normalize
 from pycocotools.coco import COCO
 
 from skimage import color
