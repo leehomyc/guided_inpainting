@@ -8,8 +8,8 @@ import scipy
 import scipy.misc
 import torch
 
-from data.base_dataset import BaseDataset
-from pycocotools.coco import COCO
+from inpainting.data.base_dataset import BaseDataset
+from inpainting.pycocotools.coco import COCO
 
 
 class InpaintingDatasetGuided(BaseDataset):

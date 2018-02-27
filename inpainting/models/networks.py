@@ -57,11 +57,12 @@ def define_G(input_nc, output_nc, ngf, netG, n_downsample_global=3,
 #################
 
 # noinspection PyPep8Naming
-def define_D(input_nc, ndf, n_layers_D, norm='instance', use_sigmoid=False,
-             num_D=1, getIntermFeat=False, gpu_ids=[]):
+def define_D(input_nc, ndf, n_layers_D, global_layer=6, norm='instance', use_sigmoid=False,
+             num_D=1, getIntermFeat=False, globalGAN_loss=False, gpu_ids=[]):
     norm_layer = get_norm_layer(norm_type=norm)
-    netD = MultiscaleDiscriminator(input_nc, ndf, n_layers_D, norm_layer,
-                                   use_sigmoid, num_D, getIntermFeat)
+    netD = MultiscaleDiscriminator(input_nc, ndf, n_layers_D, global_layer, norm_layer,
+                                   use_sigmoid, num_D, getIntermFeat, globalGAN_loss)
+
     print(netD)
     if len(gpu_ids) > 0:
         assert (torch.cuda.is_available())
@@ -262,12 +263,13 @@ class ResnetBlock(nn.Module):
 # Define a discriminator #
 ##########################
 class MultiscaleDiscriminator(nn.Module):
-    def __init__(self, input_nc, ndf=64, n_layers=3, norm_layer=nn.BatchNorm2d,
-                 use_sigmoid=False, num_D=3, getIntermFeat=False):
+    def __init__(self, input_nc, ndf=64, n_layers=3, global_layer=6, norm_layer=nn.BatchNorm2d,
+                 use_sigmoid=False, num_D=3, getIntermFeat=False, globalGAN_loss=False):
         super(MultiscaleDiscriminator, self).__init__()
         self.num_D = num_D
         self.n_layers = n_layers
         self.getIntermFeat = getIntermFeat
+        self.globalGAN_loss = globalGAN_loss
 
         for i in range(num_D):
             netD = NLayerDiscriminator(input_nc, ndf, n_layers, norm_layer,
@@ -278,6 +280,11 @@ class MultiscaleDiscriminator(nn.Module):
                             getattr(netD, 'model' + str(j)))
             else:
                 setattr(self, 'layer' + str(i), netD.model)
+
+        if globalGAN_loss:
+            netD_global = GlobalDiscriminator(input_nc, ndf, global_layer, norm_layer,
+                                              use_sigmoid)
+            setattr(self,'global', netD_global.model)
 
         self.downsample = nn.AvgPool2d(3, stride=2, padding=[1, 1],
                                        count_include_pad=False)
@@ -295,6 +302,11 @@ class MultiscaleDiscriminator(nn.Module):
         num_D = self.num_D
         result = []
         input_downsampled = input
+
+        if self.globalGAN_loss:
+            model = getattr(self, 'global')
+            result.append(self.singleD_forward(model, input_downsampled))
+
         for i in range(num_D):
             if self.getIntermFeat:
                 model = [getattr(self,
@@ -311,7 +323,7 @@ class MultiscaleDiscriminator(nn.Module):
 
 # Defines the PatchGAN discriminator with the specified arguments.
 class NLayerDiscriminator(nn.Module):
-    def __init__(self, input_nc, ndf=64, n_layers=3, norm_layer=nn.BatchNorm2d,
+    def __init__(self, input_nc, ndf=64, n_layers=6, norm_layer=nn.BatchNorm2d,
                  use_sigmoid=False, getIntermFeat=False):
         super(NLayerDiscriminator, self).__init__()
         self.getIntermFeat = getIntermFeat
@@ -364,6 +376,66 @@ class NLayerDiscriminator(nn.Module):
         else:
             return self.model(input)
 
+# Defines the PatchGAN discriminator with the specified arguments.
+class Flatten(nn.Module):
+    def forward(self, input):
+        return input.view(input.size(0), -1)
+
+class GlobalDiscriminator(nn.Module):
+    def __init__(self, input_nc, ndf=64, global_layer=3, norm_layer=nn.BatchNorm2d,
+                 use_sigmoid=False, getIntermFeat=False):
+        super(GlobalDiscriminator, self).__init__()
+        self.getIntermFeat = getIntermFeat
+        self.global_layer = global_layer
+
+        kw = 5
+        padw = int(np.ceil((kw - 1.0) / 2))
+        sequence = [
+            [nn.Conv2d(input_nc, ndf, kernel_size=kw, stride=2, padding=padw),
+             nn.LeakyReLU(0.2, True)]]
+
+        nf = ndf
+        for n in range(1, global_layer):
+            nf_prev = nf
+            nf = min(nf * 2, 512)
+            sequence += [[
+                nn.Conv2d(nf_prev, nf, kernel_size=kw, stride=2, padding=padw),
+                norm_layer(nf), nn.LeakyReLU(0.2, True)
+            ]]
+
+        # output: 4*4*512
+
+        nf_prev = nf
+        nf = min(nf * 2, 512)
+        sequence += [[
+            nn.Conv2d(nf_prev, nf, kernel_size=kw, stride=1, padding=padw),
+            norm_layer(nf),
+            nn.LeakyReLU(0.2, True)
+        ]]
+
+        sequence += [[nn.Conv2d(nf, 1, kernel_size=kw, stride=1, padding=padw)]]
+
+        if use_sigmoid:
+            sequence += [[nn.Sigmoid()]]
+
+        if getIntermFeat:
+            for n in range(len(sequence)):
+                setattr(self, 'model' + str(n), nn.Sequential(*sequence[n]))
+        else:
+            sequence_stream = []
+            for n in range(len(sequence)):
+                sequence_stream += sequence[n]
+            self.model = nn.Sequential(*sequence_stream)
+
+    def forward(self, input):
+        if self.getIntermFeat:
+            res = [input]
+            for n in range(self.n_layers + 2):
+                model = getattr(self, 'model' + str(n))
+                res.append(model(res[-1]))
+            return res[1:]
+        else:
+            return self.model(input)
 
 class Vgg19(torch.nn.Module):
     def __init__(self, requires_grad=False):

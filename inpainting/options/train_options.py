@@ -53,6 +53,8 @@ class TrainOptions(BaseOptions):
                                  help='number of discriminators to use')
         self.parser.add_argument('--n_layers_D', type=int, default=3,
                                  help='only used if which_model_netD==n_layers')
+        self.parser.add_argument('--global_layer', type=int, default=6,
+                                 help='only used if globalGAN_loss==true')
         self.parser.add_argument('--ndf', type=int, default=64,
                                  help='# of discrim filters in first conv layer')  # noqa 501
         self.parser.add_argument('--lambda_feat', type=float, default=10.0,
@@ -62,6 +64,8 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--recon_loss', action='store_true',
                                  help='if specified, use '
                                       'image reconstruction loss')
+        self.parser.add_argument('--globalGAN_loss', action='store_true',
+                                 help='if specified, use global GAN loss')
         self.parser.add_argument('--no_ganFeat_loss', action='store_true',
                                  help='if specified, do *not* use '
                                       'discriminator feature matching loss')

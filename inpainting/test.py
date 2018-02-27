@@ -2,12 +2,12 @@ from collections import OrderedDict
 import os
 import numpy as np
 
-from data.data_loader import CreateDataLoader
-from options.test_options import TestOptions
-from models.models import create_model
-from util import html
-import util.util as util
-from util.visualizer import Visualizer
+from inpainting.data.data_loader import CreateDataLoader
+from inpainting.options.test_options import TestOptions
+from inpainting.models.models import create_model
+from inpainting.util import html
+import inpainting.util.util as util
+from inpainting.util.visualizer import Visualizer
 
 np.random.seed(0)
 
