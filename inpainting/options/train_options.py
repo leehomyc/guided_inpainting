@@ -30,6 +30,8 @@ class TrainOptions(BaseOptions):
         # for training
         self.parser.add_argument('--continue_train', action='store_true',
                                  help='continue training: load the latest model')  # noqa 501
+        self.parser.add_argument('--random_location', action='store_true',
+                                 help='train using random location square hole')
         self.parser.add_argument('--load_pretrain', type=str, default='',
                                  help='load the pretrained model from the '
                                       'specified location')
