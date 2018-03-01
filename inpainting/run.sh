@@ -15,3 +15,5 @@ python -m inpainting.train --name coco_inpainting_256_dilation_2_exp1_unguided_n
 
 
 python -m inpainting.train --name inpainting_ade20k --gpu_ids 0 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/ --model inpainting_ade20k --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only
+
+python -m inpainting.train --name inpainting_ade20k_with_seg --gpu_ids 1 --checkpoints_dir /data/log/guided_inpainting/log_pix2pix_hd --loadSize 286 --fineSize 256 --label_nc 0 --dataroot /data/public/ --model inpainting_ade20k --no_instance --resize_or_crop resize_and_crop --tf_log --batchSize 8 --keep_hole_only --use_seg

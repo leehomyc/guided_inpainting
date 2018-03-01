@@ -39,7 +39,7 @@ class Pix2PixHDModel(BaseModel):
         if self.use_mask:
             netG_input_nc += 1
         if self.use_seg:
-            netG_input_nc += 1
+            netG_input_nc += 3
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf,
                                       opt.netG,
                                       opt.n_downsample_global,
@@ -231,7 +231,7 @@ class Pix2PixHDModel(BaseModel):
 
     def inference(self, input_image, input_mask):
         # Encode Inputs
-        input_image_e, input_mask_e, _, = self.encode_input(
+        input_image_e, input_mask_e, _, _= self.encode_input(
             Variable(input_image), Variable(input_mask), infer=True)
 
         input_concat = input_image_e

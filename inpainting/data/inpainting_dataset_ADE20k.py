@@ -35,6 +35,10 @@ class InpaintingDatasetADE20k(BaseDataset):
                 break
             current_id = current_id + 1
 
+        basename = image_path.split('.')[0]
+        seg_name = '{}_seg.png'.format(basename)
+        seg = scipy.misc.imread(seg_name, mode='RGB')
+
         mask = np.zeros((image_height, image_width))
         hole_y = np.random.randint(image_height - 32)
         hole_x = np.random.randint(image_width - 32)
@@ -49,6 +53,9 @@ class InpaintingDatasetADE20k(BaseDataset):
                                                     self.opt.fineSize])  # fineSize x fineSize x 3  # noqa 501
         image_resized = np.rollaxis(image_resized, 2,
                                     0)  # 3 x fineSize x fineSize  # noqa 501
+        seg_resized = scipy.misc.imresize(seg, [self.opt.fineSize,
+                                                self.opt.fineSize])
+        seg_resized = np.rollaxis(seg_resized, 2, 0)
 
         mask_resized = scipy.misc.imresize(mask, [self.opt.fineSize,
                                                   self.opt.fineSize])
@@ -57,6 +64,7 @@ class InpaintingDatasetADE20k(BaseDataset):
 
         # normalize
         image_resized = image_resized / 122.5 - 1
+        seg_resized = seg_resized / 122.5 - 1
 
         input_image = np.copy(image_resized)
         input_image[mask_resized == 1] = 0
@@ -66,6 +74,8 @@ class InpaintingDatasetADE20k(BaseDataset):
         input_image = torch.from_numpy(input_image).float()
         image_resized = torch.from_numpy(image_resized).float()
         input_seg = 0
+        if self.opt.use_seg is True:
+            input_seg = torch.from_numpy(seg_resized).float()
 
         input_dict = {'input': input_image, 'mask': mask_resized,
                       'image': image_resized,
