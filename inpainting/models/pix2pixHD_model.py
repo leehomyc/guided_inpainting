@@ -24,7 +24,7 @@ class Pix2PixHDModel(BaseModel):
         if opt.use_perceptual is True:
             self.p_model = dm.DistModel()
             self.p_model.initialize(model='net-lin', net='alex', use_gpu=True)
-
+        self.use_seg = opt.use_seg
         if opt.label_nc != 0:
             input_nc = opt.label_nc
         else:
@@ -42,6 +42,8 @@ class Pix2PixHDModel(BaseModel):
             netG_input_nc += opt.feat_num
         if self.use_mask:
             netG_input_nc += 1
+        if self.use_seg:
+            netG_input_nc += 3
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf,
                                       opt.netG,
                                       opt.n_downsample_global,
@@ -129,7 +131,7 @@ class Pix2PixHDModel(BaseModel):
             self.optimizer_D = torch.optim.Adam(params, lr=opt.lr,
                                                 betas=(opt.beta1, 0.999))
 
-    def encode_input(self, input_image, input_mask=None, original_image=None,
+    def encode_input(self, input_image, input_mask=None, original_image=None, input_seg=None,
                      infer=False):
 
         input_label = input_image.data.cuda()
@@ -143,8 +145,10 @@ class Pix2PixHDModel(BaseModel):
         # real images for training
         if original_image is not None:
             original_image = Variable(original_image.data.cuda())
+        if input_seg is not None:
+            input_seg = Variable(input_seg.data.cuda())
 
-        return input_label, input_mask, original_image
+        return input_label, input_mask, original_image, input_seg
 
     def discriminate(self, input_label, test_image, use_pool=False):
         input_concat = torch.cat((input_label, test_image.detach()), dim=1)
@@ -154,13 +158,20 @@ class Pix2PixHDModel(BaseModel):
         else:
             return self.netD.forward(input_concat)
 
-    def forward(self, input_image, input_mask, original_image, infer=False):
+    def forward(self, input_image, input_mask, original_image, input_seg=None, infer=False):
         # Encode Inputs
-        input_image_e, input_mask_e, original_image_e = \
-            self.encode_input(input_image, input_mask, original_image)
+        if self.use_seg:
+            input_image_e, input_mask_e, original_image_e, input_seg_e = \
+                self.encode_input(input_image, input_mask, original_image, input_seg)
+        else:
+            input_image_e, input_mask_e, original_image_e, _ = \
+                self.encode_input(input_image, input_mask, original_image)
 
         # Fake Generation
-        input_concat = input_image_e
+        if self.use_seg:
+            input_concat = torch.cat((input_image_e, input_seg_e), dim=1)
+        else:
+            input_concat = input_image_e
 
         fake_image = self.netG.forward(input_concat)
 
@@ -232,7 +243,7 @@ class Pix2PixHDModel(BaseModel):
 
     def inference(self, input_image, input_mask):
         # Encode Inputs
-        input_image_e, input_mask_e, _, = self.encode_input(
+        input_image_e, input_mask_e, _, _= self.encode_input(
             Variable(input_image), Variable(input_mask), infer=True)
 
         input_concat = input_image_e

@@ -114,6 +114,8 @@ class BaseOptions:
                                  help='whether to use gray guidance.')
         self.parser.add_argument('--use_perceptual', action='store_true',
                                  help='whether to use perceptual loss.')
+        self.parser.add_argument('--use_seg', action='store_true',
+                                 help='whether to use segmentation mask for ADE20k.')  # noqa 501
         self.initialized = True
 
     def parse(self, save=True):

@@ -55,7 +55,14 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         save_fake = total_steps % opt.display_freq == 0
 
         ############## Forward Pass ######################
-        losses, generated = model(Variable(data['input']),
+        if opt.use_seg:
+            losses, generated = model(Variable(data['input']),
+                                      Variable(data['mask']),
+                                      Variable(data['image']),
+                                      Variable(data['input_seg']),
+                                      infer=save_fake)
+        else:
+            losses, generated = model(Variable(data['input']),
                                   Variable(data['mask']),
                                   Variable(data['image']),
                                   infer=save_fake)

@@ -15,6 +15,9 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_unguided':
         from inpainting.data.inpainting_dataset_unguided import InpaintingDatasetUnguided
         dataset = InpaintingDatasetUnguided()
+    elif opt.model == 'inpainting_ade20k':
+        from inpainting.data.inpainting_dataset_ADE20k import InpaintingDatasetADE20k
+        dataset = InpaintingDatasetADE20k()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
