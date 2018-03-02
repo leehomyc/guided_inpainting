@@ -4,6 +4,7 @@ from torch.autograd import Variable
 from . import networks
 from .base_model import BaseModel
 from inpainting.util.image_pool import ImagePool
+from third_party.PerceptualSimilarity.models import dist_model as dm
 
 
 # noinspection PyAttributeOutsideInit,PyPep8Naming
@@ -20,6 +21,9 @@ class Pix2PixHDModel(BaseModel):
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
         self.use_mask = opt.use_mask
+        if opt.use_perceptual is True:
+            self.p_model = dm.DistModel()
+            self.p_model.initialize(model='net-lin', net='alex', use_gpu=True)
         self.use_seg = opt.use_seg
         if opt.label_nc != 0:
             input_nc = opt.label_nc
@@ -110,7 +114,7 @@ class Pix2PixHDModel(BaseModel):
                 self.criterionRecon = torch.nn.L1Loss()
 
             self.loss_names = \
-                ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'G_recon', 'D_real', 'D_fake']
+                ['G_GAN', 'G_GAN_Feat', 'G_VGG', 'G_recon', 'D_real', 'D_fake', 'Perceptual']
 
             ######### set optimizers ###########
             ##############
@@ -226,8 +230,16 @@ class Pix2PixHDModel(BaseModel):
                 self.criterionRecon(fake_image, original_image_e) * \
                 self.opt.lambda_recon
 
+        ##############################
+        # Perceptual Similarity Loss.#
+        ##############################
+        perceptual_loss = 0
+        if self.opt.use_perceptual:
+            perceptual_loss = self.p_model.forward(fake_image, original_image_e)
+            perceptual_loss *= self.opt.lambda_perceptual
+
         return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_G_recon,
-                 loss_D_real, loss_D_fake], None if not infer else fake_image]
+                 loss_D_real, loss_D_fake, perceptual_loss], None if not infer else fake_image]
 
     def inference(self, input_image, input_mask):
         # Encode Inputs
