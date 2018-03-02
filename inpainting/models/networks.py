@@ -35,13 +35,14 @@ def get_norm_layer(norm_type='instance'):
 #############
 def define_G(input_nc, output_nc, ngf, netG, n_downsample_global=3,
              n_blocks_global=9, norm='instance', gpu_ids=[], dilation=1,
-             interpolated_conv=False):
+             interpolated_conv=False, use_residual=False):
     norm_layer = get_norm_layer(norm_type=norm)
     if netG == 'global':
         netG = GlobalGenerator(input_nc, output_nc, ngf, n_downsample_global,
                                n_blocks_global, norm_layer,
                                dilation=dilation,
-                               interpolated_conv=interpolated_conv)
+                               interpolated_conv=interpolated_conv,
+                               use_residual=use_residual)
     else:
         raise Exception('generator not implemented!')
     print(netG)
@@ -152,10 +153,13 @@ class VGGLoss(nn.Module):
 class GlobalGenerator(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, n_downsampling=3,
                  n_blocks=9, norm_layer=nn.BatchNorm2d,
-                 padding_type='reflect', dilation=1, interpolated_conv=False):
+                 padding_type='reflect', dilation=1, interpolated_conv=False,
+                 use_residual=False):
         assert (n_blocks >= 0)
         super(GlobalGenerator, self).__init__()
         activation = nn.ReLU(True)
+
+        self.use_residual = use_residual
 
         model = [nn.ReflectionPad2d(3), nn.Conv2d(input_nc, ngf, kernel_size=7,
                                                   padding=0), norm_layer(ngf),
@@ -204,7 +208,10 @@ class GlobalGenerator(nn.Module):
         self.model = nn.Sequential(*model)
 
     def forward(self, input):
-        return self.model(input)
+        if not self.use_residual:
+            return self.model(input)
+        else:
+            return input + self.model(input)
 
 
 #########################

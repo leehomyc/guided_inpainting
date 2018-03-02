@@ -51,7 +51,8 @@ class Pix2PixHDModel(BaseModel):
                                       opt.norm,
                                       gpu_ids=self.gpu_ids,
                                       dilation=opt.dilation,
-                                      interpolated_conv=opt.interpolated_conv)
+                                      interpolated_conv=opt.interpolated_conv,
+                                      use_residual=opt.use_residual)
 
         #########################
         # Discriminator network #

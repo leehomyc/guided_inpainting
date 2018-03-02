@@ -3,12 +3,14 @@ experiment is that we crop an object, put it in another image and paste it
 back (including some background of another image). Different from
 inpainting_dataset_guided which only inpaints one class, we use all the
 images from COCO here. """
+from copy import deepcopy
 import numpy as np
 import scipy
 import scipy.misc
 import torch
 
 from inpainting.data.base_dataset import BaseDataset
+from inpainting.models.models import create_model as create_inpainting_model
 from pycocotools.coco import COCO
 
 
@@ -20,6 +22,19 @@ class InpaintingDatasetUnguided(BaseDataset):
         self.coco = COCO(self.annFile)
         self.imgIds = self.coco.getImgIds(catIds=[], imgIds=[])
         self.dataset_size = len(self.imgIds)
+        if self.opt.use_pretrained_model:
+            self.pretrained_model = self.build_inpainting_model(deepcopy(self.opt))
+
+    def build_inpainting_model(self, opt):
+        opt.nThreads = 1  # test code only supports nThreads = 1
+        opt.batchSize = 1  # test code only supports batchSize = 1
+        opt.serial_batches = True  # no shuffle
+        opt.no_flip = True  # no flip
+        opt.isTrain = False
+        opt.model = 'inpainting_guided'
+        opt.checkpoints_dir = opt.ip_checkpoints_dir
+        model_inpainting = create_inpainting_model(opt)
+        return model_inpainting
 
     def __getitem__(self, index):
         """We take an image from COCO, find a random object in the image and
@@ -66,9 +81,20 @@ class InpaintingDatasetUnguided(BaseDataset):
         input_image = torch.from_numpy(input_image).float()
         image_resized = torch.from_numpy(image_resized).float()
 
-        input_dict = {'input': input_image, 'mask': mask_resized,
-                      'image': image_resized,
-                      'path': image_path}
+        if self.opt.use_pretrained_model:
+            input_image_unsqueezed = input_image.unsqueeze(0)
+            mask_resized_unsqueezed = mask_resized.unsqueeze(0)
+            generated = self.pretrained_model.inference(input_image_unsqueezed, mask_resized_unsqueezed)
+            input_image_l2 = generated.data[0]
+
+            input_dict = {'input': input_image_l2, 'mask': mask_resized,
+                          'image': image_resized,
+                          'path': image_path,
+                          'input_original': input_image}
+        else:
+            input_dict = {'input': input_image, 'mask': mask_resized,
+                          'image': image_resized,
+                          'path': image_path}
 
         return input_dict
 

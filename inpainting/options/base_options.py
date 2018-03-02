@@ -116,6 +116,13 @@ class BaseOptions:
                                  help='whether to use perceptual loss.')
         self.parser.add_argument('--use_seg', action='store_true',
                                  help='whether to use segmentation mask for ADE20k.')  # noqa 501
+        self.parser.add_argument('--use_pretrained_model', action='store_true',
+                                 help='whether to use pretrained model.')  # noqa 501
+        self.parser.add_argument('--ip_checkpoints_dir', type=str,
+                                 default='./checkpoints',
+                                 help='inpainting models are saved here')
+        self.parser.add_argument('--use_residual', action='store_true',
+                                 help='whether to use pretrained model.')  # noqa 501
         self.initialized = True
 
     def parse(self, save=True):
