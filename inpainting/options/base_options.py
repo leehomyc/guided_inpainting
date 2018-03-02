@@ -112,6 +112,8 @@ class BaseOptions:
                                  help='whether to use mask.')
         self.parser.add_argument('--use_color', action='store_true',
                                  help='whether to use gray guidance.')
+        self.parser.add_argument('--use_perceptual', action='store_true',
+                                 help='whether to use perceptual loss.')
         self.initialized = True
 
     def parse(self, save=True):

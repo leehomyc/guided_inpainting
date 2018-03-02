@@ -63,7 +63,7 @@ class TrainOptions(BaseOptions):
                                  help='weight for feature matching loss')
         self.parser.add_argument('--lambda_recon', type=float, default=10.0,
                                  help='weight for image reconstruction loss')
-        self.parser.add_argument('--lambda_perceptual', type=float, default=1.0,
+        self.parser.add_argument('--lambda_perceptual', type=float, default=10.0,
                                  help='weight for iperceptual')
         self.parser.add_argument('--recon_loss', action='store_true',
                                  help='if specified, use '

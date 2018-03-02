@@ -21,8 +21,9 @@ class Pix2PixHDModel(BaseModel):
         self.use_features = opt.instance_feat or opt.label_feat
         self.gen_features = self.use_features and not self.opt.load_features
         self.use_mask = opt.use_mask
-        if opt.use_perceutal is True:
+        if opt.use_perceptual is True:
             self.p_model = dm.DistModel()
+            self.p_model.initialize(model='net-lin', net='alex', use_gpu=True)
 
         if opt.label_nc != 0:
             input_nc = opt.label_nc
