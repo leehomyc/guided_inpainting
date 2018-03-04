@@ -49,7 +49,8 @@ class TrainOptions(BaseOptions):
                                  help='momentum term of adam')
         self.parser.add_argument('--lr', type=float, default=0.0002,
                                  help='initial learning rate for adam')
-
+        self.parser.add_argument('--lr_D_param', type=float, default=1.0,
+                                 help='lr for D param')
         # for discriminators        
         self.parser.add_argument('--num_D', type=int, default=2,
                                  help='number of discriminators to use')
@@ -65,6 +66,9 @@ class TrainOptions(BaseOptions):
                                  help='weight for image reconstruction loss')
         self.parser.add_argument('--lambda_perceptual', type=float, default=10.0,
                                  help='weight for iperceptual')
+        self.parser.add_argument('--lambda_GGAN', type=float,
+                                 default=1.0,
+                                 help='weight for GGAN')
         self.parser.add_argument('--recon_loss', action='store_true',
                                  help='if specified, use '
                                       'image reconstruction loss')

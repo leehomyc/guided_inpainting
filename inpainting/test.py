@@ -30,6 +30,7 @@ for i, data in enumerate(dataset):
         break
     generated = model.inference(data['input'], data['mask'])
     visuals = OrderedDict([('input_image', util.tensor2label(data['input'][0], opt.label_nc)),  # noqa 501
+                           ('input_mask', util.tensor2label(data['mask'][0], opt.label_nc)),
                            ('synthesized_image', util.tensor2im(generated.data[0]))])  # noqa 501
     img_path = data['path']
     print('process image... {}:{}'.format(i, img_path))

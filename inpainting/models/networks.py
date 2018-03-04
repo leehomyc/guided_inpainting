@@ -166,21 +166,31 @@ class GlobalGenerator(nn.Module):
                  activation]
         ### downsample
         for i in range(n_downsampling):
-            mult = 2 ** i
+            if i >= 4:
+                mult = 2 ** 4
+                channel_in = ngf * mult
+                channel_out = ngf * mult
+            else:
+                mult = 2 ** i
+                channel_in = ngf * mult
+                channel_out = ngf * mult * 2
             if interpolated_conv is True:
-                model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3,
+                model += [nn.Conv2d(channel_in, channel_out, kernel_size=3,
                                     stride=1, padding=1),
                           nn.MaxPool2d(2),
-                          norm_layer(ngf * mult * 2),
+                          norm_layer(channel_out),
                           nn.ReLU(True),
                           ]
             else:
-                model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3,
+                model += [nn.Conv2d(channel_in, channel_out, kernel_size=3,
                                     stride=2, padding=1),
-                          norm_layer(ngf * mult * 2), activation]
+                          norm_layer(channel_out), activation]
 
         ### resnet blocks
-        mult = 2 ** n_downsampling
+        if n_downsampling > 4:
+            mult = 2 ** 4
+        else:
+            mult = 2 ** n_downsampling
         for i in range(n_blocks):
             model += [ResnetBlock(ngf * mult, padding_type=padding_type,
                                   activation=activation, norm_layer=norm_layer,
@@ -189,18 +199,25 @@ class GlobalGenerator(nn.Module):
         ### upsample
         # Harry: use interpolated convolution instead of transposed convolution
         for i in range(n_downsampling):
-            mult = 2 ** (n_downsampling - i)
+            if n_downsampling - i > 4:
+                mult = 2 ** 4
+                channel_in = ngf * mult
+                channel_out = ngf * mult
+            else:
+                mult = 2 ** (n_downsampling - i)
+                channel_in = ngf * mult
+                channel_out = int(ngf * mult/2)
             if interpolated_conv is True:
                 model += [
                     nn.UpsamplingBilinear2d(scale_factor=2),
-                    nn.Conv2d(ngf * mult, int(ngf * mult / 2), 3, padding=1),
-                    norm_layer(int(ngf * mult / 2)),
+                    nn.Conv2d(channel_in, channel_out, 3, padding=1),
+                    norm_layer(channel_out),
                     nn.ReLU(True)]
             else:
-                model += [nn.ConvTranspose2d(ngf * mult, int(ngf * mult / 2),
+                model += [nn.ConvTranspose2d(channel_in, channel_out,
                                              kernel_size=3, stride=2, padding=1,
                                              output_padding=1),
-                          norm_layer(int(ngf * mult / 2)), activation]
+                          norm_layer(channel_out), activation]
 
         model += [nn.ReflectionPad2d(3),
                   nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0),

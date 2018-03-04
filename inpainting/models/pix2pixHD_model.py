@@ -1,10 +1,11 @@
+import numpy as np
+# from third_party.PerceptualSimilarity.models import dist_model as dm
 import torch
 from torch.autograd import Variable
 
 from . import networks
 from .base_model import BaseModel
 from inpainting.util.image_pool import ImagePool
-from third_party.PerceptualSimilarity.models import dist_model as dm
 
 
 # noinspection PyAttributeOutsideInit,PyPep8Naming
@@ -129,7 +130,7 @@ class Pix2PixHDModel(BaseModel):
             # Optimize D #
             ##############
             params = list(self.netD.parameters())
-            self.optimizer_D = torch.optim.Adam(params, lr=opt.lr,
+            self.optimizer_D = torch.optim.Adam(params, lr=opt.lr * opt.lr_D_param,
                                                 betas=(opt.beta1, 0.999))
 
     def encode_input(self, input_image, input_mask=None, original_image=None, input_seg=None,
@@ -196,6 +197,7 @@ class Pix2PixHDModel(BaseModel):
         pred_fake = self.netD.forward(
             torch.cat((input_image_e, fake_image), dim=1))
         loss_G_GAN = self.criterionGAN(pred_fake, True)
+        loss_G_GAN = loss_G_GAN * self.opt.lambda_GGAN
 
         #############################
         # GAN feature matching loss.#
