@@ -21,6 +21,9 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_unguided_general':
         from inpainting.data.inpainting_dataset_unguided_general import InpaintingDatasetUnguidedGeneral
         dataset = InpaintingDatasetUnguidedGeneral()
+    elif opt.model == 'inpainting_unguided_teaser':
+        from inpainting.data.inpainting_dataset_unguided_teaser import InpaintingDatasetUnguidedTeaser
+        dataset = InpaintingDatasetUnguidedTeaser()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
