@@ -8,6 +8,7 @@ import numpy as np
 import scipy
 import scipy.misc
 import torch
+import cv2
 
 from inpainting.data.base_dataset import BaseDataset
 from inpainting.data.image_folder import make_dataset
@@ -27,13 +28,17 @@ class InpaintingDatasetUnguidedTeaser(BaseDataset):
         current_id = index
         while True:
             image_path = self.paths[current_id]
-            image = scipy.misc.imread(image_path, mode='RGB')
+
+            image = cv2.imread(image_path)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+            # image = scipy.misc.imread(image_path, mode='RGB')
             image_height, image_width, _ = image.shape
             if image_height > 128 and image_width > 128:
                 break
             current_id = current_id + 1
 
-        mask_path = "/home/eeb433/Documents/Yuhang/papers/guided_inpainting_paper/latex/figures/teaser/mask.png"
+        mask_path = "/home/eeb433/Documents/Yuhang/papers/guided_inpainting_paper/latex/figures/teaser/mask17.png"
         mask = scipy.misc.imread(mask_path, mode='L')
         # mask = np.zeros((image_height, image_width))
         # hole_y = np.random.randint(image_height - 32)
@@ -43,7 +48,9 @@ class InpaintingDatasetUnguidedTeaser(BaseDataset):
         # mask[hole_y: hole_y+hole_height, hole_x:hole_x+hole_width] = 1
 
         # resize image
-        image_resized = scipy.misc.imresize(image, [self.opt.fineSize, self.opt.fineSize])  # fineSize x fineSize x 3  # noqa 501
+        # image_resized = scipy.misc.imresize(image, [self.opt.fineSize, self.opt.fineSize])  # fineSize x fineSize x 3  # noqa 501
+        image_resized = cv2.resize(image, dsize=(self.opt.fineSize, self.opt.fineSize))#, interpolation=cv2.INTER_CUBIC)
+
         image_resized = np.rollaxis(image_resized, 2, 0)  # 3 x fineSize x fineSize  # noqa 501
 
         mask_resized = scipy.misc.imresize(mask, [self.opt.fineSize,
