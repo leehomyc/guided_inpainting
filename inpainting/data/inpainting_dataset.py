@@ -17,7 +17,7 @@ class InpaintingDataset(BaseDataset):
 
     def __getitem__(self, index):
         """We use image with hole as the input label."""
-        path = self.paths[index]
+        path = self.paths[index % self.dataset_size]
         image = Image.open(path)
         params = get_params(self.opt, image.size)
 
@@ -26,21 +26,25 @@ class InpaintingDataset(BaseDataset):
 
         image_with_hole = image.clone()
 
-        if self.opt.random_location:
-            hole_x_begin = random.randint(0, self.opt.fineSize / 2 + 2 * self.opt.overlapPred)
-            hole_y_begin = random.randint(0, self.opt.fineSize / 2 + 2 * self.opt.overlapPred)
-            hole_x_end = int(hole_x_begin + self.opt.fineSize / 2 - 2 * self.opt.overlapPred)
-            hole_y_end = int(hole_y_begin + self.opt.fineSize / 2 - 2 * self.opt.overlapPred)
+        # if self.opt.random_location:
+        #     hole_x_begin = random.randint(0, self.opt.fineSize / 2 + 2 * self.opt.overlapPred)
+        #     hole_y_begin = random.randint(0, self.opt.fineSize / 2 + 2 * self.opt.overlapPred)
+        #     hole_x_end = int(hole_x_begin + self.opt.fineSize / 2 - 2 * self.opt.overlapPred)
+        #     hole_y_end = int(hole_y_begin + self.opt.fineSize / 2 - 2 * self.opt.overlapPred)
 
-        else:
-            hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
-            hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
-            hole_x_begin = hole_y_begin
-            hole_x_end = hole_y_end
+        # else:
+        hole_y_begin = int(self.opt.fineSize / 4 + self.opt.overlapPred)
+        hole_y_end = int(self.opt.fineSize / 2 + self.opt.fineSize / 4 - self.opt.overlapPred)
+        hole_x_begin = hole_y_begin
+        hole_x_end = hole_y_end
 
-        image_with_hole[0, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 2 * 117.0 / 255.0 - 1.0
-        image_with_hole[1, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 2 * 104.0 / 255.0 - 1.0
-        image_with_hole[2, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 2 * 123.0 / 255.0 - 1.0
+        # image_with_hole[0, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 2 * 117.0 / 255.0 - 1.0
+        # image_with_hole[1, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 2 * 104.0 / 255.0 - 1.0
+        # image_with_hole[2, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 2 * 123.0 / 255.0 - 1.0
+
+        image_with_hole[0, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
+        image_with_hole[1, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
+        image_with_hole[2, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 0
 
         mask = np.zeros((3, self.opt.fineSize, self.opt.fineSize))
         mask[:, hole_y_begin:hole_y_end, hole_x_begin: hole_x_end] = 1 

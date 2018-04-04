@@ -27,7 +27,7 @@ class InpaintingDatasetUnguidedTeaser(BaseDataset):
         as input for training. The output is the original image. """
         current_id = index
         while True:
-            image_path = self.paths[current_id]
+            image_path = self.paths[current_id % self.dataset_size]
 
             image = cv2.imread(image_path)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

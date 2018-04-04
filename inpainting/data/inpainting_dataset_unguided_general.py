@@ -26,7 +26,7 @@ class InpaintingDatasetUnguidedGeneral(BaseDataset):
         as input for training. The output is the original image. """
         current_id = index
         while True:
-            image_path = self.paths[current_id]
+            image_path = self.paths[current_id % self.dataset_size]
             image = scipy.misc.imread(image_path, mode='RGB')
             image_height, image_width, _ = image.shape
             if image_height > 128 and image_width > 128:
