@@ -24,6 +24,21 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_unguided_teaser':
         from inpainting.data.inpainting_dataset_unguided_teaser import InpaintingDatasetUnguidedTeaser
         dataset = InpaintingDatasetUnguidedTeaser()
+    elif opt.model == 'inpainting_apollo_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_object_removal import InpaintingDatasetApolloObjectRemoval
+        dataset = InpaintingDatasetApolloObjectRemoval()
+    elif opt.model == 'inpainting_apollo_single_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_single_object_removal import InpaintingDatasetApolloSingleObjectRemoval
+        dataset = InpaintingDatasetApolloSingleObjectRemoval()
+    elif opt.model == 'inpainting_apollo_object_removal_train':
+        from inpainting.data.inpainting_dataset_apollo_object_removal_train import InpaintingDatasetApolloObjectRemovalTrain
+        dataset = InpaintingDatasetApolloObjectRemovalTrain()
+    elif opt.model == 'inpainting_apollo_single_object_removal_train':
+        from inpainting.data.inpainting_dataset_apollo_single_object_removal_train import InpaintingDatasetApolloSingleObjectRemovalTrain
+        dataset = InpaintingDatasetApolloSingleObjectRemovalTrain()
+    elif opt.model == 'inpainting_apollo_random_crop':
+        from inpainting.data.inpainting_dataset_apollo_random_crop import InpaintingDatasetApolloRandomCrop
+        dataset = InpaintingDatasetApolloRandomCrop()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

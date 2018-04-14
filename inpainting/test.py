@@ -9,12 +9,12 @@ from inpainting.util import html
 import inpainting.util.util as util
 from inpainting.util.visualizer import Visualizer
 
-np.random.seed(0)
+# np.random.seed(100)
 
 opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1
 opt.batchSize = 1  # test code only supports batchSize = 1
-opt.serial_batches = True  # no shuffle
+opt.serial_batches = False  # no shuffle
 opt.no_flip = True  # no flip
 
 data_loader = CreateDataLoader(opt)
