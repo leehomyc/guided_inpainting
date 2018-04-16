@@ -44,7 +44,7 @@ class Pix2PixHDModel(BaseModel):
         if self.use_mask:
             netG_input_nc += 1
         if self.use_seg:
-            netG_input_nc += 3
+            netG_input_nc += opt.seg_nc
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf,
                                       opt.netG,
                                       opt.n_downsample_global,
@@ -60,7 +60,10 @@ class Pix2PixHDModel(BaseModel):
         #########################
         if self.isTrain:
             use_sigmoid = opt.no_lsgan
-            netD_input_nc = input_nc + opt.output_nc
+            if self.use_seg:
+                netD_input_nc = input_nc + opt.seg_nc + opt.output_nc
+            else:
+                netD_input_nc = input_nc + opt.output_nc
             if not opt.no_instance:
                 netD_input_nc += 1
             self.netD = networks.define_D(netD_input_nc, opt.ndf,
@@ -184,18 +187,18 @@ class Pix2PixHDModel(BaseModel):
         ###############################
         # PatchGAN Discriminator loss.#
         ###############################
-        pred_fake_pool = self.discriminate(input_image_e, fake_image,
+        pred_fake_pool = self.discriminate(input_concat, fake_image,
                                            use_pool=True)
         loss_D_fake = self.criterionGAN(pred_fake_pool, False)
 
-        pred_real = self.discriminate(input_image_e, original_image_e)
+        pred_real = self.discriminate(input_concat, original_image_e)
         loss_D_real = self.criterionGAN(pred_real, True)
 
         ###########################
         # PatchGAN Generator loss.#
         ###########################
         pred_fake = self.netD.forward(
-            torch.cat((input_image_e, fake_image), dim=1))
+            torch.cat((input_concat, fake_image), dim=1))
         loss_G_GAN = self.criterionGAN(pred_fake, True)
         loss_G_GAN = loss_G_GAN * self.opt.lambda_GGAN
 
@@ -244,12 +247,20 @@ class Pix2PixHDModel(BaseModel):
         return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_G_recon,
                  loss_D_real, loss_D_fake, perceptual_loss], None if not infer else fake_image]
 
-    def inference(self, input_image, input_mask):
+    def inference(self, input_image, input_mask, input_seg=None):
         # Encode Inputs
-        input_image_e, input_mask_e, _, _= self.encode_input(
-            Variable(input_image), Variable(input_mask), infer=True)
+        if self.use_seg:
+            input_image_e, input_mask_e, _, input_seg_e = self.encode_input(
+                Variable(input_image), Variable(input_mask), input_seg=Variable(input_seg), infer=True)
+        else:
+            input_image_e, input_mask_e, _, _= self.encode_input(
+                Variable(input_image), Variable(input_mask), infer=True)
 
-        input_concat = input_image_e
+        if self.use_seg:
+            input_concat = torch.cat((input_image_e, input_seg_e), dim=1)
+        else:
+            input_concat = input_image_e
+
         fake_image = self.netG.forward(input_concat)
         if self.opt.model == 'inpainting_object' or 'inpainting_guided':
             fake_image = \

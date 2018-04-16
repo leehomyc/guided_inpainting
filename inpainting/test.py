@@ -28,7 +28,10 @@ webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.na
 for i, data in enumerate(dataset):
     if i >= opt.how_many:
         break
-    generated = model.inference(data['input'], data['mask'])
+    if opt.use_seg:
+        generated = model.inference(data['input'], data['mask'], data['input_seg'])
+    else:
+        generated = model.inference(data['input'], data['mask'])
     visuals = OrderedDict([('input_image', util.tensor2label(data['input'][0], opt.label_nc)),  # noqa 501
     					   ('image', util.tensor2label(data['image'][0], opt.label_nc)),
                            # ('input_mask', util.tensor2label(data['mask'][0], opt.label_nc)),

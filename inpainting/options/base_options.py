@@ -35,6 +35,8 @@ class BaseOptions:
                                  help='then crop to this size')
         self.parser.add_argument('--label_nc', type=int, default=35,
                                  help='# of input image channels')
+        self.parser.add_argument('--seg_nc', type=int, default=35,
+                                 help='# of input image channels')
         self.parser.add_argument('--output_nc', type=int, default=3,
                                  help='# of output image channels')
 

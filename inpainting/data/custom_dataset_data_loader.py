@@ -39,6 +39,9 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_apollo_random_crop':
         from inpainting.data.inpainting_dataset_apollo_random_crop import InpaintingDatasetApolloRandomCrop
         dataset = InpaintingDatasetApolloRandomCrop()
+    elif opt.model == 'inpainting_cityscapes_given_segmentation':
+        from inpainting.data.inpainting_dataset_cityscapes_given_segmentation import InpaintingDatasetCityscapesGivenSegmentation
+        dataset = InpaintingDatasetCityscapesGivenSegmentation()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
