@@ -100,7 +100,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         ### display output images
         if save_fake:
             if opt.use_pretrained_model:
-                visuals = OrderedDict([('input_image_original',
+                visuals_list = [('input_image_original',
                                         util.tensor2label(data['input_original'][0],
                                                           opt.label_nc)),
                                        ('input_image',
@@ -109,15 +109,26 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
                                        ('synthesized_image',
                                         util.tensor2im(generated.data[0])),
                                        ('real_image',
-                                        util.tensor2im(data['image'][0]))])
+                                        util.tensor2im(data['image'][0]))]
+                if opt.use_seg:
+                    visuals_list.append(('input_segmentation',
+                                        util.tensor2label(data['input_seg'][0],
+                                                          opt.seg_nc)))
+                visuals = OrderedDict(visuals_list)
             else:
-                visuals = OrderedDict([('input_image',
+                visuals_list = [('input_image',
                                     util.tensor2label(data['input'][0],
                                                       opt.label_nc)),
                                    ('synthesized_image',
                                     util.tensor2im(generated.data[0])),
                                    ('real_image',
-                                    util.tensor2im(data['image'][0]))])
+                                    util.tensor2im(data['image'][0]))]
+                if opt.use_seg:
+                    visuals_list.append(('input_segmentation',
+                                    util.tensor2label(data['input_seg'][0],
+                                                          opt.seg_nc)))
+
+                visuals = OrderedDict(visuals_list)
             visualizer.display_current_results(visuals, epoch, total_steps)
 
         ### save latest model

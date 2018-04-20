@@ -60,7 +60,7 @@ class Pix2PixHDModel(BaseModel):
         #########################
         if self.isTrain:
             use_sigmoid = opt.no_lsgan
-            if self.use_seg:
+            if self.use_seg and not self.opt.no_seg_in_D:
                 netD_input_nc = input_nc + opt.seg_nc + opt.output_nc
             else:
                 netD_input_nc = input_nc + opt.output_nc
@@ -151,9 +151,16 @@ class Pix2PixHDModel(BaseModel):
         if original_image is not None:
             original_image = Variable(original_image.data.cuda())
         if input_seg is not None:
-            input_seg = Variable(input_seg.data.cuda())
+            # input_seg = Variable(input_seg.data.cuda())
+            size = input_seg.size()
+            oneHot_size = (size[0], self.opt.seg_nc, size[2], size[3])
+            input_seg_e = torch.cuda.FloatTensor(torch.Size(oneHot_size)).zero_()
+            input_seg_e = input_seg_e.scatter_(1, input_seg.data.long().cuda(), 1.0)
+            input_seg_e = Variable(input_seg_e)
+        else:
+            input_seg_e = None
 
-        return input_label, input_mask, original_image, input_seg
+        return input_label, input_mask, original_image, input_seg_e
 
     def discriminate(self, input_label, test_image, use_pool=False):
         input_concat = torch.cat((input_label, test_image.detach()), dim=1)
@@ -187,18 +194,32 @@ class Pix2PixHDModel(BaseModel):
         ###############################
         # PatchGAN Discriminator loss.#
         ###############################
-        pred_fake_pool = self.discriminate(input_concat, fake_image,
+        if self.opt.no_seg_in_D:
+            pred_fake_pool = self.discriminate(input_image_e, fake_image,
                                            use_pool=True)
+        else:
+            pred_fake_pool = self.discriminate(input_concat, fake_image,
+                                           use_pool=True)
+
         loss_D_fake = self.criterionGAN(pred_fake_pool, False)
 
-        pred_real = self.discriminate(input_concat, original_image_e)
+
+        if self.opt.no_seg_in_D:
+            pred_real = self.discriminate(input_image_e, original_image_e)
+        else:
+            pred_real = self.discriminate(input_concat, original_image_e)
         loss_D_real = self.criterionGAN(pred_real, True)
 
         ###########################
         # PatchGAN Generator loss.#
         ###########################
-        pred_fake = self.netD.forward(
+        if self.opt.no_seg_in_D:
+            pred_fake = self.netD.forward(
+            torch.cat((input_image_e, fake_image), dim=1))
+        else:
+            pred_fake = self.netD.forward(
             torch.cat((input_concat, fake_image), dim=1))
+        
         loss_G_GAN = self.criterionGAN(pred_fake, True)
         loss_G_GAN = loss_G_GAN * self.opt.lambda_GGAN
 

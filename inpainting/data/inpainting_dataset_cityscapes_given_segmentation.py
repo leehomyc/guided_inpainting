@@ -39,16 +39,21 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
             image_path = self.paths[current_id % self.dataset_size]
             image_annpath = self.annpaths[current_id % self.dataset_size]
             image = scipy.misc.imread(image_path, mode='RGB')
-            image_ann = scipy.misc.imread(image_annpath, mode='L')
+            # image_ann = scipy.misc.imread(image_annpath, mode='I')
+            image_seg = scipy.misc.imread(image_annpath, mode='I')
             image_height, image_width, _ = image.shape
-            image_seg = np.zeros((self.seg_nc, image_height, image_width))
-            if self.seg_nc == 35:
-                for i in range(-1,34):
-                    image_seg[i+1, image_ann==i] = 1
-            else:
+            # image_seg = np.zeros((self.seg_nc, image_height, image_width))
+            # if self.seg_nc == 35:
+            #     for i in range(-1,34):
+            #         image_seg[i+1, image_ann==i] = 1
+            # else:
+            #     mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
+            #     for i in range(-1,34):
+            #         image_seg[mapping[i], image_ann==i] = 1
+            if self.seg_nc == 8:
                 mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
                 for i in range(-1,34):
-                    image_seg[mapping[i], image_ann==i] = 1
+                    image_seg[image_seg==i] = mapping[i]
 
 
             
@@ -73,9 +78,10 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
         mask_resized = np.tile(mask_resized, (3, 1, 1))
 
         # resize segmentation
-        image_seg_resized = np.zeros((self.seg_nc, self.opt.fineSize, self.opt.fineSize))
-        for i in range(self.seg_nc):
-            image_seg_resized[i] = scipy.misc.imresize(image_seg[i], [self.opt.fineSize, self.opt.fineSize])
+        image_seg_resized = scipy.misc.imresize(image_seg, [self.opt.fineSize, self.opt.fineSize], interp='nearest', mode='F')
+        # image_seg_resized = np.zeros((self.seg_nc, self.opt.fineSize, self.opt.fineSize))
+        # for i in range(self.seg_nc):
+        #     image_seg_resized[i] = scipy.misc.imresize(image_seg[i], [self.opt.fineSize, self.opt.fineSize])
 
         # normalize
         image_resized = image_resized / 122.5 - 1
@@ -88,6 +94,7 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
         input_image = torch.from_numpy(input_image).float()
         image_resized = torch.from_numpy(image_resized).float()
         image_seg_resized = torch.from_numpy(image_seg_resized).float()
+        image_seg_resized = image_seg_resized.unsqueeze(0)
 
         if self.opt.use_pretrained_model:
             input_image_unsqueezed = input_image.unsqueeze(0)

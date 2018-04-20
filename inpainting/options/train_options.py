@@ -91,4 +91,8 @@ class TrainOptions(BaseOptions):
                                  help='if specified, use local discriminator '
                                       'in addition to the global '
                                       'discriminator.')
+        self.parser.add_argument('--no_seg_in_D',
+                                 action='store_true',
+                                 help='if specified, do *not* use segmentation '
+                                      'mask as input to the discriminator.')
         self.isTrain = True
