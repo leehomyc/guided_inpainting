@@ -42,6 +42,18 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_cityscapes_given_segmentation':
         from inpainting.data.inpainting_dataset_cityscapes_given_segmentation import InpaintingDatasetCityscapesGivenSegmentation
         dataset = InpaintingDatasetCityscapesGivenSegmentation()
+    elif opt.model == 'inpainting_cityscapes_given_predicted_segmentation':
+        from inpainting.data.inpainting_dataset_cityscapes_given_predicted_segmentation import InpaintingDatasetCityscapesGivenPredictedSegmentation
+        dataset = InpaintingDatasetCityscapesGivenPredictedSegmentation()
+    elif opt.model == 'inpainting_cityscapes_predict_segmentation':
+        from inpainting.data.inpainting_dataset_cityscapes_predict_segmentation import InpaintingDatasetCityscapesPredictSegmentation
+        dataset = InpaintingDatasetCityscapesPredictSegmentation()
+    elif opt.model == 'inpainting_HelenFace_predict_segmentation':
+        from inpainting.data.inpainting_dataset_HelenFace_predict_segmentation import InpaintingDatasetHelenFacePredictSegmentation
+        dataset = InpaintingDatasetHelenFacePredictSegmentation()
+    elif opt.model == 'inpainting_NYUDepthv2_predict_segmentation':
+        from inpainting.data.inpainting_dataset_NYUDepthv2_predict_segmentation import InpaintingDatasetNYUDepthv2PredictSegmentation
+        dataset = InpaintingDatasetNYUDepthv2PredictSegmentation()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

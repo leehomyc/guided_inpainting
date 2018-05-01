@@ -219,9 +219,17 @@ class GlobalGenerator(nn.Module):
                                              output_padding=1),
                           norm_layer(channel_out), activation]
 
+        # model += [nn.ReflectionPad2d(3),
+        #           nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0),
+        #           nn.Tanh()]
         model += [nn.ReflectionPad2d(3),
-                  nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0),
-                  nn.Tanh()]
+                  nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)]
+        if output_nc == 3:
+            model += [nn.Tanh()]
+        else:
+            model += [nn.Softmax(dim=1)]
+
+
         self.model = nn.Sequential(*model)
 
     def forward(self, input):

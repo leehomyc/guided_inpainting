@@ -26,6 +26,7 @@ class Pix2PixHDModel(BaseModel):
             self.p_model = dm.DistModel()
             self.p_model.initialize(model='net-lin', net='alex', use_gpu=True)
         self.use_seg = opt.use_seg
+        self.use_conditional_image = opt.use_conditional_image
         if opt.label_nc != 0:
             input_nc = opt.label_nc
         else:
@@ -45,6 +46,8 @@ class Pix2PixHDModel(BaseModel):
             netG_input_nc += 1
         if self.use_seg:
             netG_input_nc += opt.seg_nc
+        if self.use_conditional_image:
+            netG_input_nc += 3
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf,
                                       opt.netG,
                                       opt.n_downsample_global,
@@ -62,6 +65,8 @@ class Pix2PixHDModel(BaseModel):
             use_sigmoid = opt.no_lsgan
             if self.use_seg and not self.opt.no_seg_in_D:
                 netD_input_nc = input_nc + opt.seg_nc + opt.output_nc
+            elif self.use_conditional_image and not self.opt.no_conditional_image_in_D:
+                netD_input_nc = input_nc + 3 + opt.output_nc
             else:
                 netD_input_nc = input_nc + opt.output_nc
             if not opt.no_instance:
@@ -136,10 +141,16 @@ class Pix2PixHDModel(BaseModel):
             self.optimizer_D = torch.optim.Adam(params, lr=opt.lr * opt.lr_D_param,
                                                 betas=(opt.beta1, 0.999))
 
-    def encode_input(self, input_image, input_mask=None, original_image=None, input_seg=None,
+    def encode_input(self, input_image, input_mask=None, original_image=None, input_seg=None, input_conditional_image=None,
                      infer=False):
-
-        input_label = input_image.data.cuda()
+        if self.opt.label_nc == 0:
+            input_label = input_image.data.cuda()
+        else:
+            size = input_image.size()
+            oneHot_size = (size[0], self.opt.label_nc, size[2], size[3])
+            input_label = torch.cuda.FloatTensor(torch.Size(oneHot_size)).zero_()
+            input_label = input_label.scatter_(1, input_image.data.long().cuda(), 1.0)
+            # input_label = Variable(input_label)
 
         # get edges from instance map
         if not self.opt.isTrain:
@@ -149,7 +160,17 @@ class Pix2PixHDModel(BaseModel):
 
         # real images for training
         if original_image is not None:
-            original_image = Variable(original_image.data.cuda())
+            if self.opt.output_nc == 3:
+                original_image_e = Variable(original_image.data.cuda())
+            else:
+                size = original_image.size()
+                oneHot_size = (size[0], self.opt.output_nc, size[2], size[3])
+                original_image_e = torch.cuda.FloatTensor(torch.Size(oneHot_size)).zero_()
+                original_image_e = original_image_e.scatter_(1, original_image.data.long().cuda(), 1.0)
+                original_image_e = Variable(original_image_e)
+        else:
+            original_image_e = original_image
+
         if input_seg is not None:
             # input_seg = Variable(input_seg.data.cuda())
             size = input_seg.size()
@@ -160,7 +181,12 @@ class Pix2PixHDModel(BaseModel):
         else:
             input_seg_e = None
 
-        return input_label, input_mask, original_image, input_seg_e
+        if input_conditional_image is not None:
+            input_conditional_image_e = Variable(input_conditional_image.data.cuda())
+        else:
+            input_conditional_image_e = None
+
+        return input_label, input_mask, original_image_e, input_seg_e, input_conditional_image_e
 
     def discriminate(self, input_label, test_image, use_pool=False):
         input_concat = torch.cat((input_label, test_image.detach()), dim=1)
@@ -170,26 +196,37 @@ class Pix2PixHDModel(BaseModel):
         else:
             return self.netD.forward(input_concat)
 
-    def forward(self, input_image, input_mask, original_image, input_seg=None, infer=False):
+    def forward(self, input_image, input_mask, original_image, input_seg=None, input_conditional_image=None, infer=False):
         # Encode Inputs
         if self.use_seg:
-            input_image_e, input_mask_e, original_image_e, input_seg_e = \
+            input_image_e, input_mask_e, original_image_e, input_seg_e, _ = \
                 self.encode_input(input_image, input_mask, original_image, input_seg)
+        elif self.use_conditional_image:
+            input_image_e, input_mask_e, original_image_e, _, input_conditional_image_e = \
+                self.encode_input(input_image, input_mask, original_image, input_conditional_image=input_conditional_image)
         else:
-            input_image_e, input_mask_e, original_image_e, _ = \
+            input_image_e, input_mask_e, original_image_e, _, _ = \
                 self.encode_input(input_image, input_mask, original_image)
 
         # Fake Generation
         if self.use_seg:
             input_concat = torch.cat((input_image_e, input_seg_e), dim=1)
+        elif self.use_conditional_image:
+            input_concat = torch.cat((input_image_e, input_conditional_image_e), dim=1)
         else:
             input_concat = input_image_e
 
         fake_image = self.netG.forward(input_concat)
 
-        if self.opt.model == 'inpainting_object' or 'inpainting_guided':
+        # if self.opt.model == 'inpainting_object' or 'inpainting_guided':
+        # if self.opt.model != 'inpainting_cityscapes_predict_segmentation':
+        if self.opt.model == 'inpainting_cityscapes_predict_segmentation':
             fake_image = original_image_e * (1 - input_mask_e) + \
                          fake_image * input_mask_e
+        else:
+            fake_image = original_image_e * (1 - input_mask_e) + \
+                         fake_image * input_mask_e
+            
 
         ###############################
         # PatchGAN Discriminator loss.#
@@ -268,17 +305,22 @@ class Pix2PixHDModel(BaseModel):
         return [[loss_G_GAN, loss_G_GAN_Feat, loss_G_VGG, loss_G_recon,
                  loss_D_real, loss_D_fake, perceptual_loss], None if not infer else fake_image]
 
-    def inference(self, input_image, input_mask, input_seg=None):
+    def inference(self, input_image, input_mask, input_seg=None, input_conditional_image=None):
         # Encode Inputs
         if self.use_seg:
-            input_image_e, input_mask_e, _, input_seg_e = self.encode_input(
+            input_image_e, input_mask_e, _, input_seg_e, _ = self.encode_input(
                 Variable(input_image), Variable(input_mask), input_seg=Variable(input_seg), infer=True)
+        elif self.use_conditional_image:
+            input_image_e, input_mask_e, _, _, input_conditional_image_e = self.encode_input(
+                Variable(input_image), Variable(input_mask), input_conditional_image=Variable(input_conditional_image), infer=True)
         else:
-            input_image_e, input_mask_e, _, _= self.encode_input(
+            input_image_e, input_mask_e, _, _, _= self.encode_input(
                 Variable(input_image), Variable(input_mask), infer=True)
 
         if self.use_seg:
             input_concat = torch.cat((input_image_e, input_seg_e), dim=1)
+        elif self.use_conditional_image:
+            input_concat = torch.cat((input_image_e, input_conditional_image_e), dim=1)
         else:
             input_concat = input_image_e
 

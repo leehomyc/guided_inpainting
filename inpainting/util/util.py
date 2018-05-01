@@ -35,6 +35,17 @@ def tensor2label(label_tensor, n_label, imtype=np.uint8):
     label_numpy = np.transpose(label_tensor.numpy(), (1, 2, 0))
     return label_numpy.astype(imtype)
 
+# Converts a one-hot tensor into a colorful label map
+def tensor2segLabel(label_tensor, imtype=np.uint8):
+    label_tensor = label_tensor.cpu().float()
+    if label_tensor.size()[0] > 1:
+        label_tensor = label_tensor.max(0, keepdim=True)[1]
+    # label_tensor = Colorize(n_label)(label_tensor)
+    label_numpy = np.transpose(label_tensor.numpy(), (1, 2, 0))
+    label_numpy = np.squeeze(label_numpy)
+    # label_numpy = label_tensor.numpy()
+    return label_numpy.astype(imtype)
+
 
 def save_image(image_numpy, image_path):
     image_pil = Image.fromarray(image_numpy)

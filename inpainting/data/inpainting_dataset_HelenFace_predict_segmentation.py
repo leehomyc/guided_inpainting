@@ -15,21 +15,20 @@ from inpainting.data.image_folder import make_dataset
 
 np.random.seed(0)
 
-class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
+class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         self.root = opt.dataroot
 
-        if opt.isTrain:
-            self.rootAnn = os.path.join(self.root,'gtFine/train')
-            self.rootImg = os.path.join(self.root,'leftImg8bit/train')
-        else:
-            self.rootAnn = os.path.join(self.root,'gtFine/val')
-            self.rootImg = os.path.join(self.root,'leftImg8bit/val')
-        
-        self.paths = sorted(make_dataset(self.rootImg))
-        self.annpaths = [ f.replace(self.rootImg, self.rootAnn).replace('leftImg8bit','gtFine_labelIds') for f in self.paths]
-        self.seg_nc = opt.seg_nc
+        self.paths, self.annpaths = [],[]
+        imagelistfile = open("{}/exemplars.txt".format(self.root))
+        for line in imagelistfile:
+            self.paths.append(self.root + '/images/' + line.strip().split(' ')[2] + '.jpg')
+            self.annpaths.append(self.root + '/labels/' + line.strip().split(' ')[2] + '/' + line.strip().split(' ')[2])
+
+        imagelistfile.close()
+
+        self.label_nc = opt.label_nc
 
         self.dataset_size = len(self.paths)
 
@@ -43,8 +42,15 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
             image_annpath = self.annpaths[current_id % self.dataset_size]
             image = scipy.misc.imread(image_path, mode='RGB')
             # image_ann = scipy.misc.imread(image_annpath, mode='I')
-            image_seg = scipy.misc.imread(image_annpath, mode='I')
             image_height, image_width, _ = image.shape
+
+            image_seg = np.zeros((self.label_nc, image_height,image_width),dtype=np.uint8)
+            for i in range(11):
+                image_seg[i] = scipy.misc.imread(image_annpath + '_lbl{:0>2d}.png'.format(i), mode='L')
+            image_seg = np.argmax(image_seg, axis=0)
+
+            # image_seg = scipy.misc.imread(image_annpath, mode='I')
+            
             # image_seg = np.zeros((self.seg_nc, image_height, image_width))
             # if self.seg_nc == 35:
             #     for i in range(-1,34):
@@ -53,7 +59,7 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
             #     mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
             #     for i in range(-1,34):
             #         image_seg[mapping[i], image_ann==i] = 1
-            if self.seg_nc == 8:
+            if self.label_nc == 8:
                 mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
                 for i in range(-1,34):
                     image_seg[image_seg==i] = mapping[i]
@@ -78,10 +84,11 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
         mask_resized = scipy.misc.imresize(mask, [self.opt.fineSize,
                                                   self.opt.fineSize])
         mask_resized[mask_resized > 0] = 1  # fineSize x fineSize
-        mask_resized = np.tile(mask_resized, (3, 1, 1))
+        # mask_resized = np.tile(mask_resized, (3, 1, 1))
 
         # resize segmentation
         image_seg_resized = scipy.misc.imresize(image_seg, [self.opt.fineSize, self.opt.fineSize], interp='nearest', mode='F')
+        
         # image_seg_resized = np.zeros((self.seg_nc, self.opt.fineSize, self.opt.fineSize))
         # for i in range(self.seg_nc):
         #     image_seg_resized[i] = scipy.misc.imresize(image_seg[i], [self.opt.fineSize, self.opt.fineSize])
@@ -90,30 +97,43 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
         image_resized = image_resized / 122.5 - 1
 
         input_image = np.copy(image_resized)
-        input_image[mask_resized == 1] = 0
+        input_image[np.tile(mask_resized, (3, 1, 1)) == 1] = 0
+
+
+
+        input_image_seg = np.copy(image_seg_resized)
+        input_image_seg[mask_resized == 1] = 0
+        # mask_resized = np.tile(mask_resized, (3, 1, 1))
+
 
         # change from numpy to pytorch tensor
         mask_resized = torch.from_numpy(mask_resized).float()
+        mask_resized = mask_resized.unsqueeze(0)
+
         input_image = torch.from_numpy(input_image).float()
+        input_image_seg = torch.from_numpy(input_image_seg).float()
+        input_image_seg = input_image_seg.unsqueeze(0)
         image_resized = torch.from_numpy(image_resized).float()
         image_seg_resized = torch.from_numpy(image_seg_resized).float()
         image_seg_resized = image_seg_resized.unsqueeze(0)
 
         if self.opt.use_pretrained_model:
-            input_image_unsqueezed = input_image.unsqueeze(0)
+            input_image_unsqueezed = input_image_seg.unsqueeze(0)
             mask_resized_unsqueezed = mask_resized.unsqueeze(0)
             generated = self.pretrained_model.inference(input_image_unsqueezed, mask_resized_unsqueezed)
             input_image_l2 = generated.data[0]
 
             input_dict = {'input': input_image_l2, 'mask': mask_resized,
-                          'image': image_resized,
-                          'input_seg': image_seg_resized,
+                          'image': image_seg_resized,
+                          'original_image': image_resized,
+                          'masked_image': input_image,
                           'path': image_path,
-                          'input_original': input_image}
+                          'input_original': input_image_seg}
         else:
-            input_dict = {'input': input_image, 'mask': mask_resized,
-                          'image': image_resized,
-                          'input_seg': image_seg_resized,
+            input_dict = {'input': input_image_seg, 'mask': mask_resized,
+                          'image': image_seg_resized,
+                          'original_image': image_resized,
+                          'masked_image': input_image,
                           'path': image_path}
 
         return input_dict
@@ -122,4 +142,4 @@ class InpaintingDatasetCityscapesGivenSegmentation(BaseDataset):
         return len(self.paths)
 
     def name(self):
-        return 'InpaintingDatasetCityscapesGivenSegmentation'
+        return 'InpaintingDatasetHelenFacePredictSegmentation'
