@@ -54,6 +54,9 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_NYUDepthv2_predict_segmentation':
         from inpainting.data.inpainting_dataset_NYUDepthv2_predict_segmentation import InpaintingDatasetNYUDepthv2PredictSegmentation
         dataset = InpaintingDatasetNYUDepthv2PredictSegmentation()
+    elif opt.model == 'inpainting_pascalVOC_predict_segmentation':
+        from inpainting.data.inpainting_dataset_pascalVOC_predict_segmentation import InpaintingDatasetPascalVOCPredictSegmentation
+        dataset = InpaintingDatasetPascalVOCPredictSegmentation()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

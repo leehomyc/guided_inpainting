@@ -15,7 +15,7 @@ from inpainting.data.image_folder import make_dataset
 
 np.random.seed(0)
 
-class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
+class InpaintingDatasetPascalVOCPredictSegmentation(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         self.root = opt.dataroot
@@ -23,12 +23,12 @@ class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
         self.paths, self.annpaths = [],[]
 
         if opt.isTrain:
-            imagelistfile = open("{}/exemplars.txt".format(self.root))
+            imagelistfile = open("{}/VOC2012/ImageSets/Segmentation/train.txt".format(self.root))
         else:
-            imagelistfile = open("{}/testing.txt".format(self.root))
+            imagelistfile = open("{}/VOC2012/ImageSets/Segmentation/val.txt".format(self.root))
         for line in imagelistfile:
-            self.paths.append(self.root + '/images/' + line.strip().split(' ')[2] + '.jpg')
-            self.annpaths.append(self.root + '/labels/' + line.strip().split(' ')[2] + '/' + line.strip().split(' ')[2])
+            self.paths.append(self.root + '/VOC2012/JPEGImages/' + line.strip() + '.jpg')
+            self.annpaths.append(self.root + '/VOC2012/SegmentationClass/' + line.strip() + '.png')
 
         imagelistfile.close()
 
@@ -46,15 +46,8 @@ class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
             image_annpath = self.annpaths[current_id % self.dataset_size]
             image = scipy.misc.imread(image_path, mode='RGB')
             # image_ann = scipy.misc.imread(image_annpath, mode='I')
+            image_seg = scipy.misc.imread(image_annpath, mode='P')
             image_height, image_width, _ = image.shape
-
-            image_seg = np.zeros((self.label_nc, image_height,image_width),dtype=np.uint8)
-            for i in range(11):
-                image_seg[i] = scipy.misc.imread(image_annpath + '_lbl{:0>2d}.png'.format(i), mode='L')
-            image_seg = np.argmax(image_seg, axis=0)
-
-            # image_seg = scipy.misc.imread(image_annpath, mode='I')
-            
             # image_seg = np.zeros((self.seg_nc, image_height, image_width))
             # if self.seg_nc == 35:
             #     for i in range(-1,34):
@@ -63,10 +56,11 @@ class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
             #     mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
             #     for i in range(-1,34):
             #         image_seg[mapping[i], image_ann==i] = 1
-            if self.label_nc == 8:
-                mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
-                for i in range(-1,34):
-                    image_seg[image_seg==i] = mapping[i]
+            if self.label_nc == 21:
+                image_seg[image_seg==255] = 0
+            elif self.label_nc == 22:
+                image_seg[image_seg==255] = 21
+
 
 
             
@@ -146,4 +140,4 @@ class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
         return len(self.paths)
 
     def name(self):
-        return 'InpaintingDatasetHelenFacePredictSegmentation'
+        return 'InpaintingDatasetPascalVOCPredictSegmentation'
