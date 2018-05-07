@@ -63,10 +63,6 @@ class InpaintingDatasetHelenFacePredictSegmentation(BaseDataset):
             #     mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
             #     for i in range(-1,34):
             #         image_seg[mapping[i], image_ann==i] = 1
-            if self.label_nc == 8:
-                mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
-                for i in range(-1,34):
-                    image_seg[image_seg==i] = mapping[i]
 
 
             

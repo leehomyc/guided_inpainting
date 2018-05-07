@@ -17,30 +17,32 @@ from inpainting.data.image_folder import make_dataset
 
 np.random.seed(0)
 
-class InpaintingDatasetCityscapesGivenPredictedSegmentation(BaseDataset):
+class InpaintingDatasetHelenFaceGivenPredictedSegmentation(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         self.root = opt.dataroot
 
-        files = [f.split('_leftImg8bit_')[0] + '_leftImg8bit_' for f in listdir(self.root) if isfile(join(self.root, f))]
-        # files = [f.split('_origin_')[0] + '_origin_' for f in listdir(self.root) if isfile(join(self.root, f))]
+        files = ['_'.join(f.split('_')[0:2]) for f in listdir(self.root) if isfile(join(self.root, f))]
 
         filehash = set(files)
         fileid = [i for i in filehash]
 
-        self.paths = [self.root+'/'+i+'original_image.png' for i in fileid]
-        self.annpaths = [self.root+'/'+i+'predicted_label.png' for i in fileid]
-        self.maskpaths = [self.root+'/'+i+'input_mask.png' for i in fileid]
+        self.paths = [self.root+'/'+i+'_original_image.png' for i in fileid]
+        self.annpaths = [self.root+'/'+i+'_predicted_label.png' for i in fileid]
+        self.maskpaths = [self.root+'/'+i+'_input_mask.png' for i in fileid]
+
+        # self.paths, self.annpaths = [],[]
 
         # if opt.isTrain:
-        #     self.rootAnn = os.path.join(self.root,'gtFine/train')
-        #     self.rootImg = os.path.join(self.root,'leftImg8bit/train')
+        #     imagelistfile = open("{}/exemplars.txt".format(self.root))
         # else:
-        #     self.rootAnn = os.path.join(self.root,'gtFine/val')
-        #     self.rootImg = os.path.join(self.root,'leftImg8bit/val')
-        
-        # self.paths = sorted(make_dataset(self.rootImg))
-        # self.annpaths = [ f.replace(self.rootImg, self.rootAnn).replace('leftImg8bit','gtFine_labelIds') for f in self.paths]
+        #     imagelistfile = open("{}/testing.txt".format(self.root))
+        # for line in imagelistfile:
+        #     self.paths.append(self.root + '/images/' + line.strip().split(' ')[2] + '.jpg')
+        #     self.annpaths.append(self.root + '/labels/' + line.strip().split(' ')[2] + '/' + line.strip().split(' ')[2])
+
+        # imagelistfile.close()
+       
         self.seg_nc = opt.seg_nc
 
         self.dataset_size = len(self.paths)
@@ -60,6 +62,12 @@ class InpaintingDatasetCityscapesGivenPredictedSegmentation(BaseDataset):
             image_seg = scipy.misc.imread(image_annpath, mode='I')
             image_mask = scipy.misc.imread(image_maskpath, mode='L')
             image_height, image_width, _ = image.shape
+
+            # image_seg = np.zeros((self.seg_nc, image_height,image_width),dtype=np.uint8)
+            # for i in range(11):
+            #     image_seg[i] = scipy.misc.imread(image_annpath + '_lbl{:0>2d}.png'.format(i), mode='L')
+            # image_seg = np.argmax(image_seg, axis=0)
+
             # image_seg = np.zeros((self.seg_nc, image_height, image_width))
             # if self.seg_nc == 35:
             #     for i in range(-1,34):
@@ -68,10 +76,6 @@ class InpaintingDatasetCityscapesGivenPredictedSegmentation(BaseDataset):
             #     mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
             #     for i in range(-1,34):
             #         image_seg[mapping[i], image_ann==i] = 1
-            # if self.seg_nc == 8:
-            #     mapping = [0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,5,6,6,7,7,7,7,7,7,7,7,7]
-            #     for i in range(-1,34):
-            #         image_seg[image_seg==i] = mapping[i]
 
 
             
@@ -137,4 +141,4 @@ class InpaintingDatasetCityscapesGivenPredictedSegmentation(BaseDataset):
         return len(self.paths)
 
     def name(self):
-        return 'InpaintingDatasetCityscapesGivenPredictedSegmentation'
+        return 'InpaintingDatasetHelenFaceGivenPredictedSegmentation'

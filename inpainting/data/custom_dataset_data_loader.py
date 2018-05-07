@@ -45,9 +45,15 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_cityscapes_given_predicted_segmentation':
         from inpainting.data.inpainting_dataset_cityscapes_given_predicted_segmentation import InpaintingDatasetCityscapesGivenPredictedSegmentation
         dataset = InpaintingDatasetCityscapesGivenPredictedSegmentation()
+    elif opt.model == 'inpainting_cityscapes_given_interactive_segmentation':
+        from inpainting.data.inpainting_dataset_cityscapes_given_interactive_segmentation import InpaintingDatasetCityscapesGivenInteractiveSegmentation
+        dataset = InpaintingDatasetCityscapesGivenInteractiveSegmentation()
     elif opt.model == 'inpainting_cityscapes_predict_segmentation':
         from inpainting.data.inpainting_dataset_cityscapes_predict_segmentation import InpaintingDatasetCityscapesPredictSegmentation
         dataset = InpaintingDatasetCityscapesPredictSegmentation()
+    elif opt.model == 'inpainting_cityscapes_given_seg_predict_segmentation':
+        from inpainting.data.inpainting_dataset_cityscapes_given_seg_predict_segmentation import InpaintingDatasetCityscapesGivenSegPredictSegmentation
+        dataset = InpaintingDatasetCityscapesGivenSegPredictSegmentation()
     elif opt.model == 'inpainting_HelenFace_predict_segmentation':
         from inpainting.data.inpainting_dataset_HelenFace_predict_segmentation import InpaintingDatasetHelenFacePredictSegmentation
         dataset = InpaintingDatasetHelenFacePredictSegmentation()
@@ -57,6 +63,12 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_pascalVOC_predict_segmentation':
         from inpainting.data.inpainting_dataset_pascalVOC_predict_segmentation import InpaintingDatasetPascalVOCPredictSegmentation
         dataset = InpaintingDatasetPascalVOCPredictSegmentation()
+    elif opt.model == 'inpainting_HelenFace_given_segmentation':
+        from inpainting.data.inpainting_dataset_HelenFace_given_segmentation import InpaintingDatasetHelenFaceGivenSegmentation
+        dataset = InpaintingDatasetHelenFaceGivenSegmentation()
+    elif opt.model == 'inpainting_HelenFace_given_predicted_segmentation':
+        from inpainting.data.inpainting_dataset_HelenFace_given_predicted_segmentation import InpaintingDatasetHelenFaceGivenPredictedSegmentation
+        dataset = InpaintingDatasetHelenFaceGivenPredictedSegmentation()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

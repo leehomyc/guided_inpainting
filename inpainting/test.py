@@ -30,6 +30,8 @@ for i, data in enumerate(dataset):
         break
     if opt.use_seg:
         generated = model.inference(data['input'], data['mask'], input_seg=data['input_seg'])
+    elif opt.use_conditional_image:
+        generated = model.inference(data['input'], data['mask'], input_conditional_image=data['masked_image'])
     else:
         generated = model.inference(data['input'], data['mask'])
     visuals_list = [('input_image', util.tensor2label(data['input'][0], opt.label_nc)),  # noqa 501
@@ -40,7 +42,8 @@ for i, data in enumerate(dataset):
                            ('synthesized_image',
                                         util.tensor2label(generated.data[0],
                                                           0 if opt.output_nc==3 else opt.output_nc))]
-    if opt.model == 'inpainting_cityscapes_predict_segmentation':
+    # if opt.model == 'inpainting_cityscapes_predict_segmentation':
+    if 'predict_segmentation' in opt.model:
       visuals_list.append(('original_image',
                                     util.tensor2im(data['original_image'][0])))
       visuals_list.append(('predicted_label',
@@ -50,6 +53,9 @@ for i, data in enumerate(dataset):
       visuals_list.append(('input_segmentation',
                                     util.tensor2label(data['input_seg'][0],
                                                           opt.seg_nc)))
+    if opt.use_conditional_image:
+      visuals_list.append(('conditional_image',
+                                    util.tensor2im(data['masked_image'][0])))
     visuals = OrderedDict(visuals_list)  # noqa 501
     img_path = data['path']
     print('process image... {}:{}'.format(i, img_path))
