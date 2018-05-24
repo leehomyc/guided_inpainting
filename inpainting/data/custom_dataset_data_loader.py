@@ -69,6 +69,18 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_HelenFace_given_predicted_segmentation':
         from inpainting.data.inpainting_dataset_HelenFace_given_predicted_segmentation import InpaintingDatasetHelenFaceGivenPredictedSegmentation
         dataset = InpaintingDatasetHelenFaceGivenPredictedSegmentation()
+    elif opt.model == 'inpainting_apollo_predict_segmentation_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_predict_segmentation_object_removal import InpaintingDatasetApolloPredictSegmentationObjectRemoval
+        dataset = InpaintingDatasetApolloPredictSegmentationObjectRemoval()
+    elif opt.model == 'inpainting_apollo_test_predict_segmentation_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_test_predict_segmentation_object_removal import InpaintingDatasetApolloTestPredictSegmentationObjectRemoval
+        dataset = InpaintingDatasetApolloTestPredictSegmentationObjectRemoval()
+    elif opt.model == 'inpainting_apollo_given_segmentation_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_given_segmentation_object_removal import InpaintingDatasetApolloGivenSegmentationObjectRemoval
+        dataset = InpaintingDatasetApolloGivenSegmentationObjectRemoval()
+    elif opt.model == 'inpainting_apollo_given_predicted_segmentation_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_given_predicted_segmentation_object_removal import InpaintingDatasetApolloGivenPredictedSegmentationObjectRemoval
+        dataset = InpaintingDatasetApolloGivenPredictedSegmentationObjectRemoval()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)

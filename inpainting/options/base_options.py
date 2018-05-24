@@ -103,6 +103,8 @@ class BaseOptions:
                                  help='if specified, only keep the hole')
         self.parser.add_argument('--dilation', type=int, default=1,
                                  help='the dilation parameter to use.')
+        self.parser.add_argument('--mask_dilation_iter', type=int, default=0,
+                                 help='the dilation parameter for binary mask.')
         self.parser.add_argument('--interpolated_conv', action='store_true',
                                  help='if specified, use interpolated convolution instead of deconvolution.')  # noqa 501
         self.parser.add_argument('--content_weight', type=float, default=0.25,
