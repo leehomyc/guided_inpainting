@@ -87,6 +87,9 @@ def CreateDataset(opt):
     elif opt.model == 'inpainting_apollo_server_given_segmentation_object_removal':
         from inpainting.data.inpainting_dataset_apollo_server_given_segmentation_object_removal import InpaintingDatasetApolloServerGivenSegmentationObjectRemoval
         dataset = InpaintingDatasetApolloServerGivenSegmentationObjectRemoval()
+    elif opt.model == 'inpainting_apollo_given_label_render_object_removal':
+        from inpainting.data.inpainting_dataset_apollo_given_label_render_object_removal import InpaintingDatasetApolloGivenLabelRenderObjectRemoval
+        dataset = InpaintingDatasetApolloGivenLabelRenderObjectRemoval()
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
