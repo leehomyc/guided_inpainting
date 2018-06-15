@@ -53,6 +53,17 @@ class InpaintingDatasetApolloGivenLabelFlowVideoObjectRemoval(BaseDataset):
             image_mask = scipy.misc.imread(image_maskpath, mode='L')
             image_warp = scipy.misc.imread(image_warppath, mode='RGB')
             image_height, image_width, _ = image.shape
+
+            # downsample the image by factor 2
+            image = scipy.misc.imresize(image, [int(image_height/2), int(image_width/2)]) 
+            image_warp = scipy.misc.imresize(image_warp, [int(image_height/2), int(image_width/2)]) 
+            image_render = scipy.misc.imresize(image_render, [int(image_height/2), int(image_width/2)], interp='nearest', mode='F')
+            image_mask = scipy.misc.imresize(image_mask, [int(image_height/2), int(image_width/2)], interp='nearest', mode='F')
+            image_height, image_width, _ = image.shape
+
+
+
+
             # image_seg = np.zeros((self.seg_nc, image_height, image_width))
             # if self.seg_nc == 35:
             #     for i in range(-1,34):
