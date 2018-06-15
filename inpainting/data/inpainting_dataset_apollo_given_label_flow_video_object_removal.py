@@ -10,6 +10,8 @@ import scipy.misc
 import scipy.ndimage
 import torch
 import os
+from os import listdir
+from os.path import isfile, join
 
 from inpainting.data.base_dataset import BaseDataset
 from inpainting.data.image_folder import make_dataset
