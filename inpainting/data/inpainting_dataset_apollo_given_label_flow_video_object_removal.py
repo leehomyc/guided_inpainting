@@ -140,7 +140,7 @@ class InpaintingDatasetApolloGivenLabelFlowVideoObjectRemoval(BaseDataset):
         warp_resized = warp_resized / 122.5 - 1
 
         input_image = np.copy(image_resized)
-        input_image[mask_resized == 1] = 0
+        input_image[mask_resized > 128] = 0
 
         # change from numpy to pytorch tensor
         mask_resized = torch.from_numpy(mask_resized).float()
