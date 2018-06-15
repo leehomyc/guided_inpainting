@@ -16,7 +16,7 @@ from inpainting.data.image_folder import make_dataset
 
 np.random.seed(0)
 
-class InpaintingDatasetApolloServerGivenSegmentationObjectRemoval(BaseDataset):
+class InpaintingDatasetApolloGivenLabelRenderObjectRemoval(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         self.root = opt.dataroot
@@ -244,4 +244,4 @@ class InpaintingDatasetApolloServerGivenSegmentationObjectRemoval(BaseDataset):
         return len(self.paths)
 
     def name(self):
-        return 'InpaintingDatasetApolloServerGivenSegmentationObjectRemoval'
+        return 'InpaintingDatasetApolloGivenLabelRenderObjectRemoval'

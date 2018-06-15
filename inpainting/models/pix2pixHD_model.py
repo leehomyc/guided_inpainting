@@ -27,6 +27,7 @@ class Pix2PixHDModel(BaseModel):
             self.p_model.initialize(model='net-lin', net='alex', use_gpu=True)
         self.use_seg = opt.use_seg
         self.use_conditional_image = opt.use_conditional_image
+        self.use_seg_and_conditional_image = opt.use_seg_and_conditional_image
         if opt.label_nc != 0:
             input_nc = opt.label_nc
         else:
@@ -48,6 +49,9 @@ class Pix2PixHDModel(BaseModel):
             netG_input_nc += opt.seg_nc
         if self.use_conditional_image:
             netG_input_nc += 3
+        if self.use_seg_and_conditional_image:
+            netG_input_nc += opt.seg_nc + 3
+
         self.netG = networks.define_G(netG_input_nc, opt.output_nc, opt.ngf,
                                       opt.netG,
                                       opt.n_downsample_global,
@@ -204,6 +208,9 @@ class Pix2PixHDModel(BaseModel):
         elif self.use_conditional_image:
             input_image_e, input_mask_e, original_image_e, _, input_conditional_image_e = \
                 self.encode_input(input_image, input_mask, original_image, input_conditional_image=input_conditional_image)
+        if self.use_seg_and_conditional_image:
+            input_image_e, input_mask_e, original_image_e, input_seg_e, input_conditional_image_e = \
+                self.encode_input(input_image, input_mask, original_image, input_seg = input_seg, input_conditional_image=input_conditional_image)
         else:
             input_image_e, input_mask_e, original_image_e, _, _ = \
                 self.encode_input(input_image, input_mask, original_image)
@@ -213,6 +220,8 @@ class Pix2PixHDModel(BaseModel):
             input_concat = torch.cat((input_image_e, input_seg_e), dim=1)
         elif self.use_conditional_image:
             input_concat = torch.cat((input_image_e, input_conditional_image_e), dim=1)
+        elif self.use_seg_and_conditional_image:
+            input_concat = torch.cat((input_image_e, input_seg_e, input_conditional_image_e), dim=1)
         else:
             input_concat = input_image_e
 
@@ -313,6 +322,9 @@ class Pix2PixHDModel(BaseModel):
         elif self.use_conditional_image:
             input_image_e, input_mask_e, _, _, input_conditional_image_e = self.encode_input(
                 Variable(input_image), Variable(input_mask), input_conditional_image=Variable(input_conditional_image), infer=True)
+        elif self.use_seg_and_conditional_image:
+            input_image_e, input_mask_e, _, input_seg_e, _ = self.encode_input(
+                Variable(input_image), Variable(input_mask), input_seg=Variable(input_seg), input_conditional_image=Variable(input_conditional_image), infer=True)
         else:
             input_image_e, input_mask_e, _, _, _= self.encode_input(
                 Variable(input_image), Variable(input_mask), infer=True)
@@ -321,6 +333,8 @@ class Pix2PixHDModel(BaseModel):
             input_concat = torch.cat((input_image_e, input_seg_e), dim=1)
         elif self.use_conditional_image:
             input_concat = torch.cat((input_image_e, input_conditional_image_e), dim=1)
+        elif self.use_seg_and_conditional_image:
+            input_concat = torch.cat((input_image_e, input_seg_e, input_conditional_image_e), dim=1)
         else:
             input_concat = input_image_e
 

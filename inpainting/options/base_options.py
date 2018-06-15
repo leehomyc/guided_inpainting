@@ -122,6 +122,8 @@ class BaseOptions:
                                  help='whether to use segmentation mask for ADE20k.')  # noqa 501
         self.parser.add_argument('--use_conditional_image', action='store_true',
                                  help='whether to use additional image as conditional input.')  # noqa 501
+        self.parser.add_argument('--use_seg_and_conditional_image', action='store_true',
+                                 help='whether to use both segmentation label and additional image as conditional input.')  # noqa 501
         self.parser.add_argument('--use_pretrained_model', action='store_true',
                                  help='whether to use pretrained model.')  # noqa 501
         self.parser.add_argument('--ip_checkpoints_dir', type=str,

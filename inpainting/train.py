@@ -68,6 +68,15 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
                                       input_conditional_image=Variable(data['masked_image']),
                                       infer=save_fake)
 
+        elif opt.use_seg_and_conditional_image:
+            losses, generated = model(Variable(data['input']),
+                                      Variable(data['mask']),
+                                      Variable(data['image']),
+                                      input_seg=Variable(data['input_seg']),
+                                      input_conditional_image=Variable(data['conditional_image']),
+                                      infer=save_fake)
+
+
         else:
             losses, generated = model(Variable(data['input']),
                                   Variable(data['mask']),
@@ -130,6 +139,14 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
                 if opt.use_conditional_image:
                     visuals_list.append(('conditional_image',
                                         util.tensor2im(data['masked_image'][0])))   
+                if opt.use_seg_and_conditional_image:
+                    visuals_list.append(('input_segmentation',
+                                        util.tensor2label(data['input_seg'][0],
+                                                          opt.seg_nc)))
+                    visuals_list.append(('conditional_image',
+                                        util.tensor2im(data['conditional_image'][0]))) 
+
+
                 visuals = OrderedDict(visuals_list)
             else:
                 visuals_list = [('input_image',
@@ -151,7 +168,13 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
                                                           opt.seg_nc)))
                 if opt.use_conditional_image:
                     visuals_list.append(('conditional_image',
-                                        util.tensor2im(data['masked_image'][0])))  
+                                        util.tensor2im(data['masked_image'][0]))) 
+                if opt.use_seg_and_conditional_image:
+                    visuals_list.append(('input_segmentation',
+                                        util.tensor2label(data['input_seg'][0],
+                                                          opt.seg_nc)))
+                    visuals_list.append(('conditional_image',
+                                        util.tensor2im(data['conditional_image'][0])))  
 
                 visuals = OrderedDict(visuals_list)
             visualizer.display_current_results(visuals, epoch, total_steps)
