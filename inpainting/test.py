@@ -32,6 +32,8 @@ for i, data in enumerate(dataset):
         generated = model.inference(data['input'], data['mask'], input_seg=data['input_seg'])
     elif opt.use_conditional_image:
         generated = model.inference(data['input'], data['mask'], input_conditional_image=data['masked_image'])
+    elif opt.use_seg_and_conditional_image:
+        generated = model.inference(data['input'], data['mask'], input_seg=data['input_seg'], input_conditional_image=data['masked_image'])
     else:
         generated = model.inference(data['input'], data['mask'])
     visuals_list = [('input_image', util.tensor2label(data['input'][0], opt.label_nc)),  # noqa 501
@@ -56,6 +58,12 @@ for i, data in enumerate(dataset):
     if opt.use_conditional_image:
       visuals_list.append(('conditional_image',
                                     util.tensor2im(data['masked_image'][0])))
+    if opt.use_seg_and_conditional_image:
+      visuals_list.append(('input_segmentation',
+                                    util.tensor2label(data['input_seg'][0],
+                                                          opt.seg_nc)))
+      visuals_list.append(('conditional_image',
+                                    util.tensor2im(data['conditional_image'][0]))) 
     visuals = OrderedDict(visuals_list)  # noqa 501
     img_path = data['path']
     print('process image... {}:{}'.format(i, img_path))
