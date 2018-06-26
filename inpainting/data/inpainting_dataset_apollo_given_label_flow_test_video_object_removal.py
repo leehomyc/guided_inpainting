@@ -55,10 +55,18 @@ class InpaintingDatasetApolloGivenLabelFlowTestVideoObjectRemoval(BaseDataset):
             image_height, image_width, _ = image.shape
 
             # downsample the image by factor 2
-            image = scipy.misc.imresize(image, [int(image_height/4), int(image_width/4)]) 
-            image_warp = scipy.misc.imresize(image_warp, [int(image_height/4), int(image_width/4)]) 
-            image_render = scipy.misc.imresize(image_render, [int(image_height/4), int(image_width/4)], interp='nearest', mode='F')
-            image_mask = scipy.misc.imresize(image_mask, [int(image_height/4), int(image_width/4)], interp='nearest', mode='F')
+
+            # image = scipy.misc.imresize(image, [int(image_height/4), int(image_width/4)]) 
+            # image_warp = scipy.misc.imresize(image_warp, [int(image_height/4), int(image_width/4)]) 
+            # image_render = scipy.misc.imresize(image_render, [int(image_height/4), int(image_width/4)], interp='nearest', mode='F')
+            # image_mask = scipy.misc.imresize(image_mask, [int(image_height/4), int(image_width/4)], interp='nearest', mode='F')
+            # image_height, image_width, _ = image.shape
+
+            # resize to a reasonable size (pytorch needs to keep the size which could be divided by 4)
+            image = scipy.misc.imresize(image, [676, 848]) 
+            image_warp = scipy.misc.imresize(image_warp, [676, 848]) 
+            image_render = scipy.misc.imresize(image_render, [676, 848], interp='nearest', mode='F')
+            image_mask = scipy.misc.imresize(image_mask, [676, 848], interp='nearest', mode='F')
             image_height, image_width, _ = image.shape
 
 
