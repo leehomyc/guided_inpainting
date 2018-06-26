@@ -33,7 +33,7 @@ for i, data in enumerate(dataset):
     elif opt.use_conditional_image:
         generated = model.inference(data['input'], data['mask'], input_conditional_image=data['masked_image'])
     elif opt.use_seg_and_conditional_image:
-        generated = model.inference(data['input'], data['mask'], input_seg=data['input_seg'], input_conditional_image=data['masked_image'])
+        generated = model.inference(data['input'], data['mask'], input_seg=data['input_seg'], input_conditional_image=data['conditional_image'])
     else:
         generated = model.inference(data['input'], data['mask'])
     visuals_list = [('input_image', util.tensor2label(data['input'][0], opt.label_nc)),  # noqa 501
