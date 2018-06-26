@@ -323,7 +323,7 @@ class Pix2PixHDModel(BaseModel):
             input_image_e, input_mask_e, _, _, input_conditional_image_e = self.encode_input(
                 Variable(input_image), Variable(input_mask), input_conditional_image=Variable(input_conditional_image), infer=True)
         elif self.use_seg_and_conditional_image:
-            input_image_e, input_mask_e, _, input_seg_e, _ = self.encode_input(
+            input_image_e, input_mask_e, _, input_seg_e, input_conditional_image_e = self.encode_input(
                 Variable(input_image), Variable(input_mask), input_seg=Variable(input_seg), input_conditional_image=Variable(input_conditional_image), infer=True)
         else:
             input_image_e, input_mask_e, _, _, _= self.encode_input(
