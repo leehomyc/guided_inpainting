@@ -100,6 +100,14 @@ class InpaintingDatasetApolloGivenLabelFlowTestVideoObjectRemoval(BaseDataset):
         warp_resized = np.rollaxis(warp_resized, 2, 0)  # 3 x fineSize x fineSize
 
         mask_resized = image_mask.copy()
+        # scale mask to [0,1]
+        mask_resized = mask_resized/255
+
+        #dilation
+        struct1 = scipy.ndimage.generate_binary_structure(2,2)
+        mask_resized = scipy.ndimage.binary_dilation(mask_resized, structure=struct1, iterations=3).astype(mask_resized.dtype)
+
+
         mask_resized = np.tile(mask_resized, (3, 1, 1))
 
         image_render_resized = image_render.copy()
@@ -144,10 +152,9 @@ class InpaintingDatasetApolloGivenLabelFlowTestVideoObjectRemoval(BaseDataset):
         warp_resized = warp_resized / 122.5 - 1
 
         input_image = np.copy(image_resized)
-        input_image[mask_resized > 128] = 0
+        input_image[mask_resized > 0] = 0
 
-        # scale mask to [0,1]
-        mask_resized = mask_resized/255
+        
 
         # change from numpy to pytorch tensor
         mask_resized = torch.from_numpy(mask_resized).float()
