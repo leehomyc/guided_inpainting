@@ -105,7 +105,7 @@ class InpaintingDatasetApolloGivenLabelFlowTestVideoObjectRemoval(BaseDataset):
 
         #dilation
         struct1 = scipy.ndimage.generate_binary_structure(2,2)
-        mask_resized = scipy.ndimage.binary_dilation(mask_resized, structure=struct1, iterations=3).astype(mask_resized.dtype)
+        mask_resized = scipy.ndimage.binary_dilation(mask_resized, structure=struct1, iterations=1).astype(mask_resized.dtype)
 
 
         mask_resized = np.tile(mask_resized, (3, 1, 1))
