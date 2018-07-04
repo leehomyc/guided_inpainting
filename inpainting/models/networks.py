@@ -236,7 +236,7 @@ class GlobalGenerator(nn.Module):
         if not self.use_residual:
             return self.model(input)
         else:
-            return input + self.model(input)
+            return torch.split(input,3,dim=1)[0] + self.model(input)
 
 
 #########################
